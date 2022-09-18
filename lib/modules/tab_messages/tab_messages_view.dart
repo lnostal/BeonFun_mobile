@@ -1,15 +1,22 @@
 import 'package:flutter/cupertino.dart';
 
 class TabMessagesView extends StatelessWidget {
-  const TabMessagesView({super.key});
+
+  final String title;
+
+  const TabMessagesView({Key? key, required this.title}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const CupertinoPageScaffold(
-      child: SafeArea(
+    return CupertinoPageScaffold(
+      navigationBar: CupertinoNavigationBar(
+        middle: Text(title),
+      ),
+      child: const SafeArea(
         child: Center(
           child: Text('Messages'),
         ),
-      ));
+      )
+    );
   }
 }

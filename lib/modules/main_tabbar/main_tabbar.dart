@@ -34,16 +34,15 @@ class MainTabBar extends StatelessWidget{
           ), tabBuilder: (BuildContext context, int index) { 
             switch (index) {
               case 0:
-               return const TabFeedView();
+               return TabFeedView(title: 'Feed $index',);
               case 1:
-               return const TabDiaryView();
+               return TabDiaryView(title: 'Diary $index',);
               case 2:
-               return const TabMessagesView();
+               return TabMessagesView(title: 'Message $index',);
               case 3:
               default:
-               return const TabProfileView();
-            }
-            //return Container();
+               return TabProfileView(title: 'Profile $index',);
+            }//return Container();
            },
         );
   }
