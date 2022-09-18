@@ -1,4 +1,6 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_beonfun/views/feed_table_view.dart';
 
 class TabFeedView extends StatelessWidget {
 
@@ -9,15 +11,29 @@ class TabFeedView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    // ignore: prefer_const_constructors
     return CupertinoPageScaffold(
-      navigationBar: CupertinoNavigationBar(
-        middle: Text(title),
-      ),
-      child: const SafeArea(
-        child: Center(
-          child: Text('Feed'),
-        ),
-      )
+      navigationBar: const CupertinoNavigationBar(
+        middle: Text(
+          '✨ BeOn.Fun ✨',
+          style: TextStyle(
+            fontSize: 24)
+          )
+         ),
+        // ignore: prefer_const_constructors
+        child: SafeArea(
+          child: const FeedTableView(),
+          // child: Center(
+          //   child: Text(
+          //     'Многолетние дебилы',
+          //     style: TextStyle(
+          //       fontSize: 48,
+          //       color: Colors.green
+          //     ),
+          //     textAlign: TextAlign.center,
+          //   ),
+          // ),
+        )
     );
   }
 }
