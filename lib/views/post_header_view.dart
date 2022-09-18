@@ -2,18 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_beonfun/views/avatar_view.dart';
 
 
-class PostHeadView extends StatefulWidget {
-  const PostHeadView({super.key});
+class PostHeaderView extends StatefulWidget {
+  const PostHeaderView({super.key});
 
   @override
-  State<PostHeadView> createState() => _PostHeadViewState();
+  State<PostHeaderView> createState() => _PostHeaderViewState();
 }
 
-class _PostHeadViewState extends State<PostHeadView> {
+class _PostHeaderViewState extends State<PostHeaderView> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Row(
+    return Row(
         children: [
         const AvatarView(),
         Column( 
@@ -26,7 +25,7 @@ class _PostHeadViewState extends State<PostHeadView> {
                 fontSize: 18
               )
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 6),
             Text('piece of shit but smbd thinks it\'s funny',
               style: TextStyle(
                 color: Colors.grey,
@@ -35,7 +34,7 @@ class _PostHeadViewState extends State<PostHeadView> {
            )
           ],
         )
-      ]),
+      ]
     );
   }
 }

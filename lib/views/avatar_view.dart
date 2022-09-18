@@ -11,7 +11,7 @@ class AvatarView extends StatefulWidget {
 
 class _AvatarViewState extends State<AvatarView> {
 
-  final double avatarSize = 70;
+  final double avatarSize = 52;
 
   @override
   Widget build(BuildContext context) {

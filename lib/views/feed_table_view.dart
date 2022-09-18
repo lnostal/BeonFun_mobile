@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter_beonfun/views/post_head_view.dart';
+import 'package:flutter_beonfun/views/post_body.dart';
+import 'package:flutter_beonfun/views/post_header_view.dart';
 
 class FeedTableView extends StatefulWidget {
   const FeedTableView({super.key});
 
   /// Consists of:
-  /// - user info - PostHeadView:
+  /// - user info - PostHeaderView:
   ///   - avatar placeholder
   ///   - name placeholder
   ///   - motto or group placeholder
@@ -27,7 +28,15 @@ class FeedTableView extends StatefulWidget {
 class _FeedTableViewState extends State<FeedTableView> {
   @override
   Widget build(BuildContext context) {
-    return PostHeadView();
+    return Card(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          PostHeaderView(),
+          PostBody()
+        ],
+      )
+      );
   }
 }
 

@@ -22,17 +22,7 @@ class TabFeedView extends StatelessWidget {
          ),
         // ignore: prefer_const_constructors
         child: SafeArea(
-          child: const FeedTableView(),
-          // child: Center(
-          //   child: Text(
-          //     'Многолетние дебилы',
-          //     style: TextStyle(
-          //       fontSize: 48,
-          //       color: Colors.green
-          //     ),
-          //     textAlign: TextAlign.center,
-          //   ),
-          // ),
+            child: const FeedTableView(),
         )
     );
   }
