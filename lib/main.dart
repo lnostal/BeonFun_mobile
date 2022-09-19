@@ -17,10 +17,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         appBarTheme: const AppBarTheme(
           backgroundColor: Colors.white,
-          foregroundColor: Colors.black,
+          foregroundColor: Colors.black
         ),
       ),
-      home: MainTabBar(),//const RandomWords(),
+      home: const MainTabBar(),
     );
   }
 }

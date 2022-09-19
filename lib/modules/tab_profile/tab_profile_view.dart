@@ -11,6 +11,7 @@ class TabProfileView extends StatelessWidget {
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
         middle: Text(title),
+        backgroundColor: CupertinoColors.white,
       ),
       child: const SafeArea(
         child: Center(

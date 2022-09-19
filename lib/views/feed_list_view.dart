@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_beonfun/views/post_body.dart';
 import 'package:flutter_beonfun/views/post_footer_view.dart';
 import 'package:flutter_beonfun/views/post_header_view.dart';
 
-class FeedTableView extends StatefulWidget {
-  const FeedTableView({super.key});
+class FeedListView extends StatefulWidget {
+  const FeedListView({super.key});
 
   /// Consists of:
   /// - user info - PostHeaderView:
@@ -23,10 +21,10 @@ class FeedTableView extends StatefulWidget {
   ///   - comments
 
   @override
-  State<FeedTableView> createState() => _FeedTableViewState();
+  State<FeedListView> createState() => _FeedListViewState();
 }
 
-class _FeedTableViewState extends State<FeedTableView> {
+class _FeedListViewState extends State<FeedListView> {
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -38,7 +36,7 @@ class _FeedTableViewState extends State<FeedTableView> {
           PostFooterView()
         ],
       )
-      );
+    );
   }
 }
 

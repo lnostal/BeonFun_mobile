@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_beonfun/views/feed_table_view.dart';
+import 'package:flutter_beonfun/views/feed_list_view.dart';
 
 class TabFeedView extends StatelessWidget {
 
@@ -22,8 +21,13 @@ class TabFeedView extends StatelessWidget {
          ),
         // ignore: prefer_const_constructors
         child: SafeArea(
-            child: const FeedTableView(),
+            child: ListView.builder(
+              itemCount: 5,
+              itemBuilder: (context, index){
+                return FeedListView();
+              }
         )
+      )
     );
   }
 }
