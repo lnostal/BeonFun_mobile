@@ -16,12 +16,13 @@ class TabDiaryView extends StatelessWidget {
           'Diary Name',
           style: TextStyle(
             fontSize: 24)
-          )
+          ),
+          backgroundColor: CupertinoColors.white,
          ),
       floatingActionButton: FloatingActionButton(
           onPressed: fabPressed,
           backgroundColor: Colors.brown,
-          child: const Icon(Icons.add)),
+          child: const Icon(Icons.create)),
       body: SafeArea(
             child: ListView.builder(
               itemCount: 5,

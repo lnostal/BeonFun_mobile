@@ -17,7 +17,8 @@ class TabFeedView extends StatelessWidget {
           '✨ BeOn.Fun ✨',
           style: TextStyle(
             fontSize: 24)
-          )
+          ),
+          backgroundColor: CupertinoColors.white,
          ),
         // ignore: prefer_const_constructors
         child: SafeArea(
