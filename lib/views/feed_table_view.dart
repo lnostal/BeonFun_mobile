@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_beonfun/views/post_body.dart';
+import 'package:flutter_beonfun/views/post_footer_view.dart';
 import 'package:flutter_beonfun/views/post_header_view.dart';
 
 class FeedTableView extends StatefulWidget {
@@ -33,7 +34,8 @@ class _FeedTableViewState extends State<FeedTableView> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           PostHeaderView(),
-          PostBody()
+          PostBody(),
+          PostFooterView()
         ],
       )
       );

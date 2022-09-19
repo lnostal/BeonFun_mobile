@@ -34,7 +34,7 @@ class _PostBodyState extends State<PostBody> {
 там закурю и прыгну в утро,
 где слава богу я никто.''',
             style: TextStyle(
-              fontSize: 16
+              fontSize: 18
             ),
           )
         ],
