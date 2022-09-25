@@ -1,47 +1,106 @@
+import 'package:flutter_beonfun/ui/post_body.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import '../models/post.dart';
 import '../models/user.dart';
 
 class Request {
-  Future<void> getToken() async {
-    var params = {"name": "", "password": "", "device_name": ""};
+  static const token = "563|aW24yKMxYfzSuoMM4EyhJbZgq5x9dX2wqSkL1fF2";
 
-    var response = await http.post(Uri.parse('https://beon.fun/api/v1/token'),
-        body: params);
+  // Future<void> getToken() async {
+  //   var params = {"name": "", "password": "", "device_name": ""};
 
-    print('Response body: ${response.body}');
+  //   var response = await http.post(Uri.parse('https://beon.fun/api/v1/token'),
+  //       body: params);
 
-    var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
-    var token = Uri.parse(decodedResponse['token'] as String);
+  //   print('Response body: ${response.body}');
 
-    print(await token);
-  }
+  //   var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
+  //   var token = Uri.parse(decodedResponse['token'] as String);
+
+  //   print(await token);
+  // }
 
   Future<User> getUserInfo() async {
-    const token = "562|dTmBxPpdf6vM66HmuqYypo3FtHXZQobvczAx7gVe";
+    var response = await http.get(Uri.parse('https://beon.fun/api/v1/im'),
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json'
+        });
 
-    var response = await http.post(Uri.parse('https://beon.fun/api/v1/im'),
-        headers: {'Authorization': 'Bearer $token'});
+    if (response.statusCode != 200) {
+      var code = response.statusCode;
+      throw Exception('Faild request with code $code');
+    }
 
     var data = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
 
-    User user = User(
-        id: data['self']['id'] as int,
-        blogStringId: data['self']['name'] as String,
-        name: data['self']['nickname'] as String,
-        sign: data['self']['sign'] as String,
-        profileImageUrl: data['self']['profile_image_url'] as String,
-        mainAvatarId: data['self']['avatar_id'] as int,
-        balance: data['self']['positives'] as int,
-        feedSettings: {
-          "hide_community": data['self']['hide_community'] as bool,
-          "hide_forum": data['self']['hide_forum'] as bool,
-          "hide_repost": data['self']['hide_repost'] as bool,
-          "hide_test": data['self']['hide_test'] as bool,
-          "feeddiz": data['self']['feeddiz'] as bool,
-        });
+    User user = parseUserData(data['self']);
 
     return user;
+  }
+
+  User parseUserData(Map data) {
+    return User(
+        id: data['id'] as int,
+        blogStringId: data['name'] as String,
+        name: data['nickname'] as String,
+        sign: data['sign'] as String?,
+        profileImageUrl: data['profile_image_url'] as String,
+        mainAvatarId: data['avatar_id'] == null ? 0 : data['avatar_id'] as int,
+        balance: data['positives'] == null ? 0 : data['positives'] as int,
+        feedSettings: {"huita": true});
+  }
+
+  Future<List<Post>> getPosts() async {
+    var response = await http.get(Uri.parse('https://beon.fun/api/v1/feed'),
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json'
+        });
+
+    if (response.statusCode != 200) {
+      var code = response.statusCode;
+      throw Exception('Faild request with code $code');
+    }
+
+    var data = jsonDecode(utf8.decode(response.bodyBytes)) as List;
+
+    List<Post> posts = [];
+
+    for (var d in data) {
+      Post post = parsePostData(d);
+      posts.add(post);
+    }
+
+    return posts;
+  }
+
+  Post parsePostData(Map data) {
+    if (data['blogpostid'] != null) {
+      return DiaryPost(
+          inBlogId: data['blogpostid'],
+          title: data['title'],
+          text: data['text'],
+          mood: data['mood'],
+          wish: data['wish'],
+          music: data['music'],
+          avatarId: 0,
+          commentsCount: data['comments_count'],
+          lastUpdate: data['updated_at'],
+          userInfo: parseUserData(data['user']),
+          likes: data['liked']);
+    }
+
+    return ForumPost(
+        title: data['title'],
+        text: data['text'],
+        avatarId: 0,
+        forumId: data['forum_id'],
+        commentsCount: data['comments_count'],
+        lastUpdate: data['updated_at'],
+        userInfo: parseUserData(data['user']),
+        likes: data['liked']);
   }
 }

@@ -5,7 +5,7 @@ class Blog {
   String stringId;
   String title;
   String musicTitle;
-  List<Post> posts;
+  List<DiaryPost> posts;
 
   Blog(
       {required this.id,

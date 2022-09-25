@@ -1,10 +1,10 @@
-import 'dart:html';
+//import 'dart:html';
 
 class User {
   int id;
   String blogStringId;
   String name;
-  String sign;
+  String? sign;
   String profileImageUrl;
   int mainAvatarId;
   int balance;
