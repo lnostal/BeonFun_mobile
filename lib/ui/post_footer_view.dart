@@ -25,16 +25,18 @@ class _PostFooterViewState extends State<PostFooterView> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             IconButton(onPressed: _liked, icon: createFavoriteIcon()),
-            //SizedBox(width: 8),
+            // Text(widget.post.likes.length.toString(),
+            //     style: const TextStyle(color: Colors.grey, fontSize: 18)),
             IconButton(
                 onPressed: _share,
-                icon: Icon(Icons.share, size: 28, color: Colors.grey)),
-            Spacer(),
+                icon: const Icon(Icons.share, size: 28, color: Colors.grey)),
+            const Spacer(),
             IconButton(
                 onPressed: _openComments,
-                icon: Icon(Icons.forum_outlined, size: 28, color: Colors.grey)),
+                icon: const Icon(Icons.forum_outlined,
+                    size: 28, color: Colors.grey)),
             Text(widget.post.commentsCount.toString(),
-                style: TextStyle(color: Colors.grey, fontSize: 18)),
+                style: const TextStyle(color: Colors.grey, fontSize: 18)),
           ],
         ));
   }

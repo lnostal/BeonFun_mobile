@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_beonfun/helpers.dart';
 
 import '../models/post.dart';
 
@@ -17,7 +18,6 @@ class PostBody extends StatefulWidget {
 class _PostBodyState extends State<PostBody> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
@@ -35,7 +35,7 @@ class _PostBodyState extends State<PostBody> {
             // ),
             // const SizedBox(height: 10),
             Text(
-              widget.post.text,
+              Helper().removeBBCodeFromString(widget.post.text),
               style: const TextStyle(fontSize: 18),
             )
           ],

@@ -38,7 +38,7 @@ class _DiaryListViewState extends State<DiaryListView> {
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                SizedBox(height: 32),
+                const SizedBox(height: 32),
                 PostBody(post: _posts[index]),
                 PostFooterView(post: _posts[index])
               ]));

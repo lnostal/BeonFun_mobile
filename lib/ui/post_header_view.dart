@@ -22,30 +22,35 @@ class _PostHeaderViewState extends State<PostHeaderView> {
     if (widget.user.sign == null) {
       return Row(children: [
         const AvatarView(),
-        Column(
+        Flexible(
+            child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(widget.user.name,
-                style: TextStyle(color: Colors.black, fontSize: 18))
+                style: TextStyle(color: Colors.black, fontSize: 18),
+                overflow: TextOverflow.ellipsis)
           ],
-        )
+        ))
       ]);
     }
 
     return Row(children: [
       const AvatarView(),
-      Column(
+      Flexible(
+          child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(widget.user.name,
-              style: TextStyle(color: Colors.black, fontSize: 18)),
+              style: TextStyle(color: Colors.black, fontSize: 18),
+              overflow: TextOverflow.ellipsis),
           SizedBox(height: 6),
           Text(widget.user.sign ?? '',
-              style: TextStyle(color: Colors.grey, fontSize: 14))
+              style: TextStyle(color: Colors.grey, fontSize: 14),
+              overflow: TextOverflow.fade)
         ],
-      )
+      ))
     ]);
   }
 }
