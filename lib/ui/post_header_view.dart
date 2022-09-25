@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_beonfun/views/avatar_view.dart';
+import 'package:flutter_beonfun/ui/avatar_view.dart';
 
 class PostHeaderView extends StatefulWidget {
   const PostHeaderView({super.key});

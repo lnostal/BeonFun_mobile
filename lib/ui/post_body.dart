@@ -1,7 +1,4 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_beonfun/general_network.dart';
 
 class PostBody extends StatefulWidget {
   const PostBody({super.key});
