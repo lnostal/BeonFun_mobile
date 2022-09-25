@@ -18,12 +18,7 @@ class TabDiaryView extends StatelessWidget {
           onPressed: fabPressed,
           backgroundColor: Colors.brown,
           child: const Icon(Icons.create)),
-      body: SafeArea(
-          child: ListView.builder(
-              itemCount: 5,
-              itemBuilder: (context, index) {
-                return DiaryListView();
-              })),
+      body: SafeArea(child: DiaryListView()),
     );
   }
 

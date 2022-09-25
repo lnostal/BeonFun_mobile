@@ -103,4 +103,31 @@ class Request {
         userInfo: parseUserData(data['user']),
         likes: data['liked']);
   }
+
+  Future<List<Post>> getDiaryPosts(String blogname) async {
+    var blname = blogname;
+
+    var response = await http
+        .get(Uri.parse('https://beon.fun/api/v1/blog/$blname'), headers: {
+      'Authorization': 'Bearer $token',
+      'Content-Type': 'application/json'
+    });
+
+    if (response.statusCode != 200) {
+      var code = response.statusCode;
+      throw Exception('Faild request with code $code');
+    }
+
+    var data = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
+    var postsData = data['posts'] as List;
+
+    List<Post> posts = [];
+
+    for (var d in postsData) {
+      Post post = parsePostData(d);
+      posts.add(post);
+    }
+
+    return posts;
+  }
 }

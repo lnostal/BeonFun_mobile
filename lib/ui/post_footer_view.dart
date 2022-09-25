@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 
+import '../models/post.dart';
+
 class PostFooterView extends StatefulWidget {
-  const PostFooterView({super.key});
+  final Post post;
+
+  const PostFooterView({
+    Key? key,
+    required this.post,
+  }) : super(key: key);
 
   @override
   State<PostFooterView> createState() => _PostFooterViewState();
@@ -26,7 +33,8 @@ class _PostFooterViewState extends State<PostFooterView> {
             IconButton(
                 onPressed: _openComments,
                 icon: Icon(Icons.forum_outlined, size: 28, color: Colors.grey)),
-            Text('11', style: TextStyle(color: Colors.grey, fontSize: 18)),
+            Text(widget.post.commentsCount.toString(),
+                style: TextStyle(color: Colors.grey, fontSize: 18)),
           ],
         ));
   }

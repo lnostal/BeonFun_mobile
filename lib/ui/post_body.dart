@@ -1,38 +1,42 @@
 import 'package:flutter/material.dart';
 
+import '../models/post.dart';
+
 class PostBody extends StatefulWidget {
-  const PostBody({super.key});
+  final Post post;
+
+  const PostBody({
+    Key? key,
+    required this.post,
+  }) : super(key: key);
 
   @override
   State<PostBody> createState() => _PostBodyState();
 }
 
 class _PostBodyState extends State<PostBody> {
-  String _stupidCaption = 'not working';
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.only(left: 16, right: 16),
+        padding: const EdgeInsets.only(left: 16, right: 16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            // Text(
+            //   widget.post.title,
+            //   style: const TextStyle(fontSize: 24),
+            // ),
+            // const SizedBox(height: 10),
             Text(
-              _stupidCaption,
-              style: TextStyle(fontSize: 24),
-            ),
-            SizedBox(height: 10),
-            Text(
-              '''—порой мне снится, что я кто-то,
-иду куда-то, знаю цель.
-я просыпаюсь среди ночи
-с холодным потом на лице.
-я душ приму и с самокруткой
-спущусь в закрытое метро,
-там закурю и прыгну в утро,
-где слава богу я никто.''',
-              style: TextStyle(fontSize: 18),
+              widget.post.text,
+              style: const TextStyle(fontSize: 18),
             )
           ],
         ));

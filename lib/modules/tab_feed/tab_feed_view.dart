@@ -15,11 +15,6 @@ class TabFeedView extends StatelessWidget {
           backgroundColor: CupertinoColors.white,
         ),
         // ignore: prefer_const_constructors
-        child: SafeArea(
-            child: ListView.builder(
-                itemCount: 5,
-                itemBuilder: (context, index) {
-                  return FeedListView();
-                })));
+        child: SafeArea(child: FeedListView()));
   }
 }
