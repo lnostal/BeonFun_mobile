@@ -6,7 +6,7 @@ class User {
   String name;
   String? sign;
   String profileImageUrl;
-  int mainAvatarId;
+  String? currentAvatar;
   int balance;
   Map<String, bool> feedSettings; //настройки отображения главной страницы
 
@@ -16,7 +16,7 @@ class User {
     required this.name,
     required this.sign,
     required this.profileImageUrl,
-    required this.mainAvatarId,
+    required this.currentAvatar,
     required this.balance,
     required this.feedSettings,
   });

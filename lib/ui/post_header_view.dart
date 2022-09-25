@@ -21,7 +21,7 @@ class _PostHeaderViewState extends State<PostHeaderView> {
   Widget build(BuildContext context) {
     if (widget.user.sign == null) {
       return Row(children: [
-        const AvatarView(),
+        AvatarView(user: widget.user),
         Flexible(
             child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -36,7 +36,7 @@ class _PostHeaderViewState extends State<PostHeaderView> {
     }
 
     return Row(children: [
-      const AvatarView(),
+      AvatarView(user: widget.user),
       Flexible(
           child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

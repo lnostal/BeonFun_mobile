@@ -7,6 +7,7 @@ import '../models/user.dart';
 
 class Request {
   static const token = "563|aW24yKMxYfzSuoMM4EyhJbZgq5x9dX2wqSkL1fF2";
+  static const s3url = "https://i0.beon.fun/";
 
   // Future<void> getToken() async {
   //   var params = {"name": "", "password": "", "device_name": ""};
@@ -48,9 +49,28 @@ class Request {
         name: data['nickname'] as String,
         sign: data['sign'] as String?,
         profileImageUrl: data['profile_image_url'] as String,
-        mainAvatarId: data['avatar_id'] == null ? 0 : data['avatar_id'] as int,
+        currentAvatar: getCurrentAvatarUrl(data),
         balance: data['positives'] == null ? 0 : data['positives'] as int,
         feedSettings: {"huita": true});
+  }
+
+  String? getCurrentAvatarUrl(Map data) {
+    if (data['avatar'] == null) {
+      return null;
+    }
+
+    var avatarInfo = data['avatar'] as Map;
+
+    int name = avatarInfo['idx'] as int;
+    String extension = avatarInfo['ext'] as String;
+    String baseUserPath = data['path'] as String;
+
+    return s3url +
+        baseUserPath +
+        '/avatars/' +
+        name.toString() +
+        '.' +
+        extension;
   }
 
   Future<List<Post>> getPosts() async {
