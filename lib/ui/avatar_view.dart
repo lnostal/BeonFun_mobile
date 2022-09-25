@@ -10,7 +10,7 @@ class AvatarView extends StatefulWidget {
 }
 
 class _AvatarViewState extends State<AvatarView> {
-  final double avatarSize = 44;
+  final double avatarSize = 52;
 
   @override
   Widget build(BuildContext context) {
@@ -19,18 +19,14 @@ class _AvatarViewState extends State<AvatarView> {
             padding: EdgeInsets.all(16.0),
             child: Container(
                 decoration: BoxDecoration(
-                    border: Border.all(
-                        color: Colors.black,
-                        style: BorderStyle.solid,
-                        width: 1.0),
                     borderRadius:
                         BorderRadius.all(Radius.circular(avatarSize / 2))),
                 child: ClipRRect(
                     borderRadius:
                         BorderRadius.all(Radius.circular(avatarSize / 2)),
-                    child: Image.asset('assets/images/smile.png',
+                    child: Image.asset('assets/images/avatar_placeholder.png',
                         width: avatarSize,
                         height: avatarSize,
-                        fit: BoxFit.fitWidth)))));
+                        fit: BoxFit.fitHeight)))));
   }
 }
