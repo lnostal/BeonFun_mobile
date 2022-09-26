@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_beonfun/ui/diary_list_view.dart';
+import 'package:flutter_beonfun/modules/tab_diary/diary_list_view.dart';
 
 class TabDiaryView extends StatelessWidget {
   final String title;

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_beonfun/ui/post_body.dart';
 import 'package:flutter_beonfun/ui/post_footer_view.dart';
 
-import '../models/post.dart';
-import '../network/general_network.dart';
+import '../../models/post.dart';
+import '../../network/general_network.dart';
 
 class DiaryListView extends StatefulWidget {
   const DiaryListView({super.key});
