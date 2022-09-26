@@ -5,13 +5,20 @@ import '../models/user.dart';
 class AvatarView extends StatefulWidget {
   final User user;
   final double avatarSize;
+  final AvatarType type;
 
-  const AvatarView({Key? key, required this.user, required this.avatarSize})
+  const AvatarView(
+      {Key? key,
+      required this.user,
+      this.type = AvatarType.current,
+      this.avatarSize = 52})
       : super(key: key);
 
   @override
   State<AvatarView> createState() => _AvatarViewState();
 }
+
+enum AvatarType { profile, current }
 
 class _AvatarViewState extends State<AvatarView> {
   @override
@@ -25,20 +32,23 @@ class _AvatarViewState extends State<AvatarView> {
             child: ClipRRect(
                 borderRadius:
                     BorderRadius.all(Radius.circular(widget.avatarSize / 2)),
-                child: setImage(widget.user))));
+                child: setImage(widget.user, widget.type))));
   }
 
-  Image setImage(User user) {
-    if (user.currentAvatar != null) {
-      return Image.network(user.currentAvatar as String,
-          width: widget.avatarSize,
-          height: widget.avatarSize,
-          fit: BoxFit.fill);
+  FadeInImage setImage(User user, AvatarType type) {
+    AssetImage placeholder =
+        const AssetImage('assets/images/avatar_placeholder.png');
+
+    String imageUrl = user.profileImageUrl;
+    if (type == AvatarType.current) {
+      imageUrl = user.currentAvatar as String;
     }
 
-    return Image.asset('assets/images/avatar_placeholder.png',
+    return FadeInImage(
+        image: NetworkImage(imageUrl),
         width: widget.avatarSize,
         height: widget.avatarSize,
-        fit: BoxFit.fitHeight);
+        fit: BoxFit.fill,
+        placeholder: placeholder);
   }
 }

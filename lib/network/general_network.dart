@@ -42,12 +42,14 @@ class Request {
   }
 
   User parseUserData(Map data) {
+    String profileAvatar = data['profile_image_url'] as String;
+
     return User(
         id: data['id'] as int,
         blogStringId: data['name'] as String,
         name: data['nickname'] as String,
         sign: data['sign'] as String?,
-        profileImageUrl: data['profile_image_url'] as String,
+        profileImageUrl: 'https:$profileAvatar',
         currentAvatar: getCurrentAvatarUrl(data),
         balance: data['positives'] == null ? 0 : data['positives'] as int,
         feedSettings: {"huita": true});
