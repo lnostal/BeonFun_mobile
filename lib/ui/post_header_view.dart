@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_beonfun/network/general_network.dart';
 import 'package:flutter_beonfun/ui/avatar_view.dart';
 
 import '../models/user.dart';
@@ -21,14 +20,14 @@ class _PostHeaderViewState extends State<PostHeaderView> {
   Widget build(BuildContext context) {
     if (widget.user.sign == null) {
       return Row(children: [
-        AvatarView(user: widget.user),
+        AvatarView(user: widget.user, avatarSize: 52),
         Flexible(
             child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(widget.user.name,
-                style: TextStyle(color: Colors.black, fontSize: 18),
+                style: const TextStyle(color: Colors.black, fontSize: 18),
                 overflow: TextOverflow.ellipsis)
           ],
         ))
@@ -36,19 +35,19 @@ class _PostHeaderViewState extends State<PostHeaderView> {
     }
 
     return Row(children: [
-      AvatarView(user: widget.user),
+      AvatarView(user: widget.user, avatarSize: 52),
       Flexible(
           child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(widget.user.name,
-              style: TextStyle(color: Colors.black, fontSize: 18),
+              style: const TextStyle(color: Colors.black, fontSize: 18),
               overflow: TextOverflow.ellipsis),
-          SizedBox(height: 6),
+          const SizedBox(height: 6),
           Text(widget.user.sign ?? '',
-              style: TextStyle(color: Colors.grey, fontSize: 14),
-              overflow: TextOverflow.fade)
+              style: const TextStyle(color: Colors.grey, fontSize: 14),
+              overflow: TextOverflow.visible)
         ],
       ))
     ]);

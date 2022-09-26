@@ -29,15 +29,8 @@ class _PostBodyState extends State<PostBody> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Text(
-            //   widget.post.title,
-            //   style: const TextStyle(fontSize: 24),
-            // ),
-            // const SizedBox(height: 10),
-            Text(
-              Helper().removeBBCodeFromString(widget.post.text),
-              style: const TextStyle(fontSize: 18),
-            )
+            Text(Helper().removeBBCodeFromString(widget.post.text),
+                style: const TextStyle(fontSize: 16))
           ],
         ));
   }

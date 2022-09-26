@@ -11,14 +11,14 @@ class TabDiaryView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CupertinoNavigationBar(
-        middle: Text('Diary Name', style: TextStyle(fontSize: 24)),
+        middle: Text('Diary Name'),
         backgroundColor: CupertinoColors.white,
       ),
       floatingActionButton: FloatingActionButton(
           onPressed: fabPressed,
           backgroundColor: Colors.brown,
           child: const Icon(Icons.create)),
-      body: SafeArea(child: DiaryListView()),
+      body: const SafeArea(child: DiaryListView()),
     );
   }
 

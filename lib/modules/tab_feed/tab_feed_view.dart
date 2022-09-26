@@ -8,13 +8,11 @@ class TabFeedView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // ignore: prefer_const_constructors
-    return CupertinoPageScaffold(
-        navigationBar: const CupertinoNavigationBar(
-          middle: Text('✨ BeOn.Fun ✨', style: TextStyle(fontSize: 24)),
+    return const CupertinoPageScaffold(
+        navigationBar: CupertinoNavigationBar(
+          middle: Text('✨ BeOn.Fun ✨'),
           backgroundColor: CupertinoColors.white,
         ),
-        // ignore: prefer_const_constructors
         child: SafeArea(child: FeedListView()));
   }
 }

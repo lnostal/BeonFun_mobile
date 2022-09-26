@@ -65,12 +65,7 @@ class Request {
     String extension = avatarInfo['ext'] as String;
     String baseUserPath = data['path'] as String;
 
-    return s3url +
-        baseUserPath +
-        '/avatars/' +
-        name.toString() +
-        '.' +
-        extension;
+    return '$s3url$baseUserPath/avatars/$name.$extension';
   }
 
   Future<List<Post>> getPosts() async {
