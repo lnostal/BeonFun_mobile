@@ -4,13 +4,12 @@ class Blog {
   int id;
   String stringId;
   String title;
-  String musicTitle;
-  List<DiaryPost> posts;
+  String? musicTitle;
+  List<DiaryPost>? posts;
 
   Blog(
       {required this.id,
       required this.stringId,
       required this.title,
-      required this.musicTitle,
-      required this.posts});
+      required this.musicTitle});
 }

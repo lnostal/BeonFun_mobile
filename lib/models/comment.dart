@@ -4,7 +4,7 @@ class Comment {
   int globalId;
   String text;
   String lastUpdate;
-  int avatarId;
+  //int avatarId;
   List<String> likes;
   User userInfo;
 
@@ -12,7 +12,7 @@ class Comment {
     required this.globalId,
     required this.text,
     required this.lastUpdate,
-    required this.avatarId,
+    //required this.avatarId,
     required this.likes,
     required this.userInfo,
   });

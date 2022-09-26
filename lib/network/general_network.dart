@@ -1,6 +1,8 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import '../models/blog.dart';
+import '../models/comment.dart';
 import '../models/post.dart';
 import '../models/user.dart';
 
@@ -145,5 +147,57 @@ class Request {
     }
 
     return posts;
+  }
+
+  Future<Map> getPost(String blname, String postId) async {
+    var response = await http.get(
+        Uri.parse('https://beon.fun/api/v1/blog/$blname/post/$postId'),
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json'
+        });
+
+    if (response.statusCode != 200) {
+      var code = response.statusCode;
+      throw Exception('Faild request with code $code');
+    }
+
+    var data = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
+
+    Post postInfo = parsePostData(data['post']);
+    Blog blogInfo = parseBlog(data['blog']);
+
+    var commentsData = data['comments'] as List;
+    List<Comment> comments = [];
+
+    for (var comm in commentsData) {
+      Comment comment = parseComment(comm);
+      comments.add(comment);
+    }
+
+    Future<Map> post = {
+      'blog': blogInfo,
+      'post': postInfo,
+      'comments': comments
+    } as Future<Map>;
+
+    return post;
+  }
+
+  Comment parseComment(Map data) {
+    return Comment(
+        globalId: data['id'] as int,
+        text: data['text'] as String,
+        lastUpdate: data['updated_at'] as String,
+        likes: data['liked'],
+        userInfo: parseUserData(data['user']));
+  }
+
+  Blog parseBlog(Map data) {
+    return Blog(
+        id: data['id'] as int,
+        stringId: data['name'] as String,
+        title: data['title'] as String,
+        musicTitle: data['audio'] as String?);
   }
 }

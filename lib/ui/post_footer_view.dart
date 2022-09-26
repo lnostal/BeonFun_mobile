@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_beonfun/network/general_network.dart';
 
 import '../models/post.dart';
 
@@ -32,7 +33,9 @@ class _PostFooterViewState extends State<PostFooterView> {
                 icon: const Icon(Icons.share, size: 28, color: Colors.grey)),
             const Spacer(),
             IconButton(
-                onPressed: _openComments,
+                onPressed: () {
+                  _openComments(widget.post);
+                },
                 icon: const Icon(Icons.forum_outlined,
                     size: 28, color: Colors.grey)),
             Text(widget.post.commentsCount.toString(),
@@ -51,8 +54,11 @@ class _PostFooterViewState extends State<PostFooterView> {
     print('let\'s think that we shared the post');
   }
 
-  void _openComments() {
-    print('pretend we opened the commets');
+  void _openComments(Post post) {
+    if (post.type == PostType.diary) {
+      Request().getPost(
+          (post as DiaryPost).userInfo.blogStringId, post.inBlogId.toString());
+    }
   }
 
   Icon createFavoriteIcon() {
