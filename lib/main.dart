@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_beonfun/modules/main_tabbar/main_tabbar.dart';
 import 'package:flutter_beonfun/modules/main_tabbar/new_tabbar.dart';
@@ -16,7 +17,9 @@ class MyApp extends StatelessWidget {
       title: 'Beon.fun',
       theme: ThemeData(
         appBarTheme: const AppBarTheme(
-            backgroundColor: Colors.white, foregroundColor: Colors.black),
+            iconTheme: IconThemeData(color: Colors.red),
+            backgroundColor: Colors.white,
+            foregroundColor: Colors.black),
       ),
       home: const MainTabBar(),
     );

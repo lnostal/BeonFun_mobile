@@ -30,22 +30,37 @@ class _FeedListViewState extends State<FeedListView> {
     loadData();
   }
 
+  Future<void> _pullRefresh() async {
+    loadData();
+    // Request().getPosts().then((List<Post> val) {
+    //   setState(() {
+    //     _posts = val;
+    //   });
+    // });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-        itemCount: _posts.length,
-        itemBuilder: (context, index) {
-          return Card(
-              child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              PostHeaderView(user: _posts[index].userInfo),
-              PostBody(
-                post: _posts[index],
-              ),
-              PostFooterView(post: _posts[index])
-            ],
-          ));
-        });
+    return RefreshIndicator(
+        onRefresh: _pullRefresh,
+        color: Colors.brown,
+        child: ListView.builder(
+            itemCount: _posts.length,
+            itemBuilder: (context, index) {
+              return Card(
+                  child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(right: 16.0),
+                    child: PostHeaderView(user: _posts[index].userInfo),
+                  ),
+                  PostBody(
+                    post: _posts[index],
+                  ),
+                  PostFooterView(post: _posts[index])
+                ],
+              ));
+            }));
   }
 }

@@ -175,13 +175,7 @@ class Request {
       comments.add(comment);
     }
 
-    Future<Map> post = {
-      'blog': blogInfo,
-      'post': postInfo,
-      'comments': comments
-    } as Future<Map>;
-
-    return post;
+    return {'blog': blogInfo, 'post': postInfo, 'comments': comments};
   }
 
   Comment parseComment(Map data) {

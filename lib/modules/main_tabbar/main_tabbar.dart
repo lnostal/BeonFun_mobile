@@ -15,7 +15,6 @@ class MainTabBar extends StatelessWidget {
             activeColor: Colors.brown,
             inactiveColor: Colors.grey,
             height: 64,
-            //border: Border.all(color: Colors.white),
             items: const [
               BottomNavigationBarItem(icon: Icon(Icons.view_day)),
               BottomNavigationBarItem(icon: Icon(Icons.book)),

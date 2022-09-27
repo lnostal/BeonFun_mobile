@@ -22,7 +22,8 @@ class Helper {
     finalString = finalString.replaceAll(
         RegExp(r'(\[\w+\])|(\[\/\w+\])'), ''); //простые теги
     finalString = finalString.replaceAll('&gt;', '>');
-    finalString = finalString.replaceAll('&lt;', '<'); // кавычки
+    finalString = finalString.replaceAll('&lt;', '<');
+    finalString = finalString.replaceAll('&quot;', '"'); // кавычки
 
     //print('$finalString');
     return finalString;

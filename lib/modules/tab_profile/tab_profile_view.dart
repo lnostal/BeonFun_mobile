@@ -21,7 +21,8 @@ class _TabProfileViewState extends State<TabProfileView> {
       blogStringId: "",
       name: "",
       sign: null,
-      profileImageUrl: "https://i0.beon.fun/30/0/30/avatars/10.jpg",
+      profileImageUrl:
+          "https://s1.hostingkartinok.com/uploads/images/2022/09/8b91b2fbfb0cddc9074591dc4b1cf932.png",
       currentAvatar: null,
       balance: 0,
       feedSettings: {"0": false});
@@ -65,7 +66,6 @@ class _TabProfileViewState extends State<TabProfileView> {
               profileCard(user),
               aboutCreator(),
               aboutApp(),
-              //Spacer(),
               logoutButton(),
             ],
           ),
