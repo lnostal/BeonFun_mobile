@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_beonfun/ui/loader.dart';
 import 'package:flutter_beonfun/ui/post_body.dart';
 import 'package:flutter_beonfun/ui/post_footer_view.dart';
 import 'package:flutter_beonfun/ui/post_header_view.dart';
 
 import '../../models/post.dart';
 import '../../network/general_network.dart';
-import '../../ui/loader.dart';
 
 class FeedListView extends StatefulWidget {
   const FeedListView({super.key});
@@ -18,6 +18,10 @@ class _FeedListViewState extends State<FeedListView> {
   List<Post> _posts = [];
 
   void loadData() {
+    setState(() {
+      _posts = [];
+    });
+
     Request().getPosts().then((List<Post> val) {
       setState(() {
         _posts = val;
@@ -37,6 +41,10 @@ class _FeedListViewState extends State<FeedListView> {
 
   @override
   Widget build(BuildContext context) {
+    if (_posts.isEmpty) {
+      return const Loader();
+    }
+
     return RefreshIndicator(
         onRefresh: _pullRefresh,
         color: Colors.brown,

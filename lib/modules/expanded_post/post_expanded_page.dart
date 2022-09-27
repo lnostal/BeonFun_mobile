@@ -51,6 +51,18 @@ class _PostExpandedPageState extends State<PostExpandedPage> {
     return '';
   }
 
+  Future<void> _pullRefresh() async {
+    setState(() {
+      postInfo = {'post': null, 'comments': List};
+    });
+
+    Request().getPost(widget.blname, widget.id).then((value) {
+      setState(() {
+        postInfo = value;
+      });
+    });
+  }
+
   Widget createView(Map postInfo) {
     if (postInfo['post'] == null) {
       return const Loader();
@@ -62,15 +74,18 @@ class _PostExpandedPageState extends State<PostExpandedPage> {
       cellsCount = (postInfo['comments'] as List).length + 1;
     }
 
-    return ListView.builder(
-        itemCount: cellsCount,
-        itemBuilder: (context, index) {
-          if (index == 0) {
-            return PostExpanded(post: postInfo['post']);
-          }
+    return RefreshIndicator(
+        onRefresh: _pullRefresh,
+        color: Colors.brown,
+        child: ListView.builder(
+            itemCount: cellsCount,
+            itemBuilder: (context, index) {
+              if (index == 0) {
+                return PostExpanded(post: postInfo['post']);
+              }
 
-          return CommentView(comment: postInfo['comments'][index - 1]);
-        });
+              return CommentView(comment: postInfo['comments'][index - 1]);
+            }));
   }
 }
 

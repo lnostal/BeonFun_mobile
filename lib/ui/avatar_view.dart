@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_beonfun/helpers.dart';
 
 import '../models/user.dart';
 
@@ -39,8 +40,8 @@ class _AvatarViewState extends State<AvatarView> {
     AssetImage placeholder =
         const AssetImage('assets/images/avatar_placeholder.png');
 
-    String imageUrl =
-        'https://s1.hostingkartinok.com/uploads/images/2022/09/8b91b2fbfb0cddc9074591dc4b1cf932.png';
+    String imageUrl = Helper().setAvatarPlaceholderUrl();
+
     if (type == AvatarType.profile) {
       imageUrl = user.profileImageUrl;
     }
