@@ -1,10 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_beonfun/models/post.dart';
-import 'package:flutter_beonfun/modules/expanded_post/avatar_expanded.dart';
 import 'package:flutter_beonfun/modules/expanded_post/post_expanded.dart';
-import 'package:flutter_beonfun/modules/expanded_post/post_expanded_body.dart';
-import 'package:flutter_beonfun/modules/expanded_post/post_expanded_header.dart';
 import 'package:flutter_beonfun/network/general_network.dart';
 import 'package:flutter_beonfun/ui/comment_view.dart';
 
