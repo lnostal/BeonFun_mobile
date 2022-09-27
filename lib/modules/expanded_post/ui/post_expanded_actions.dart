@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../models/post.dart';
+import '../../../models/post.dart';
 
 class PostExpandedActions extends StatefulWidget {
   final Post post;

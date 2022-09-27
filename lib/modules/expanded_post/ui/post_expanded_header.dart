@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_beonfun/modules/expanded_post/post_expanded_actions.dart';
 
-import '../../models/post.dart';
+import '../../../models/post.dart';
+import 'post_expanded_actions.dart';
 
 class PostExpandedHeader extends StatefulWidget {
   final Post post;

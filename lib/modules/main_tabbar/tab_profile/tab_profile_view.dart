@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_beonfun/helpers.dart';
 import 'package:flutter_beonfun/ui/avatar_view.dart';
+import 'package:flutter_beonfun/ui/loader.dart';
 import 'package:package_info/package_info.dart';
 
-import '../../models/user.dart';
-import '../../network/general_network.dart';
+import '../../../models/user.dart';
+import '../../../network/general_network.dart';
 
 class TabProfileView extends StatefulWidget {
   final String title;
@@ -17,15 +17,7 @@ class TabProfileView extends StatefulWidget {
 }
 
 class _TabProfileViewState extends State<TabProfileView> {
-  User user = User(
-      id: -1,
-      blogStringId: "",
-      name: "",
-      sign: null,
-      profileImageUrl: Helper().setAvatarPlaceholderUrl(),
-      currentAvatar: null,
-      balance: 0,
-      feedSettings: {"0": false});
+  User? user;
 
   Map appInfo = {};
 
@@ -55,20 +47,41 @@ class _TabProfileViewState extends State<TabProfileView> {
 
   @override
   Widget build(BuildContext context) {
+    if (user == null) {
+      return const Loader();
+    }
+
     return CupertinoPageScaffold(
         navigationBar: CupertinoNavigationBar(
-          middle: Text(user.blogStringId),
+          middle: Text(user!.blogStringId),
           backgroundColor: CupertinoColors.white,
         ),
         child: SafeArea(
-          child: Column(
-            children: [
-              profileCard(user),
-              aboutCreator(),
-              aboutApp(),
-              logoutButton(),
-            ],
-          ),
+          child: ListView.builder(
+              itemCount: 4,
+              itemBuilder: (context, index) {
+                switch (index) {
+                  case 0:
+                    return profileCard(user!);
+                  case 1:
+                    return aboutCreator();
+                  case 2:
+                    return aboutApp();
+                  case 3:
+                    return logoutButton();
+                  default:
+                    return aboutApp();
+                }
+              }),
+
+          // child: Column(
+          //   children: [
+          //     profileCard(user!),
+          //     aboutCreator(),
+          //     aboutApp(),
+          //     logoutButton(),
+          //   ],
+          // ),
         ));
   }
 

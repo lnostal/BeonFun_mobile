@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../models/post.dart';
+import '../../../models/post.dart';
 import 'avatar_expanded.dart';
 import 'post_expanded_body.dart';
 import 'post_expanded_header.dart';

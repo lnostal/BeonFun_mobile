@@ -1,5 +1,7 @@
 //import 'dart:html';
 
+import 'package:flutter_beonfun/models/avatar.dart';
+
 class User {
   int id;
   String blogStringId;
@@ -20,4 +22,20 @@ class User {
     required this.balance,
     required this.feedSettings,
   });
+
+  factory User.fromMap(Map data) {
+    String profileAvatar = data['profile_image_url'] as String;
+
+    return User(
+        id: data['id'] as int,
+        blogStringId: data['name'] as String,
+        name: data['nickname'] as String,
+        sign: data['sign'] as String?,
+        profileImageUrl: 'https:$profileAvatar',
+        currentAvatar: data['avatar'] != null
+            ? Avatar.fromMap(data['avatar']).url(data['path'] as String)
+            : null,
+        balance: data['positives'] == null ? 0 : data['positives'] as int,
+        feedSettings: {"huita": true});
+  }
 }

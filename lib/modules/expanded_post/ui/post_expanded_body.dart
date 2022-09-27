@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-import '../../models/post.dart';
+import '../../../models/post.dart';
 
 class PostExpandedBody extends StatefulWidget {
   final Post post;

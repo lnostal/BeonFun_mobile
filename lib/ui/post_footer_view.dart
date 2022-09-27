@@ -27,8 +27,6 @@ class _PostFooterViewState extends State<PostFooterView> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             IconButton(onPressed: _liked, icon: createFavoriteIcon()),
-            // Text(widget.post.likes.length.toString(),
-            //     style: const TextStyle(color: Colors.grey, fontSize: 18)),
             IconButton(
                 onPressed: _share,
                 icon: const Icon(Icons.share, size: 28, color: Colors.grey)),
@@ -54,11 +52,11 @@ class _PostFooterViewState extends State<PostFooterView> {
   }
 
   void _openComments() {
-    if (widget.post.type == PostType.diary) {
+    if (widget.post.type != PostType.forum) {
       Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => PostExpandedPage(
-              blname: widget.post.userInfo.blogStringId,
-              id: (widget.post as DiaryPost).inBlogId.toString())));
+              blname: widget.post.blogInfo!.stringId.toString(),
+              id: widget.post.inPostId.toString())));
     } else {
       log('forum');
     }

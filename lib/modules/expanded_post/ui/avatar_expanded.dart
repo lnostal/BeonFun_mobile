@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_beonfun/helpers.dart';
 
-import '../../models/user.dart';
+import '../../../models/user.dart';
 
 class AvatarExpanded extends StatefulWidget {
   final User user;

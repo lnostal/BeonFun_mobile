@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_beonfun/modules/tab_feed/feed_list_view.dart';
+import 'package:flutter_beonfun/modules/main_tabbar/tab_feed/feed_list_view.dart';
 
 class TabFeedView extends StatelessWidget {
   final String title;

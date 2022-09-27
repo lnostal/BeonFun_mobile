@@ -4,8 +4,8 @@ import 'package:flutter_beonfun/ui/post_body.dart';
 import 'package:flutter_beonfun/ui/post_footer_view.dart';
 import 'package:flutter_beonfun/ui/post_header_view.dart';
 
-import '../../models/post.dart';
-import '../../network/general_network.dart';
+import '../../../models/post.dart';
+import '../../../network/general_network.dart';
 
 class FeedListView extends StatefulWidget {
   const FeedListView({super.key});
@@ -57,7 +57,10 @@ class _FeedListViewState extends State<FeedListView> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(right: 16.0),
-                    child: PostHeaderView(user: _posts[index].userInfo),
+                    child: PostHeaderView(
+                      user: _posts[index].userInfo,
+                      post: _posts[index],
+                    ),
                   ),
                   PostBody(
                     post: _posts[index],
