@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_beonfun/modules/expanded_post/post_expanded_page.dart';
 
@@ -48,18 +47,20 @@ class _PostFooterViewState extends State<PostFooterView> {
   }
 
   void _share() {
-    log('let\'s think that we shared the post');
+    debugPrint('let\'s think that we shared the post');
   }
 
   void _openComments() {
+    String blogName = '';
+    String id = widget.post.globalId.toString();
+
     if (widget.post.type != PostType.forum) {
-      Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => PostExpandedPage(
-              blname: widget.post.blogInfo!.stringId.toString(),
-              id: widget.post.inPostId.toString())));
-    } else {
-      log('forum');
+      blogName = widget.post.blogInfo!.stringId;
+      id = widget.post.inPostId.toString();
     }
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => PostExpandedPage(
+            type: widget.post.type, blname: blogName, id: id)));
   }
 
   Icon createFavoriteIcon() {

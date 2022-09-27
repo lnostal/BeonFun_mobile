@@ -5,25 +5,28 @@ import 'package:flutter_beonfun/network/general_network.dart';
 import 'package:flutter_beonfun/ui/comment_view.dart';
 
 import '../../models/blog.dart';
+import '../../models/post.dart';
 import '../../ui/loader.dart';
 
 class PostExpandedPage extends StatefulWidget {
+  final PostType type;
   final String blname;
   final String id;
 
-  const PostExpandedPage({super.key, required this.blname, required this.id});
+  const PostExpandedPage(
+      {super.key, required this.type, required this.blname, required this.id});
 
   @override
   State<PostExpandedPage> createState() => _PostExpandedPageState();
 }
 
 class _PostExpandedPageState extends State<PostExpandedPage> {
-  Map postInfo = {'post': null, 'comments': List};
+  Map postInfo = {'comments': List};
 
   @override
   void initState() {
     super.initState();
-    Request().getPost(widget.blname, widget.id).then((value) {
+    Request().getPost(widget.type, widget.blname, widget.id).then((value) {
       setState(() {
         postInfo = value;
       });
@@ -44,11 +47,15 @@ class _PostExpandedPageState extends State<PostExpandedPage> {
   }
 
   String setPageTitle(Map postInfo) {
-    if (postInfo['blog'] != null) {
-      return (postInfo['blog'] as Blog).title;
+    if (postInfo['blog'] == null && postInfo['post'] == null) {
+      return '';
     }
 
-    return '';
+    if (widget.type == PostType.forum) {
+      return (postInfo['post'] as Post).forum!.title;
+    }
+
+    return (postInfo['blog'] as Blog).title;
   }
 
   Future<void> _pullRefresh() async {
@@ -56,7 +63,7 @@ class _PostExpandedPageState extends State<PostExpandedPage> {
       postInfo = {'post': null, 'comments': List};
     });
 
-    Request().getPost(widget.blname, widget.id).then((value) {
+    Request().getPost(widget.type, widget.blname, widget.id).then((value) {
       setState(() {
         postInfo = value;
       });

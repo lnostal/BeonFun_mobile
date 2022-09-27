@@ -75,10 +75,12 @@ class Request {
     return posts;
   }
 
-  Future<Map> getPost(String blname, String postId) async {
-    var response = await http.get(
-        Uri.parse('https://beon.fun/api/v1/blog/$blname/post/$postId'),
-        headers: headers);
+  Future<Map> getPost(PostType type, String blname, String postId) async {
+    String rout = type == PostType.forum
+        ? 'https://beon.fun/api/v1/topic/$postId'
+        : 'https://beon.fun/api/v1/blog/$blname/post/$postId';
+
+    var response = await http.get(Uri.parse(rout), headers: headers);
 
     if (response.statusCode != 200) {
       var code = response.statusCode;
@@ -87,10 +89,15 @@ class Request {
 
     var data = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
 
-    Post postInfo = Post.fromMap(data['post']);
-    Blog blogInfo = Blog.fromMap(data['blog']);
+    Post postInfo = type == PostType.forum
+        ? Post.fromMap(data['topic'])
+        : Post.fromMap(data['post']);
 
-    var commentsData = data['comments'] as List;
+    Blog? blogInfo = type == PostType.forum ? null : Blog.fromMap(data['blog']);
+
+    var commentsData = type == PostType.forum
+        ? data['replies'] as List
+        : data['comments'] as List;
     List<Comment> comments = [];
 
     for (var comm in commentsData) {
