@@ -1,6 +1,6 @@
+import 'dart:developer';
 import 'package:flutter/material.dart';
-import 'package:flutter_beonfun/network/general_network.dart';
-import 'package:flutter_beonfun/ui/show_post_view.dart';
+import 'package:flutter_beonfun/modules/expanded_post/post_expanded_page.dart';
 
 import '../models/post.dart';
 
@@ -22,7 +22,7 @@ class _PostFooterViewState extends State<PostFooterView> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
@@ -50,25 +50,25 @@ class _PostFooterViewState extends State<PostFooterView> {
   }
 
   void _share() {
-    print('let\'s think that we shared the post');
+    log('let\'s think that we shared the post');
   }
 
   void _openComments() {
     if (widget.post.type == PostType.diary) {
       Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => ShowPost(
+          builder: (context) => PostExpandedPage(
               blname: widget.post.userInfo.blogStringId,
               id: (widget.post as DiaryPost).inBlogId.toString())));
     } else {
-      print('forum');
+      log('forum');
     }
   }
 
   Icon createFavoriteIcon() {
     if (_isFavourite) {
-      return Icon(Icons.favorite, size: 28, color: Colors.brown);
+      return const Icon(Icons.favorite, size: 28, color: Colors.brown);
     }
 
-    return Icon(Icons.favorite_border, size: 28, color: Colors.grey);
+    return const Icon(Icons.favorite_border, size: 28, color: Colors.grey);
   }
 }

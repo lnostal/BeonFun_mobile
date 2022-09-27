@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter_beonfun/models/user.dart';
 
 class Message {

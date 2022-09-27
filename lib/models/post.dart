@@ -1,3 +1,5 @@
+// ignore_for_file: overridden_fields
+
 import 'package:flutter_beonfun/models/user.dart';
 
 class Post {
@@ -22,14 +24,18 @@ class DiaryPost extends Post {
   String? mood;
   String? wish;
   String? music;
+
   @override
   int avatarId;
+
   @override
   int commentsCount;
+
   @override
   String lastUpdate;
   @override
   User userInfo;
+
   @override
   List likes;
 
@@ -54,17 +60,23 @@ class DiaryPost extends Post {
 class ForumPost extends Post {
   @override
   String title;
+
   @override
   String text;
+
   @override
   int avatarId;
   int forumId;
+
   @override
   int commentsCount;
+
   @override
   String lastUpdate;
+
   @override
   User userInfo;
+
   @override
   List likes;
 

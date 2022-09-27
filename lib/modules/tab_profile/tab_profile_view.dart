@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_beonfun/helpers.dart';
 import 'package:flutter_beonfun/ui/avatar_view.dart';
 import 'package:package_info/package_info.dart';
 
@@ -21,8 +22,7 @@ class _TabProfileViewState extends State<TabProfileView> {
       blogStringId: "",
       name: "",
       sign: null,
-      profileImageUrl:
-          "https://s1.hostingkartinok.com/uploads/images/2022/09/8b91b2fbfb0cddc9074591dc4b1cf932.png",
+      profileImageUrl: Helper().setAvatarPlaceholderUrl(),
       currentAvatar: null,
       balance: 0,
       feedSettings: {"0": false});

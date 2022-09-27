@@ -5,6 +5,7 @@ import 'package:flutter_beonfun/ui/post_header_view.dart';
 
 import '../../models/post.dart';
 import '../../network/general_network.dart';
+import '../../ui/loader.dart';
 
 class FeedListView extends StatefulWidget {
   const FeedListView({super.key});
@@ -32,11 +33,6 @@ class _FeedListViewState extends State<FeedListView> {
 
   Future<void> _pullRefresh() async {
     loadData();
-    // Request().getPosts().then((List<Post> val) {
-    //   setState(() {
-    //     _posts = val;
-    //   });
-    // });
   }
 
   @override

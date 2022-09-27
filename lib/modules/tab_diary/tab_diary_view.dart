@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_beonfun/modules/tab_diary/diary_list_view.dart';
@@ -23,6 +25,6 @@ class TabDiaryView extends StatelessWidget {
   }
 
   void fabPressed() {
-    print('ты лох не можешь всплывашку сделать');
+    debugPrint('ты лох не можешь всплывашку сделать');
   }
 }

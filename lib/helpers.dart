@@ -28,4 +28,8 @@ class Helper {
     //print('$finalString');
     return finalString;
   }
+
+  String setAvatarPlaceholderUrl() {
+    return 'https://s1.hostingkartinok.com/uploads/images/2022/09/8b91b2fbfb0cddc9074591dc4b1cf932.png';
+  }
 }
