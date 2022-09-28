@@ -47,7 +47,6 @@ class _FeedListViewState extends State<FeedListView> {
 
     return RefreshIndicator(
         onRefresh: _pullRefresh,
-        color: Colors.brown,
         child: ListView.builder(
             itemCount: _posts.length,
             itemBuilder: (context, index) {

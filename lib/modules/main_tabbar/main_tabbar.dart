@@ -11,7 +11,6 @@ class MainTabBar extends StatelessWidget {
   Widget build(BuildContext context) => CupertinoTabScaffold(
         tabBar: CupertinoTabBar(
             backgroundColor: Colors.white,
-            activeColor: Colors.brown,
             inactiveColor: Colors.grey,
             height: 64,
             items: const [

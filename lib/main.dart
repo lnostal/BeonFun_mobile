@@ -13,11 +13,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Beon.fun',
-      theme: ThemeData(
-        appBarTheme: const AppBarTheme(
-            iconTheme: IconThemeData(color: Colors.red),
-            backgroundColor: Colors.white,
-            foregroundColor: Colors.black),
+      theme: ThemeData().copyWith(
+        scaffoldBackgroundColor: Colors.white,
+        colorScheme: ThemeData().colorScheme.copyWith(primary: Colors.brown),
       ),
       home: const MainTabBar(),
     );

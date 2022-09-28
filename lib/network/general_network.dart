@@ -107,4 +107,27 @@ class Request {
 
     return {'blog': blogInfo, 'post': postInfo, 'comments': comments};
   }
+
+  Future<bool> sendComment(
+      String blname, String postId, PostType type, String message) async {
+    String rout = type == PostType.forum
+        ? ''
+        : 'https://beon.fun/api/v1/blog/$blname/post/$postId';
+
+    var response = await http.post(Uri.parse(rout),
+        headers: headers,
+        body: jsonEncode(<String, String>{'message': message}));
+
+    if (response.statusCode != 200) {
+      var code = response.statusCode;
+      throw Exception('Faild request with code $code');
+    }
+
+    var data = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
+    if (data['status'] as String == 'ok') {
+      return true;
+    }
+
+    return false;
+  }
 }

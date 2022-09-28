@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_beonfun/modules/expanded_post/ui/post_expanded.dart';
 import 'package:flutter_beonfun/network/general_network.dart';
 import 'package:flutter_beonfun/ui/comment_view.dart';
@@ -22,6 +23,8 @@ class PostExpandedPage extends StatefulWidget {
 
 class _PostExpandedPageState extends State<PostExpandedPage> {
   Map postInfo = {'comments': List};
+  final textEditingController = TextEditingController();
+  final scrollController = ScrollController();
 
   @override
   void initState() {
@@ -35,15 +38,28 @@ class _PostExpandedPageState extends State<PostExpandedPage> {
 
   @override
   Widget build(BuildContext context) {
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      scrollController.jumpTo(scrollController.position.maxScrollExtent);
+    });
+
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
           middle: Text(setPageTitle(postInfo)),
           backgroundColor: CupertinoColors.white,
           leading: CupertinoNavigationBarBackButton(
-            color: Colors.brown,
             onPressed: () => Navigator.of(context).pop(),
           )),
-      child: SafeArea(child: createView(postInfo)),
+      child: SafeArea(
+          child:
+              createTextField(createView(postInfo)) /*createView(postInfo)*/),
+    );
+  }
+
+  void _scrollDown() {
+    scrollController.animateTo(
+      scrollController.position.maxScrollExtent,
+      duration: Duration(seconds: 2),
+      curve: Curves.fastOutSlowIn,
     );
   }
 
@@ -84,8 +100,8 @@ class _PostExpandedPageState extends State<PostExpandedPage> {
 
     return RefreshIndicator(
         onRefresh: _pullRefresh,
-        color: Colors.brown,
         child: ListView.builder(
+            controller: scrollController,
             itemCount: cellsCount,
             itemBuilder: (context, index) {
               if (index == 0) {
@@ -96,7 +112,51 @@ class _PostExpandedPageState extends State<PostExpandedPage> {
             }));
   }
 
-  Widget createTextField() {
-    return Text('');
+  Widget createTextField(Widget widget) {
+    return Scaffold(
+      body: widget,
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: TextFormField(
+          controller: textEditingController,
+          keyboardType: TextInputType.multiline,
+          minLines: 1,
+          maxLines: 10,
+          decoration: InputDecoration(
+              suffixIcon: IconButton(
+                  onPressed: sendMessage,
+                  icon: const Icon(
+                    Icons.send,
+                  )),
+              contentPadding: const EdgeInsets.fromLTRB(16.0, 10.0, 16.0, 10.0),
+              hintText: "enter comment...",
+              border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  borderSide: const BorderSide(color: Colors.grey, width: 0.0)),
+              focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  borderSide: const BorderSide(width: 1.5))),
+        ),
+      ),
+    );
+  }
+
+  void sendMessage() {
+    debugPrint(textEditingController.text);
+
+    Request()
+        .sendComment(
+            widget.blname, widget.id, widget.type, textEditingController.text)
+        .then((value) {
+      if (value) {
+        textEditingController.clear();
+        FocusScope.of(context).requestFocus(new FocusNode());
+        _pullRefresh().then((value) {});
+      }
+    });
+
+    debugPrint(textEditingController.text);
+    textEditingController.clear();
+    FocusScope.of(context).requestFocus(new FocusNode());
   }
 }

@@ -45,7 +45,6 @@ class _DiaryListViewState extends State<DiaryListView> {
     }
     return RefreshIndicator(
         onRefresh: _pullRefresh,
-        color: Colors.brown,
         child: ListView.builder(
             itemCount: _posts.length,
             itemBuilder: (context, index) {

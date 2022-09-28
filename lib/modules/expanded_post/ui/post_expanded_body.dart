@@ -1,7 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bbcode/flutter_bbcode.dart';
-import 'package:flutter_bbcode/tags/tag_parser.dart';
 import 'package:flutter_beonfun/helpers.dart';
 
 import '../../../models/post.dart';
@@ -17,21 +15,6 @@ class PostExpandedBody extends StatefulWidget {
 class _PostExpandedBodyState extends State<PostExpandedBody> {
   @override
   Widget build(BuildContext context) {
-    // Widget parsedBBCode = BBCodeText(
-    //     errorBuilder: (context, error, stack) {
-    //       return Column(
-    //         crossAxisAlignment: CrossAxisAlignment.start,
-    //         children: [
-    //           const Text("Failed to parse BBCode correctly.",
-    //               style: TextStyle(color: Colors.red)),
-    //           const Text(
-    //               "This usually means on of the tags is not properly handling unexpected input.\n"),
-    //           Text(error.toString()),
-    //         ],
-    //       );
-    //     },
-    //     data: widget.post.text.toLowerCase());
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.start,
@@ -42,7 +25,7 @@ class _PostExpandedBodyState extends State<PostExpandedBody> {
         BBCodeText(
           selectable: true,
           data: Helper().toRenderedString(widget.post.text),
-          defaultStyle: TextStyle(color: Colors.black, fontSize: 16),
+          defaultStyle: const TextStyle(color: Colors.black, fontSize: 16),
         ),
       ],
     );
