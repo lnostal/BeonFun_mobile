@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bbcode/flutter_bbcode.dart';
 import 'package:flutter_beonfun/models/comment.dart';
 
 import '../helpers.dart';
@@ -25,9 +26,11 @@ class _CommentViewState extends State<CommentView> {
             Padding(
                 padding: const EdgeInsets.only(
                     left: 16.0, right: 16.0, bottom: 16.0),
-                child: Text(
-                  Helper().removeBBCodeFromString(widget.comment.text),
-                  style: const TextStyle(fontSize: 16),
+                child: BBCodeText(
+                  selectable: true,
+                  data: Helper().toRenderedString(widget.comment.text),
+                  defaultStyle:
+                      const TextStyle(fontSize: 16, color: Colors.black),
                 ))
           ]),
     );

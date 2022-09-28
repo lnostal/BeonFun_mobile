@@ -68,7 +68,7 @@ class Post {
         commentsCount: map['comments_count'] as int,
         lastUpdate: map['updated_at'] as String,
         userInfo: userInfo,
-        blogInfo: type != PostType.forum ? Blog.fromMap(map['blog']) : null,
+        blogInfo: (map['blog'] != null) ? Blog.fromMap(map['blog']) : null,
         likes: map['liked'] as List);
   }
 }

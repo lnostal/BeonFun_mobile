@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bbcode/flutter_bbcode.dart';
 import 'package:flutter_beonfun/helpers.dart';
 
 import '../models/post.dart';
@@ -29,8 +30,10 @@ class _PostBodyState extends State<PostBody> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(Helper().removeBBCodeFromString(widget.post.text),
-                style: const TextStyle(fontSize: 16))
+            BBCodeText(
+                data: Helper().removeBBCodeFromString(widget.post.text),
+                defaultStyle:
+                    const TextStyle(fontSize: 16, color: Colors.black))
           ],
         ));
   }

@@ -36,14 +36,15 @@ class _PostExpandedPageState extends State<PostExpandedPage> {
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
-        navigationBar: CupertinoNavigationBar(
-            middle: Text(setPageTitle(postInfo)),
-            backgroundColor: CupertinoColors.white,
-            leading: CupertinoNavigationBarBackButton(
-              color: Colors.brown,
-              onPressed: () => Navigator.of(context).pop(),
-            )),
-        child: SafeArea(child: createView(postInfo)));
+      navigationBar: CupertinoNavigationBar(
+          middle: Text(setPageTitle(postInfo)),
+          backgroundColor: CupertinoColors.white,
+          leading: CupertinoNavigationBarBackButton(
+            color: Colors.brown,
+            onPressed: () => Navigator.of(context).pop(),
+          )),
+      child: SafeArea(child: createView(postInfo)),
+    );
   }
 
   String setPageTitle(Map postInfo) {
@@ -94,6 +95,8 @@ class _PostExpandedPageState extends State<PostExpandedPage> {
               return CommentView(comment: postInfo['comments'][index - 1]);
             }));
   }
-}
 
-void foo() {}
+  Widget createTextField() {
+    return Text('');
+  }
+}

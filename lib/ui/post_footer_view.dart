@@ -55,7 +55,12 @@ class _PostFooterViewState extends State<PostFooterView> {
     String id = widget.post.globalId.toString();
 
     if (widget.post.type != PostType.forum) {
-      blogName = widget.post.blogInfo!.stringId;
+      if (widget.post.blogInfo != null) {
+        blogName = widget.post.blogInfo!.stringId;
+      } else {
+        blogName = widget.post.userInfo.blogStringId;
+      }
+
       id = widget.post.inPostId.toString();
     }
     Navigator.of(context).push(MaterialPageRoute(
