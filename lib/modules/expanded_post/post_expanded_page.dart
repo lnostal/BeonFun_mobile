@@ -22,6 +22,8 @@ class PostExpandedPage extends StatefulWidget {
 }
 
 class _PostExpandedPageState extends State<PostExpandedPage> {
+  var _pushedNewComment = false;
+
   Map postInfo = {'comments': List};
   final textEditingController = TextEditingController();
   final scrollController = ScrollController();
@@ -29,17 +31,15 @@ class _PostExpandedPageState extends State<PostExpandedPage> {
   @override
   void initState() {
     super.initState();
-    Request().getPost(widget.type, widget.blname, widget.id).then((value) {
-      setState(() {
-        postInfo = value;
-      });
-    });
+    loadData();
   }
 
   @override
   Widget build(BuildContext context) {
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      scrollController.jumpTo(scrollController.position.maxScrollExtent);
+      if (_pushedNewComment) {
+        scrollController.jumpTo(scrollController.position.maxScrollExtent);
+      }
     });
 
     return CupertinoPageScaffold(
@@ -55,14 +55,6 @@ class _PostExpandedPageState extends State<PostExpandedPage> {
     );
   }
 
-  void _scrollDown() {
-    scrollController.animateTo(
-      scrollController.position.maxScrollExtent,
-      duration: Duration(seconds: 2),
-      curve: Curves.fastOutSlowIn,
-    );
-  }
-
   String setPageTitle(Map postInfo) {
     if (postInfo['blog'] == null && postInfo['post'] == null) {
       return '';
@@ -73,18 +65,6 @@ class _PostExpandedPageState extends State<PostExpandedPage> {
     }
 
     return (postInfo['blog'] as Blog).title;
-  }
-
-  Future<void> _pullRefresh() async {
-    setState(() {
-      postInfo = {'post': null, 'comments': List};
-    });
-
-    Request().getPost(widget.type, widget.blname, widget.id).then((value) {
-      setState(() {
-        postInfo = value;
-      });
-    });
   }
 
   Widget createView(Map postInfo) {
@@ -124,7 +104,7 @@ class _PostExpandedPageState extends State<PostExpandedPage> {
           maxLines: 10,
           decoration: InputDecoration(
               suffixIcon: IconButton(
-                  onPressed: sendMessage,
+                  onPressed: sendComment,
                   icon: const Icon(
                     Icons.send,
                   )),
@@ -141,22 +121,36 @@ class _PostExpandedPageState extends State<PostExpandedPage> {
     );
   }
 
-  void sendMessage() {
-    debugPrint(textEditingController.text);
+  /// - Mark: additional methods
 
+  void sendComment() {
     Request()
         .sendComment(
             widget.blname, widget.id, widget.type, textEditingController.text)
         .then((value) {
       if (value) {
+        _pushedNewComment = true;
         textEditingController.clear();
-        FocusScope.of(context).requestFocus(new FocusNode());
-        _pullRefresh().then((value) {});
+        loadData();
       }
-    });
 
-    debugPrint(textEditingController.text);
-    textEditingController.clear();
-    FocusScope.of(context).requestFocus(new FocusNode());
+      FocusScope.of(context).requestFocus(new FocusNode());
+    });
+  }
+
+  void loadData() {
+    Request().getPost(widget.type, widget.blname, widget.id).then((value) {
+      setState(() {
+        postInfo = value;
+      });
+    });
+  }
+
+  Future<void> _pullRefresh() async {
+    _pushedNewComment = false;
+    setState(() {
+      postInfo = {'post': null, 'comments': List};
+    });
+    loadData();
   }
 }

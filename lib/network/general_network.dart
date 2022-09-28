@@ -111,7 +111,7 @@ class Request {
   Future<bool> sendComment(
       String blname, String postId, PostType type, String message) async {
     String rout = type == PostType.forum
-        ? ''
+        ? 'https://beon.fun/api/v1/topic/$postId'
         : 'https://beon.fun/api/v1/blog/$blname/post/$postId';
 
     var response = await http.post(Uri.parse(rout),
