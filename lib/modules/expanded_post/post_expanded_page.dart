@@ -134,7 +134,7 @@ class _PostExpandedPageState extends State<PostExpandedPage> {
         loadData();
       }
 
-      FocusScope.of(context).requestFocus(new FocusNode());
+      FocusScope.of(context).requestFocus();
     });
   }
 
