@@ -44,6 +44,7 @@ dependencies:
   shared_preferences: ^2.0.15
   cached_network_image: ^3.2.2
   blinking_text: ^1.0.2
+  focus_detector: ^2.0.1
   
 
 dev_dependencies:

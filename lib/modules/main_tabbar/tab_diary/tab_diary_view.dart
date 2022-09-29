@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_beonfun/modules/main_tabbar/tab_diary/diary_list_view.dart';
+import 'package:flutter_beonfun/modules/main_tabbar/tab_diary/new_post_page.dart';
 import 'package:flutter_beonfun/modules/main_tabbar/tab_feed/feed_list_view.dart';
 
 class TabDiaryView extends StatefulWidget {
@@ -44,12 +45,17 @@ class _TabDiaryViewState extends State<TabDiaryView>
           body: const TabBarView(
               children: [DiaryListView(), FeedListView(type: 1)]),
           floatingActionButton: FloatingActionButton(
-              onPressed: fabPressed,
+              onPressed: newPostButtonPressed,
               backgroundColor: Colors.brown,
               child: const Icon(Icons.create)),
         );
       }),
     );
+  }
+
+  void newPostButtonPressed() {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => const WriteNewPost()));
   }
 
   // @override
@@ -77,7 +83,4 @@ class _TabDiaryViewState extends State<TabDiaryView>
   //   );
   // }
 
-  void fabPressed() {
-    debugPrint('ты лох не можешь всплывашку сделать');
-  }
 }

@@ -191,6 +191,32 @@ class Request {
     return false;
   }
 
+  /// Create new post in diary
+  ///
+  Future<bool> createPost(String blname, String title, String message) async {
+    String rout = '$_endpoint/blog/$blname/new';
+
+    var response = await http.post(Uri.parse(rout),
+        headers: await getHeaders(),
+        body: jsonEncode(<String, String>{
+          'text': message,
+          'title': title,
+          'access': 'users'
+        }));
+
+    if (response.statusCode != 200) {
+      var code = response.statusCode;
+      throw Exception('Faild request with code $code');
+    }
+
+    var data = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
+    if (data['status'] as String == 'ok') {
+      return true;
+    }
+
+    return false;
+  }
+
   /// Check if token expired
   ///
   Future<bool> tokenExpired() async {
