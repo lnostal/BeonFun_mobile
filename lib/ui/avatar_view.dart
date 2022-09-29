@@ -55,6 +55,7 @@ class _AvatarViewState extends State<AvatarView> {
       imageUrl: imageUrl,
       width: widget.avatarSize,
       height: widget.avatarSize,
+      fit: BoxFit.fill,
       placeholder: (context, url) => const CircularProgressIndicator(),
       errorWidget: (context, url, error) => Image(
         image: placeholder,
