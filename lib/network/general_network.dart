@@ -1,5 +1,7 @@
-import 'package:http/http.dart' as http;
 import 'dart:convert';
+
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/blog.dart';
 import '../models/comment.dart';
@@ -7,15 +9,14 @@ import '../models/post.dart';
 import '../models/user.dart';
 
 class Request {
-  static const token = "563|aW24yKMxYfzSuoMM4EyhJbZgq5x9dX2wqSkL1fF2";
-  static const headers = {
-    'Authorization': 'Bearer $token',
-    'Content-Type': 'application/json'
-  };
+  //const token;// = "563|aW24yKMxYfzSuoMM4EyhJbZgq5x9dX2wqSkL1fF2";
+
+  static const endpoint = 'https://beon.fun/api/v1';
 
   Future<User> getUserInfo() async {
-    var response = await http.get(Uri.parse('https://beon.fun/api/v1/im'),
-        headers: headers);
+    var headers = await getHeaders();
+
+    var response = await http.get(Uri.parse('$endpoint/im'), headers: headers);
 
     if (response.statusCode != 200) {
       var code = response.statusCode;
@@ -30,8 +31,9 @@ class Request {
   }
 
   Future<List<Post>> getPosts() async {
-    var response = await http.get(Uri.parse('https://beon.fun/api/v1/feed'),
-        headers: headers);
+    var headers = await getHeaders();
+    var response =
+        await http.get(Uri.parse('$endpoint/feed'), headers: headers);
 
     if (response.statusCode != 200) {
       var code = response.statusCode;
@@ -51,11 +53,11 @@ class Request {
   }
 
   Future<List<Post>> getDiaryPosts(String blogname) async {
+    var headers = await getHeaders();
     var blname = blogname;
 
-    var response = await http.get(
-        Uri.parse('https://beon.fun/api/v1/blog/$blname'),
-        headers: headers);
+    var response =
+        await http.get(Uri.parse('$endpoint/blog/$blname'), headers: headers);
 
     if (response.statusCode != 200) {
       var code = response.statusCode;
@@ -76,9 +78,10 @@ class Request {
   }
 
   Future<Map> getPost(PostType type, String blname, String postId) async {
+    var headers = await getHeaders();
     String rout = type == PostType.forum
-        ? 'https://beon.fun/api/v1/topic/$postId'
-        : 'https://beon.fun/api/v1/blog/$blname/post/$postId';
+        ? '$endpoint/topic/$postId'
+        : '$endpoint/blog/$blname/post/$postId';
 
     var response = await http.get(Uri.parse(rout), headers: headers);
 
@@ -110,9 +113,10 @@ class Request {
 
   Future<bool> sendComment(
       String blname, String postId, PostType type, String message) async {
+    var headers = await getHeaders();
     String rout = type == PostType.forum
-        ? 'https://beon.fun/api/v1/topic/$postId'
-        : 'https://beon.fun/api/v1/blog/$blname/post/$postId';
+        ? '$endpoint/topic/$postId'
+        : '$endpoint/blog/$blname/post/$postId';
 
     var response = await http.post(Uri.parse(rout),
         headers: headers,
@@ -129,5 +133,31 @@ class Request {
     }
 
     return false;
+  }
+
+  Future<String> login(String login, String pass) async {
+    String rout = '$endpoint/token';
+
+    var response = await http.post(Uri.parse(rout),
+        body: {'name': login, 'password': pass, 'device_name': 'flatter app'});
+
+    if (response.statusCode != 200) {
+      var code = response.statusCode;
+      throw Exception('Faild request with code $code');
+    }
+
+    var data = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
+
+    return data['token'] as String;
+  }
+
+  Future<Map<String, String>> getHeaders() async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('token') ?? 0;
+
+    return {
+      'Authorization': 'Bearer $token',
+      'Content-Type': 'application/json'
+    };
   }
 }

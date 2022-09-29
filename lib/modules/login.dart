@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_beonfun/network/general_network.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -8,6 +10,10 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final _loginTextController = TextEditingController();
+  final _passwordTextController = TextEditingController();
+  bool error = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,26 +29,30 @@ class _LoginPageState extends State<LoginPage> {
             padding:
                 const EdgeInsets.only(left: 32, top: 10, right: 32, bottom: 10),
             child: TextField(
+              controller: _loginTextController,
               textInputAction: TextInputAction.next,
               decoration: InputDecoration(
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10)),
-                  labelText: 'Login'),
+                  labelText: 'Login',
+                  errorText: error ? 'Неверно введены логин или пароль' : null),
             ),
           ),
           Padding(
             padding:
                 const EdgeInsets.only(left: 32, top: 10, right: 32, bottom: 10),
             child: TextField(
+              controller: _passwordTextController,
               obscureText: true,
               decoration: InputDecoration(
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10)),
-                  labelText: 'Password'),
+                  labelText: 'Password',
+                  errorText: error ? '' : null),
             ),
           ),
           TextButton(
-              onPressed: () {},
+              onPressed: singIn,
               child: const Text(
                 'Sign in',
                 style: TextStyle(fontSize: 16),
@@ -50,6 +60,27 @@ class _LoginPageState extends State<LoginPage> {
         ],
       ),
     );
+  }
+
+  void singIn() {
+    Request()
+        .login(_loginTextController.text, _passwordTextController.text)
+        .then(
+      (value) async {
+        var prefs = await SharedPreferences.getInstance();
+        await prefs.setString('token', value);
+
+        debugPrint(prefs.getString('token'));
+      },
+    ).onError((error, stackTrace) {
+      setError();
+    });
+  }
+
+  void setError() {
+    setState(() {
+      error = !error;
+    });
   }
 }
 
