@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_beonfun/modules/main_tabbar/main_tabbar.dart';
 import 'package:flutter_beonfun/network/general_network.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -70,7 +71,8 @@ class _LoginPageState extends State<LoginPage> {
         var prefs = await SharedPreferences.getInstance();
         await prefs.setString('token', value);
 
-        debugPrint(prefs.getString('token'));
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (BuildContext context) => const MainTabBar()));
       },
     ).onError((error, stackTrace) {
       setError();

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_beonfun/modules/login.dart';
-import 'package:flutter_beonfun/modules/main_tabbar/main_tabbar.dart';
+import 'package:flutter_beonfun/root_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -27,7 +26,7 @@ class MyApp extends StatelessWidget {
       //   colorScheme: ThemeData().colorScheme.copyWith(primary: Colors.brown),
       // ),
       themeMode: ThemeMode.system,
-      home: MainTabBar(), //const LoginPage(), //const MainTabBar(),
+      home: const RootPage(), //const LoginPage(), //const MainTabBar(),
     );
   }
 }

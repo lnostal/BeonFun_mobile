@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_beonfun/modules/login.dart';
 import 'package:flutter_beonfun/ui/avatar_view.dart';
 import 'package:flutter_beonfun/ui/loader.dart';
 import 'package:package_info/package_info.dart';
@@ -73,15 +74,6 @@ class _TabProfileViewState extends State<TabProfileView> {
                     return aboutApp();
                 }
               }),
-
-          // child: Column(
-          //   children: [
-          //     profileCard(user!),
-          //     aboutCreator(),
-          //     aboutApp(),
-          //     logoutButton(),
-          //   ],
-          // ),
         ));
   }
 
@@ -119,14 +111,16 @@ class _TabProfileViewState extends State<TabProfileView> {
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Row(children: const [
-          Icon(
+        child: Row(children: [
+          const Icon(
             Icons.exit_to_app,
             color: Colors.red,
             size: 32,
           ),
-          SizedBox(width: 8),
-          Text('Выйти', style: TextStyle(fontSize: 20))
+          const SizedBox(width: 8),
+          TextButton(
+              onPressed: logoutButtonPressed,
+              child: const Text('Выйти', style: TextStyle(fontSize: 20)))
         ]),
       ),
     );
@@ -161,5 +155,12 @@ class _TabProfileViewState extends State<TabProfileView> {
             style: TextStyle(fontSize: 16),
           ))),
     );
+  }
+
+  void logoutButtonPressed() {
+    Request().logout().then((value) {
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (BuildContext context) => const LoginPage()));
+    });
   }
 }

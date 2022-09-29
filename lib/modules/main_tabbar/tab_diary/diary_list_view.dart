@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_beonfun/ui/post_body.dart';
 import 'package:flutter_beonfun/ui/post_footer_view.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../models/post.dart';
 import '../../../network/general_network.dart';
@@ -16,12 +17,15 @@ class DiaryListView extends StatefulWidget {
 class _DiaryListViewState extends State<DiaryListView> {
   List<Post> _posts = [];
 
-  void loadData() {
+  void loadData() async {
     setState(() {
       _posts = [];
     });
 
-    Request().getDiaryPosts('stervo4ka').then((List<Post> val) {
+    var prefs = await SharedPreferences.getInstance();
+    var blog = prefs.getString('blogStringId') ?? '';
+
+    Request().getDiaryPosts(blog).then((List<Post> val) {
       setState(() {
         _posts = val;
       });

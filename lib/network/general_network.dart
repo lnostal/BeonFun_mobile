@@ -9,14 +9,11 @@ import '../models/post.dart';
 import '../models/user.dart';
 
 class Request {
-  //const token;// = "563|aW24yKMxYfzSuoMM4EyhJbZgq5x9dX2wqSkL1fF2";
-
-  static const endpoint = 'https://beon.fun/api/v1';
+  static const _endpoint = 'https://beon.fun/api/v1';
 
   Future<User> getUserInfo() async {
-    var headers = await getHeaders();
-
-    var response = await http.get(Uri.parse('$endpoint/im'), headers: headers);
+    var response =
+        await http.get(Uri.parse('$_endpoint/im'), headers: await getHeaders());
 
     if (response.statusCode != 200) {
       var code = response.statusCode;
@@ -31,9 +28,8 @@ class Request {
   }
 
   Future<List<Post>> getPosts() async {
-    var headers = await getHeaders();
-    var response =
-        await http.get(Uri.parse('$endpoint/feed'), headers: headers);
+    var response = await http.get(Uri.parse('$_endpoint/feed'),
+        headers: await getHeaders());
 
     if (response.statusCode != 200) {
       var code = response.statusCode;
@@ -53,11 +49,10 @@ class Request {
   }
 
   Future<List<Post>> getDiaryPosts(String blogname) async {
-    var headers = await getHeaders();
     var blname = blogname;
 
-    var response =
-        await http.get(Uri.parse('$endpoint/blog/$blname'), headers: headers);
+    var response = await http.get(Uri.parse('$_endpoint/blog/$blname'),
+        headers: await getHeaders());
 
     if (response.statusCode != 200) {
       var code = response.statusCode;
@@ -78,12 +73,11 @@ class Request {
   }
 
   Future<Map> getPost(PostType type, String blname, String postId) async {
-    var headers = await getHeaders();
     String rout = type == PostType.forum
-        ? '$endpoint/topic/$postId'
-        : '$endpoint/blog/$blname/post/$postId';
+        ? '$_endpoint/topic/$postId'
+        : '$_endpoint/blog/$blname/post/$postId';
 
-    var response = await http.get(Uri.parse(rout), headers: headers);
+    var response = await http.get(Uri.parse(rout), headers: await getHeaders());
 
     if (response.statusCode != 200) {
       var code = response.statusCode;
@@ -113,13 +107,12 @@ class Request {
 
   Future<bool> sendComment(
       String blname, String postId, PostType type, String message) async {
-    var headers = await getHeaders();
     String rout = type == PostType.forum
-        ? '$endpoint/topic/$postId'
-        : '$endpoint/blog/$blname/post/$postId';
+        ? '$_endpoint/topic/$postId'
+        : '$_endpoint/blog/$blname/post/$postId';
 
     var response = await http.post(Uri.parse(rout),
-        headers: headers,
+        headers: await getHeaders(),
         body: jsonEncode(<String, String>{'message': message}));
 
     if (response.statusCode != 200) {
@@ -135,8 +128,32 @@ class Request {
     return false;
   }
 
+  Future<bool> tokenExpired() async {
+    var prefs = await SharedPreferences.getInstance();
+    bool tokenExists = await prefs.getString('token') != null;
+
+    if (!tokenExists) {
+      return true;
+    }
+
+    var response = await http.get(Uri.parse('$_endpoint/test'),
+        headers: await getHeaders());
+
+    if (response.statusCode != 200) {
+      return true;
+    }
+
+    var data = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
+    User user = User.fromMap(data);
+
+    await prefs.setString('userId', user.id.toString());
+    await prefs.setString('blogStringId', user.blogStringId);
+
+    return false;
+  }
+
   Future<String> login(String login, String pass) async {
-    String rout = '$endpoint/token';
+    String rout = '$_endpoint/token';
 
     var response = await http.post(Uri.parse(rout),
         body: {'name': login, 'password': pass, 'device_name': 'flatter app'});
@@ -159,5 +176,24 @@ class Request {
       'Authorization': 'Bearer $token',
       'Content-Type': 'application/json'
     };
+  }
+
+  Future<void> logout() async {
+    String rout = '$_endpoint/logout';
+
+    var response = await http.get(Uri.parse(rout), headers: await getHeaders());
+
+    if (response.statusCode != 200) {
+      var code = response.statusCode;
+      throw Exception('Faild request with code $code');
+    }
+
+    var data = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
+
+    if (data['status'] as String == 'ok') {
+      final prefs = await SharedPreferences.getInstance();
+      prefs.clear();
+      //final token = prefs.getString('token') ?? 0;
+    }
   }
 }
