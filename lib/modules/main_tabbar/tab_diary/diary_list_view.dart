@@ -30,7 +30,6 @@ class _DiaryListViewState extends State<DiaryListView> {
         _posts = [];
       });
     }
-
     Request().getDiaryPosts(blog!).then((List<Post> val) {
       setState(() {
         _posts = val;

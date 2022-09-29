@@ -13,6 +13,6 @@ class TabFeedView extends StatelessWidget {
           middle: Text('✨ BeOn.Fun ✨'),
           backgroundColor: CupertinoColors.white,
         ),
-        child: SafeArea(child: FeedListView()));
+        child: SafeArea(child: FeedListView(type: 0)));
   }
 }

@@ -7,7 +7,10 @@ import '../../expanded_post/post_expanded_page.dart';
 class UnreadDiscussionsPage extends StatefulWidget {
   List<Post> posts;
 
-  UnreadDiscussionsPage({super.key, required this.posts});
+  UnreadDiscussionsPage({
+    Key? key,
+    required this.posts,
+  }) : super(key: key);
 
   @override
   State<UnreadDiscussionsPage> createState() => _UnreadDiscussionsPageState();
@@ -17,7 +20,7 @@ class _UnreadDiscussionsPageState extends State<UnreadDiscussionsPage> {
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
-      navigationBar: CupertinoNavigationBar(middle: Text('Discussions')),
+      navigationBar: const CupertinoNavigationBar(middle: Text('Discussions')),
       child: ListView.builder(
           itemCount: widget.posts.length,
           itemBuilder: (context, index) {

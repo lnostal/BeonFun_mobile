@@ -56,6 +56,29 @@ class Request {
     return posts;
   }
 
+  // Load friend's posts
+  ///
+  Future<List<Post>> getFriendsPosts() async {
+    var response = await http.get(Uri.parse('$_endpoint/friends/posts'),
+        headers: await getHeaders());
+
+    if (response.statusCode != 200) {
+      var code = response.statusCode;
+      throw Exception('Faild request with code $code');
+    }
+
+    var data = jsonDecode(utf8.decode(response.bodyBytes)) as List;
+
+    List<Post> posts = [];
+
+    for (var d in data) {
+      Post post = Post.fromMap(d);
+      posts.add(post);
+    }
+
+    return posts;
+  }
+
   /// Load posts of discussions
   ///
   Future<List<Post>> getDiscussions() async {

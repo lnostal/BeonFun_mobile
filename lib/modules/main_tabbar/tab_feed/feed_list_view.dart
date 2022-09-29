@@ -8,7 +8,8 @@ import '../../../models/post.dart';
 import '../../../network/general_network.dart';
 
 class FeedListView extends StatefulWidget {
-  const FeedListView({super.key});
+  final int type;
+  const FeedListView({super.key, required this.type});
 
   @override
   State<FeedListView> createState() => _FeedListViewState();
@@ -22,11 +23,19 @@ class _FeedListViewState extends State<FeedListView> {
       _posts = [];
     });
 
-    Request().getPosts().then((List<Post> val) {
-      setState(() {
-        _posts = val;
+    if (widget.type == 0) {
+      Request().getPosts().then((List<Post> val) {
+        setState(() {
+          _posts = val;
+        });
       });
-    });
+    } else {
+      Request().getFriendsPosts().then((List<Post> val) {
+        setState(() {
+          _posts = val;
+        });
+      });
+    }
   }
 
   @override
