@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
       //   colorScheme: ThemeData().colorScheme.copyWith(primary: Colors.brown),
       // ),
       themeMode: ThemeMode.system,
-      home: const RootPage(), //const LoginPage(), //const MainTabBar(),
+      home: const RootPage(),
     );
   }
 }

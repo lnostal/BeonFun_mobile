@@ -11,6 +11,8 @@ import '../models/user.dart';
 class Request {
   static const _endpoint = 'https://beon.fun/api/v1';
 
+  /// Load info about user
+  ///
   Future<User> getUserInfo() async {
     var response =
         await http.get(Uri.parse('$_endpoint/im'), headers: await getHeaders());
@@ -31,6 +33,8 @@ class Request {
     return user;
   }
 
+  /// Load posts of general feed
+  ///
   Future<List<Post>> getPosts() async {
     var response = await http.get(Uri.parse('$_endpoint/feed'),
         headers: await getHeaders());
@@ -52,6 +56,31 @@ class Request {
     return posts;
   }
 
+  /// Load posts of discussions
+  ///
+  Future<List<Post>> getDiscussions() async {
+    var response = await http.get(Uri.parse('$_endpoint/discussions'),
+        headers: await getHeaders());
+
+    if (response.statusCode != 200) {
+      var code = response.statusCode;
+      throw Exception('Faild request with code $code');
+    }
+
+    var data = jsonDecode(utf8.decode(response.bodyBytes)) as List;
+
+    List<Post> posts = [];
+
+    for (var d in data) {
+      Post post = Post.fromMap(d);
+      posts.add(post);
+    }
+
+    return posts;
+  }
+
+  /// Load posts of specific blog by [blogname]
+  ///
   Future<List<Post>> getDiaryPosts(String blogname) async {
     var blname = blogname;
 
@@ -76,6 +105,8 @@ class Request {
     return posts;
   }
 
+  /// Open post based on [type]
+  ///
   Future<Map> getPost(PostType type, String blname, String postId) async {
     String rout = type == PostType.forum
         ? '$_endpoint/topic/$postId'
@@ -109,6 +140,11 @@ class Request {
     return {'blog': blogInfo, 'post': postInfo, 'comments': comments};
   }
 
+  /// Send comments based on [type]
+  ///
+  /// If type is 'forum', send general [postId]
+  /// If not, send [postId] of blog
+  ///
   Future<bool> sendComment(
       String blname, String postId, PostType type, String message) async {
     String rout = type == PostType.forum
@@ -132,6 +168,8 @@ class Request {
     return false;
   }
 
+  /// Check if token expired
+  ///
   Future<bool> tokenExpired() async {
     var prefs = await SharedPreferences.getInstance();
     bool tokenExists = prefs.getString('token') != null;
@@ -156,6 +194,8 @@ class Request {
     return false;
   }
 
+  /// Sing in
+  ///
   Future<String> login(String login, String pass) async {
     String rout = '$_endpoint/token';
 
@@ -172,16 +212,8 @@ class Request {
     return data['token'] as String;
   }
 
-  Future<Map<String, String>> getHeaders() async {
-    final prefs = await SharedPreferences.getInstance();
-    final token = prefs.getString('token') ?? 0;
-
-    return {
-      'Authorization': 'Bearer $token',
-      'Content-Type': 'application/json'
-    };
-  }
-
+  /// Logout
+  ///
   Future<void> logout() async {
     String rout = '$_endpoint/logout';
 
@@ -198,5 +230,18 @@ class Request {
       final prefs = await SharedPreferences.getInstance();
       prefs.clear();
     }
+  }
+
+  /// ---------------------------------------------------
+  /// Get headers based on token
+  ///
+  Future<Map<String, String>> getHeaders() async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('token') ?? 0;
+
+    return {
+      'Authorization': 'Bearer $token',
+      'Content-Type': 'application/json'
+    };
   }
 }

@@ -20,23 +20,24 @@ class Post {
   User userInfo;
   Blog? blogInfo;
   List likes;
+  bool? unread;
 
-  Post({
-    required this.type,
-    this.inPostId,
-    required this.globalId,
-    required this.title,
-    required this.text,
-    this.mood,
-    this.wish,
-    this.music,
-    this.forum,
-    required this.commentsCount,
-    required this.lastUpdate,
-    required this.userInfo,
-    this.blogInfo,
-    required this.likes,
-  });
+  Post(
+      {required this.type,
+      this.inPostId,
+      required this.globalId,
+      required this.title,
+      required this.text,
+      this.mood,
+      this.wish,
+      this.music,
+      this.forum,
+      required this.commentsCount,
+      required this.lastUpdate,
+      required this.userInfo,
+      this.blogInfo,
+      required this.likes,
+      this.unread});
 
   factory Post.fromMap(Map<String, dynamic> map) {
     PostType type = PostType.diary;
@@ -55,6 +56,14 @@ class Post {
       }
     }
 
+    bool? statusNew = false;
+    if (map['pivot'] != null) {
+      int status = (map['pivot'] as Map)['status'] as int;
+      statusNew = status == 0;
+    } else {
+      statusNew = null;
+    }
+
     return Post(
         type: type,
         globalId: map['id'] as int,
@@ -69,7 +78,8 @@ class Post {
         lastUpdate: map['updated_at'] as String,
         userInfo: userInfo,
         blogInfo: (map['blog'] != null) ? Blog.fromMap(map['blog']) : null,
-        likes: map['liked'] as List);
+        likes: (map['liked'] != null) ? map['liked'] as List : [],
+        unread: statusNew);
   }
 }
 

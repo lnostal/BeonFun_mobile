@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_beonfun/modules/login.dart';
+import 'package:flutter_beonfun/modules/main_tabbar/tab_profile/about_app_page.dart';
+import 'package:flutter_beonfun/modules/main_tabbar/tab_profile/unread_discussions_page.dart';
 import 'package:flutter_beonfun/ui/avatar_view.dart';
 import 'package:flutter_beonfun/ui/loader.dart';
-import 'package:package_info/package_info.dart';
 
+import '../../../models/post.dart';
 import '../../../models/user.dart';
 import '../../../network/general_network.dart';
 
@@ -19,8 +21,7 @@ class TabProfileView extends StatefulWidget {
 
 class _TabProfileViewState extends State<TabProfileView> {
   User? user;
-
-  Map appInfo = {};
+  List<Post> _posts = [];
 
   void loadData() {
     Request().getUserInfo().then((User newVal) {
@@ -29,13 +30,9 @@ class _TabProfileViewState extends State<TabProfileView> {
       });
     });
 
-    PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
+    Request().getDiscussions().then((value) {
       setState(() {
-        appInfo.addAll({
-          'AppName': packageInfo.appName,
-          'Version': packageInfo.version,
-          'BuildNumber': packageInfo.buildNumber
-        });
+        _posts = value.where((element) => element.unread == true).toList();
       });
     });
   }
@@ -54,24 +51,32 @@ class _TabProfileViewState extends State<TabProfileView> {
 
     return CupertinoPageScaffold(
         navigationBar: CupertinoNavigationBar(
-          middle: Text(user!.blogStringId),
-          backgroundColor: CupertinoColors.white,
-        ),
+            middle: Text(user!.blogStringId),
+            backgroundColor: CupertinoColors.white,
+            trailing: GestureDetector(
+              onTap: logoutButtonPressed,
+              child: const Icon(
+                Icons.exit_to_app,
+                color: Colors.red,
+                size: 24,
+              ),
+            )),
         child: SafeArea(
+          //child: getDiscussions(),
           child: ListView.builder(
-              itemCount: 4,
+              itemCount: 3,
               itemBuilder: (context, index) {
                 switch (index) {
                   case 0:
                     return profileCard(user!);
                   case 1:
-                    return aboutCreator();
+                    return discussionsCell();
                   case 2:
-                    return aboutApp();
+                    return aboutAppCell();
                   case 3:
-                    return logoutButton();
+                    return exitCell();
                   default:
-                    return aboutApp();
+                    return Text('');
                 }
               }),
         ));
@@ -107,60 +112,87 @@ class _TabProfileViewState extends State<TabProfileView> {
     );
   }
 
-  Widget logoutButton() {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Row(children: [
-          const Icon(
-            Icons.exit_to_app,
-            color: Colors.red,
-            size: 32,
-          ),
-          const SizedBox(width: 8),
-          TextButton(
-              onPressed: logoutButtonPressed,
-              child: const Text('Выйти', style: TextStyle(fontSize: 20)))
-        ]),
-      ),
-    );
-  }
-
-  Widget aboutApp() {
-    String about = '\n';
-
-    appInfo.forEach((key, value) {
-      about += '$key : $value \n';
-    });
-    return Card(
-      child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Center(
-              child: Text(
-            about,
-            textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 16),
-          ))),
-    );
-  }
-
-  Widget aboutCreator() {
-    return const Card(
-      child: Padding(
-          padding: EdgeInsets.all(16.0),
-          child: Center(
-              child: Text(
-            'сказать спасибо • сказать о багах • скинуть на лечение\n⇩⇩⇩\nМарла',
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 16),
-          ))),
-    );
-  }
-
   void logoutButtonPressed() {
     Request().logout().then((value) {
       Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (BuildContext context) => const LoginPage()));
     });
+  }
+
+  Widget discussionsCell() {
+    return Card(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Icon(Icons.chat_bubble_outline_sharp),
+          ),
+          TextButton(
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) =>
+                        UnreadDiscussionsPage(posts: _posts)));
+              },
+              child: const Text(
+                'Discussions',
+                style: TextStyle(fontSize: 20),
+              )),
+        ],
+      ),
+    );
+  }
+
+  Widget aboutAppCell() {
+    return Card(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Icon(Icons.app_shortcut),
+          ),
+          TextButton(
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const AboutAppPage()));
+              },
+              child: const Text(
+                'About App',
+                style: TextStyle(fontSize: 20),
+              )),
+        ],
+      ),
+    );
+  }
+
+  Widget exitCell() {
+    return Card(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Icon(
+              Icons.exit_to_app,
+              color: Colors.red,
+            ),
+          ),
+          TextButton(
+              onPressed: () {
+                logoutButtonPressed;
+                // Navigator.of(context).push(MaterialPageRoute(
+                //     builder: (context) => const AboutAppPage()));
+              },
+              child: const Text(
+                'Logout',
+                style: TextStyle(fontSize: 20),
+              )),
+        ],
+      ),
+    );
   }
 }
