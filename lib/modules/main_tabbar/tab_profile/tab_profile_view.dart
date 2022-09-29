@@ -1,3 +1,4 @@
+import 'package:blinking_text/blinking_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_beonfun/modules/login.dart';
@@ -51,20 +52,12 @@ class _TabProfileViewState extends State<TabProfileView> {
 
     return CupertinoPageScaffold(
         navigationBar: CupertinoNavigationBar(
-            middle: Text(user!.blogStringId),
-            backgroundColor: CupertinoColors.white,
-            trailing: GestureDetector(
-              onTap: logoutButtonPressed,
-              child: const Icon(
-                Icons.exit_to_app,
-                color: Colors.red,
-                size: 24,
-              ),
-            )),
+          middle: Text(user!.blogStringId),
+          backgroundColor: CupertinoColors.white,
+        ),
         child: SafeArea(
-          //child: getDiscussions(),
           child: ListView.builder(
-              itemCount: 3,
+              itemCount: 4,
               itemBuilder: (context, index) {
                 switch (index) {
                   case 0:
@@ -76,7 +69,7 @@ class _TabProfileViewState extends State<TabProfileView> {
                   case 3:
                     return exitCell();
                   default:
-                    return Text('');
+                    return const Text('');
                 }
               }),
         ));
@@ -112,34 +105,40 @@ class _TabProfileViewState extends State<TabProfileView> {
     );
   }
 
-  void logoutButtonPressed() {
-    Request().logout().then((value) {
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (BuildContext context) => const LoginPage()));
-    });
-  }
-
   Widget discussionsCell() {
+    List<Widget> button = [
+      const Padding(
+        padding: EdgeInsets.all(16.0),
+        child: Icon(Icons.chat_bubble_outline_sharp),
+      ),
+      TextButton(
+          onPressed: () {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => UnreadDiscussionsPage(posts: _posts)));
+          },
+          child: const Text(
+            'Discussions',
+            style: TextStyle(fontSize: 20),
+          ))
+    ];
+
+    if (_posts.isNotEmpty) {
+      button.addAll([
+        const Spacer(),
+        const Padding(
+            padding: EdgeInsets.only(right: 16.0),
+            child: BlinkText(
+              'New',
+              style: TextStyle(color: Colors.red),
+            ))
+      ]);
+    }
+
     return Card(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          const Padding(
-            padding: EdgeInsets.all(16.0),
-            child: Icon(Icons.chat_bubble_outline_sharp),
-          ),
-          TextButton(
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) =>
-                        UnreadDiscussionsPage(posts: _posts)));
-              },
-              child: const Text(
-                'Discussions',
-                style: TextStyle(fontSize: 20),
-              )),
-        ],
+        children: button,
       ),
     );
   }
@@ -183,9 +182,10 @@ class _TabProfileViewState extends State<TabProfileView> {
           ),
           TextButton(
               onPressed: () {
-                logoutButtonPressed;
-                // Navigator.of(context).push(MaterialPageRoute(
-                //     builder: (context) => const AboutAppPage()));
+                Request().logout().then((value) {
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      builder: (BuildContext context) => const LoginPage()));
+                });
               },
               child: const Text(
                 'Logout',
