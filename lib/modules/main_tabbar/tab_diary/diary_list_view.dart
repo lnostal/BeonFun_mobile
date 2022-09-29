@@ -23,9 +23,15 @@ class _DiaryListViewState extends State<DiaryListView> {
     });
 
     var prefs = await SharedPreferences.getInstance();
-    var blog = prefs.getString('blogStringId') ?? '';
+    String? blog = prefs.getString('blogStringId');
 
-    Request().getDiaryPosts(blog).then((List<Post> val) {
+    if (blog == null) {
+      setState(() {
+        _posts = [];
+      });
+    }
+
+    Request().getDiaryPosts(blog!).then((List<Post> val) {
       setState(() {
         _posts = val;
       });

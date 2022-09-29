@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_beonfun/helpers.dart';
 
@@ -36,7 +37,7 @@ class _AvatarViewState extends State<AvatarView> {
                 child: setImage(widget.user, widget.type))));
   }
 
-  FadeInImage setImage(User user, AvatarType type) {
+  CachedNetworkImage setImage(User user, AvatarType type) {
     AssetImage placeholder =
         const AssetImage('assets/images/avatar_placeholder.png');
 
@@ -50,11 +51,17 @@ class _AvatarViewState extends State<AvatarView> {
       imageUrl = user.currentAvatar as String;
     }
 
-    return FadeInImage(
-        image: NetworkImage(imageUrl),
+    return CachedNetworkImage(
+      imageUrl: imageUrl,
+      width: widget.avatarSize,
+      height: widget.avatarSize,
+      placeholder: (context, url) => const CircularProgressIndicator(),
+      errorWidget: (context, url, error) => Image(
+        image: placeholder,
         width: widget.avatarSize,
         height: widget.avatarSize,
         fit: BoxFit.fill,
-        placeholder: placeholder);
+      ),
+    );
   }
 }

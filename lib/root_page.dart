@@ -1,5 +1,4 @@
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_beonfun/modules/login.dart';
 import 'package:flutter_beonfun/modules/main_tabbar/main_tabbar.dart';
 import 'package:flutter_beonfun/network/general_network.dart';
@@ -13,15 +12,16 @@ class RootPage extends StatefulWidget {
 }
 
 class _RootPageState extends State<RootPage> {
-  Widget _rootWidget = Loader();
+  Widget _rootWidget = const Scaffold(
+    body: Loader(),
+  );
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     Request().tokenExpired().then((value) {
       setState(() {
-        _rootWidget = value ? LoginPage() : MainTabBar();
+        _rootWidget = value ? const LoginPage() : const MainTabBar();
       });
     });
   }

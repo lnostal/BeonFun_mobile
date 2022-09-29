@@ -70,7 +70,7 @@ class _LoginPageState extends State<LoginPage> {
       (value) async {
         var prefs = await SharedPreferences.getInstance();
         await prefs.setString('token', value);
-
+        Request().getUserInfo();
         Navigator.of(context).pushReplacement(MaterialPageRoute(
             builder: (BuildContext context) => const MainTabBar()));
       },

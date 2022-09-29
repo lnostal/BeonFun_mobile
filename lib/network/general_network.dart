@@ -24,6 +24,10 @@ class Request {
 
     User user = User.fromMap(data['self']);
 
+    var prefs = await SharedPreferences.getInstance();
+    prefs.setString('userId', user.id.toString());
+    prefs.setString('blogStringId', user.blogStringId);
+
     return user;
   }
 
@@ -130,7 +134,7 @@ class Request {
 
   Future<bool> tokenExpired() async {
     var prefs = await SharedPreferences.getInstance();
-    bool tokenExists = await prefs.getString('token') != null;
+    bool tokenExists = prefs.getString('token') != null;
 
     if (!tokenExists) {
       return true;
@@ -193,7 +197,6 @@ class Request {
     if (data['status'] as String == 'ok') {
       final prefs = await SharedPreferences.getInstance();
       prefs.clear();
-      //final token = prefs.getString('token') ?? 0;
     }
   }
 }
