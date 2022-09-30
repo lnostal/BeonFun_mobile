@@ -19,7 +19,7 @@ class Post {
   String lastUpdate;
   User userInfo;
   Blog? blogInfo;
-  List likes;
+  bool liked;
   bool? unread;
 
   Post(
@@ -36,7 +36,7 @@ class Post {
       required this.lastUpdate,
       required this.userInfo,
       this.blogInfo,
-      required this.likes,
+      required this.liked,
       this.unread});
 
   factory Post.fromMap(Map<String, dynamic> map) {
@@ -64,6 +64,9 @@ class Post {
       statusNew = null;
     }
 
+    bool liked =
+        (map['liked'] != null) ? (map['liked'] as List).isNotEmpty : false;
+
     return Post(
         type: type,
         globalId: map['id'] as int,
@@ -78,7 +81,7 @@ class Post {
         lastUpdate: map['updated_at'] as String,
         userInfo: userInfo,
         blogInfo: (map['blog'] != null) ? Blog.fromMap(map['blog']) : null,
-        likes: (map['liked'] != null) ? map['liked'] as List : [],
+        liked: liked,
         unread: statusNew);
   }
 }

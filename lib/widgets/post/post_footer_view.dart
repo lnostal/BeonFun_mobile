@@ -3,6 +3,7 @@ import 'package:flutter_beonfun/pages/common_pages/post_expanded_page.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../models/post.dart';
+import '../../net/general_network.dart';
 
 class PostFooterView extends StatefulWidget {
   final Post post;
@@ -20,13 +21,20 @@ class _PostFooterViewState extends State<PostFooterView> {
   var _isFavourite = false;
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _isFavourite = widget.post.liked;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Padding(
         padding: const EdgeInsets.all(16),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            IconButton(onPressed: _liked, icon: createFavoriteIcon()),
+            IconButton(onPressed: _like, icon: createFavoriteIcon()),
             IconButton(
                 onPressed: _share,
                 icon: const Icon(Icons.share, size: 28, color: Colors.grey)),
@@ -39,12 +47,6 @@ class _PostFooterViewState extends State<PostFooterView> {
                 style: const TextStyle(color: Colors.grey, fontSize: 18)),
           ],
         ));
-  }
-
-  void _liked() {
-    _isFavourite = !_isFavourite;
-
-    setState(() {});
   }
 
   void _share() {
@@ -92,5 +94,18 @@ class _PostFooterViewState extends State<PostFooterView> {
     }
 
     return const Icon(Icons.favorite_border, size: 28, color: Colors.grey);
+  }
+
+  void _like() {
+    Request()
+        .like(
+      widget.post.globalId.toString(),
+      widget.post.type == PostType.forum ? 'topic' : 'post',
+    )
+        .then((value) {
+      setState(() {
+        _isFavourite = value;
+      });
+    });
   }
 }

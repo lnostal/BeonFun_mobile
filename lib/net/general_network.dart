@@ -281,6 +281,31 @@ class Request {
     }
   }
 
+  /// Like the content
+  ///
+  Future<bool> like(String globalId, String contentType) async {
+    var response = await http.post(Uri.parse('$_endpoint/misc/like'),
+        headers: await getHeaders(),
+        body: jsonEncode(<String, String>{
+          'id': globalId,
+          'type': contentType,
+        }));
+
+    if (response.statusCode != 200) {
+      var code = response.statusCode;
+      throw Exception('Faild request with code $code');
+    }
+
+    var data = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
+
+    String type = data['type'] as String;
+
+    if (type == 'like') {
+      return true;
+    }
+    return false;
+  }
+
   /// ---------------------------------------------------
   /// Get headers based on token
   ///
