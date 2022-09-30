@@ -17,6 +17,11 @@ class MyApp extends StatelessWidget {
         brightness: Brightness.light,
         scaffoldBackgroundColor: Colors.white,
         colorScheme: ThemeData().colorScheme.copyWith(primary: Colors.brown),
+        dividerTheme: DividerThemeData()
+            .copyWith(color: Colors.grey, indent: 16, endIndent: 16),
+        cardTheme: CardTheme().copyWith(
+          shadowColor: Colors.transparent,
+        ),
       ),
       // darkTheme: ThemeData().copyWith(
       //   brightness: Brightness.dark,

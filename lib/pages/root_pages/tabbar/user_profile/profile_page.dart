@@ -56,7 +56,8 @@ class _UserProfilePageState extends State<UserProfilePage> {
           backgroundColor: CupertinoColors.white,
         ),
         child: SafeArea(
-          child: ListView.builder(
+          child: ListView.separated(
+              separatorBuilder: (context, index) => Divider(),
               itemCount: 4,
               itemBuilder: (context, index) {
                 switch (index) {
@@ -80,24 +81,24 @@ class _UserProfilePageState extends State<UserProfilePage> {
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(children: [
-          AvatarView(user: user, type: AvatarType.profile, avatarSize: 160),
+          AvatarView(user: user, type: AvatarType.profile, avatarSize: 140),
           Text(user.name,
               style:
-                  const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                  const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
           const SizedBox(height: 10),
           Text(
             user.sign ?? '',
             style: const TextStyle(
-                fontSize: 18, color: Colors.grey, fontStyle: FontStyle.italic),
+                fontSize: 16, color: Colors.grey, fontStyle: FontStyle.italic),
           ),
           const SizedBox(height: 48),
           Row(
             children: [
               const Text('Баланс',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
               const Spacer(),
               Text('${user.balance} позитивок',
-                  style: const TextStyle(fontSize: 20))
+                  style: const TextStyle(fontSize: 16))
             ],
           ),
         ]),
@@ -118,7 +119,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
           },
           child: const Text(
             'Discussions',
-            style: TextStyle(fontSize: 20),
+            style: TextStyle(fontSize: 16),
           ))
     ];
 
@@ -160,7 +161,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
               },
               child: const Text(
                 'About App',
-                style: TextStyle(fontSize: 20),
+                style: TextStyle(fontSize: 16),
               )),
         ],
       ),
@@ -189,7 +190,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
               },
               child: const Text(
                 'Logout',
-                style: TextStyle(fontSize: 20),
+                style: TextStyle(fontSize: 16),
               )),
         ],
       ),

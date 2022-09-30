@@ -30,7 +30,7 @@ class _PostFooterViewState extends State<PostFooterView> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 8),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
