@@ -22,7 +22,6 @@ class _PostFooterViewState extends State<PostFooterView> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _isFavourite = widget.post.liked;
   }

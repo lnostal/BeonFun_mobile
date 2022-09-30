@@ -81,7 +81,8 @@ class _PostExpandedPageState extends State<PostExpandedPage> {
 
     return RefreshIndicator(
         onRefresh: _pullRefresh,
-        child: ListView.builder(
+        child: ListView.separated(
+            separatorBuilder: (context, index) => const Divider(),
             controller: scrollController,
             itemCount: cellsCount,
             itemBuilder: (context, index) {

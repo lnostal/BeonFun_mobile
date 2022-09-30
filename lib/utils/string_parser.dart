@@ -80,10 +80,69 @@ class StringParser {
       });
     }
 
+    str = parseBeonCringeSmiles(str);
+
     return str;
   }
 
   String setAvatarPlaceholderUrl() {
     return 'https://s1.hostingkartinok.com/uploads/images/2022/09/8b91b2fbfb0cddc9074591dc4b1cf932.png';
+  }
+
+  String parseBeonCringeSmiles(String str) {
+    const String endpoint = 'https://beon.fun/i/smiles';
+    String parsedString = str;
+
+    parsedString =
+        parsedString.replaceAll(' :-(', '[img]$endpoint/sad.png[/img]');
+    parsedString =
+        parsedString.replaceAll(' ;-)', '[img]$endpoint/wink.png[/img]');
+    parsedString =
+        parsedString.replaceAll(' :-*', '[img]$endpoint/kiss.png[/img]');
+    parsedString =
+        parsedString.replaceAll(' :-D', '[img]$endpoint/big-smile.png[/img]');
+    parsedString =
+        parsedString.replaceAll(' :-O', '[img]$endpoint/surprised.png[/img]');
+    parsedString = parsedString.replaceAll(
+        ' :-P ', '[img]$endpoint/tongue-sticking-out.png[/img]');
+    parsedString =
+        parsedString.replaceAll(' X-(', '[img]$endpoint/angry.png[/img]');
+    parsedString =
+        parsedString.replaceAll(' ]:-)', '[img]$endpoint/devil.png[/img]');
+    parsedString =
+        parsedString.replaceAll(' O:-)', '[img]$endpoint/angel.png[/img]');
+    parsedString =
+        parsedString.replaceAll(' :\'(', '[img]$endpoint/cry.png[/img]');
+    parsedString =
+        parsedString.replaceAll(' :-[', '[img]$endpoint/upset.png[/img]');
+    parsedString =
+        parsedString.replaceAll(' :-\\', '[img]$endpoint/confused.png[/img]');
+    parsedString =
+        parsedString.replaceAll(' :-|', '[img]$endpoint/undecided.png[/img]');
+    parsedString =
+        parsedString.replaceAll(' :-?', '[img]$endpoint/thinking.png[/img]');
+    parsedString =
+        parsedString.replaceAll(' ;~)', '[img]$endpoint/cunning.png[/img]');
+    parsedString =
+        parsedString.replaceAll(' (:|', '[img]$endpoint/tired.png[/img]');
+    parsedString =
+        parsedString.replaceAll(' 8-}', '[img]$endpoint/crazy.png[/img]');
+    parsedString =
+        parsedString.replaceAll(' :-\$', '[img]$endpoint/shhh.png[/img]');
+    parsedString =
+        parsedString.replaceAll(' 8-|', '[img]$endpoint/shocked.png[/img]');
+    parsedString = parsedString.replaceAll(
+        ' B-) ', '[img]$endpoint/sun-glasses.png[/img] ');
+    parsedString =
+        parsedString.replaceAll(' :^)', '[img]$endpoint/turn-red.png[/img]');
+    parsedString =
+        parsedString.replaceAll(' =^B', '[img]$endpoint/thumbs-up.png[/img]');
+    parsedString = parsedString.replaceAll(
+        ' =,B ', '[img]$endpoint/thumbs-down.png[/img] ');
+
+    parsedString =
+        parsedString.replaceAll(':-)', '[img]$endpoint/smile.png[/img]');
+
+    return parsedString;
   }
 }

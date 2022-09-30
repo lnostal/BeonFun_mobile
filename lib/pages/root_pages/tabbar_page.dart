@@ -12,7 +12,7 @@ class TabBarPage extends StatelessWidget {
         tabBar: CupertinoTabBar(
             backgroundColor: Colors.white,
             inactiveColor: Colors.grey,
-            border: Border(bottom: BorderSide(color: Colors.transparent)),
+            border: const Border(bottom: BorderSide(color: Colors.transparent)),
             height: 64,
             items: const [
               BottomNavigationBarItem(icon: Icon(Icons.view_day)),

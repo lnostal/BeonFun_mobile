@@ -36,7 +36,7 @@ class _PostsListViewState extends State<PostsListView> {
     return RefreshIndicator(
         onRefresh: widget.onPullRefresh,
         child: ListView.separated(
-            separatorBuilder: (context, index) => Divider(),
+            separatorBuilder: (context, index) => const Divider(),
             itemCount: widget.posts!.length,
             itemBuilder: (context, index) {
               return PostListCellView(

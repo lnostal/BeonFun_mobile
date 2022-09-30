@@ -57,7 +57,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
         //     border: Border(bottom: BorderSide(color: Colors.transparent))),
         child: SafeArea(
       child: ListView.separated(
-          separatorBuilder: (context, index) => Divider(),
+          separatorBuilder: (context, index) => const Divider(),
           itemCount: 4,
           itemBuilder: (context, index) {
             switch (index) {
