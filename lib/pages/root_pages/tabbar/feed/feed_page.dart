@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 import '../../../../widgets/tabbar_lists/feed_list_view.dart';
 
@@ -11,9 +12,9 @@ class FeedPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return const CupertinoPageScaffold(
         navigationBar: CupertinoNavigationBar(
-          middle: Text('✨ BeOn.Fun ✨'),
-          backgroundColor: CupertinoColors.white,
-        ),
+            middle: Text('✨ BeOn.Fun ✨'),
+            backgroundColor: CupertinoColors.white,
+            border: Border(bottom: BorderSide(color: Colors.transparent))),
         child: SafeArea(child: FeedListView()));
   }
 }

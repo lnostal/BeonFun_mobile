@@ -51,29 +51,29 @@ class _UserProfilePageState extends State<UserProfilePage> {
     }
 
     return CupertinoPageScaffold(
-        navigationBar: CupertinoNavigationBar(
-          middle: Text(user!.blogStringId),
-          backgroundColor: CupertinoColors.white,
-        ),
+        // navigationBar: CupertinoNavigationBar(
+        //     //middle: Text(user!.blogStringId),
+        //     backgroundColor: CupertinoColors.white,
+        //     border: Border(bottom: BorderSide(color: Colors.transparent))),
         child: SafeArea(
-          child: ListView.separated(
-              separatorBuilder: (context, index) => Divider(),
-              itemCount: 4,
-              itemBuilder: (context, index) {
-                switch (index) {
-                  case 0:
-                    return profileCard(user!);
-                  case 1:
-                    return discussionsCell();
-                  case 2:
-                    return aboutAppCell();
-                  case 3:
-                    return exitCell();
-                  default:
-                    return const Text('');
-                }
-              }),
-        ));
+      child: ListView.separated(
+          separatorBuilder: (context, index) => Divider(),
+          itemCount: 4,
+          itemBuilder: (context, index) {
+            switch (index) {
+              case 0:
+                return profileCard(user!);
+              case 1:
+                return discussionsCell();
+              case 2:
+                return aboutAppCell();
+              case 3:
+                return exitCell();
+              default:
+                return const Text('');
+            }
+          }),
+    ));
   }
 
   Widget profileCard(User user) {
