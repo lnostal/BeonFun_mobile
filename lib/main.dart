@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_beonfun/pages/root_page.dart';
 
@@ -14,13 +15,13 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Beon.fun',
       theme: ThemeData().copyWith(
-        brightness: Brightness.light,
-        scaffoldBackgroundColor: Colors.white,
-        colorScheme: ThemeData().colorScheme.copyWith(primary: Colors.brown),
-        dividerTheme: DividerThemeData()
-            .copyWith(color: Colors.grey, indent: 16, endIndent: 16),
-        cardTheme: CardTheme().copyWith(shadowColor: Colors.transparent),
-      ),
+          brightness: Brightness.light,
+          scaffoldBackgroundColor: Colors.white,
+          colorScheme: ThemeData().colorScheme.copyWith(primary: Colors.brown),
+          dividerTheme: DividerThemeData()
+              .copyWith(color: Colors.grey, indent: 16, endIndent: 16),
+          cardTheme: CardTheme().copyWith(shadowColor: Colors.transparent)),
+
       // darkTheme: ThemeData().copyWith(
       //   brightness: Brightness.dark,
       //   scaffoldBackgroundColor: Colors.black45,

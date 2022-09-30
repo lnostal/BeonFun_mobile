@@ -18,7 +18,6 @@ class _PostExpandedActionsState extends State<PostExpandedActions> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     liked = liked = widget.post.liked;
   }
@@ -32,10 +31,10 @@ class _PostExpandedActionsState extends State<PostExpandedActions> {
         IconButton(
             onPressed: _share,
             icon: const Icon(Icons.share, size: 28, color: Colors.grey)),
-        //IconButton(
-        //onPressed: () {},
-        ///icon:
-        const Icon(Icons.forum_outlined, size: 28, color: Colors.grey), //),
+        const IconButton(
+          onPressed: null,
+          icon: Icon(Icons.forum_outlined, size: 28, color: Colors.grey),
+        ),
         Text(widget.post.commentsCount.toString(),
             style: const TextStyle(color: Colors.grey, fontSize: 18))
       ],
@@ -59,8 +58,6 @@ class _PostExpandedActionsState extends State<PostExpandedActions> {
         '"${widget.post.title}"\n$urlToShare\n\nОтправлено через прилогу с любовью и обожанием';
 
     Share.share(fullShareText, subject: widget.post.title);
-
-    debugPrint('let\'s think that we shared the post');
   }
 
   Icon createFavoriteIcon() {

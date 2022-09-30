@@ -19,9 +19,9 @@ class _WriteNewPostState extends State<WriteNewPost> {
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
         navigationBar: const CupertinoNavigationBar(
-          middle: Text('Новый пост'),
-          backgroundColor: CupertinoColors.white,
-        ),
+            middle: Text('Новый пост'),
+            backgroundColor: CupertinoColors.white,
+            border: Border(bottom: BorderSide(color: Colors.transparent))),
         child: Scaffold(
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.center,

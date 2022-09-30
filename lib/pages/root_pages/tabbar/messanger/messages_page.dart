@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class MessagesPage extends StatelessWidget {
   final String title;
@@ -9,9 +10,9 @@ class MessagesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
         navigationBar: CupertinoNavigationBar(
-          middle: Text(title),
-          backgroundColor: CupertinoColors.white,
-        ),
+            middle: Text(title),
+            backgroundColor: CupertinoColors.white,
+            border: Border(bottom: BorderSide(color: Colors.transparent))),
         child: const SafeArea(
           child: Center(
             child: Text('Messages'),

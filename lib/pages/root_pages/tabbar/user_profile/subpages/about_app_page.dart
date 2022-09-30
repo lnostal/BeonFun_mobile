@@ -34,8 +34,9 @@ class _AboutAppPageState extends State<AboutAppPage> {
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
       navigationBar: const CupertinoNavigationBar(
-        middle: Text('About App'),
-      ),
+          backgroundColor: Colors.white,
+          middle: Text('About App'),
+          border: Border(bottom: BorderSide(color: Colors.transparent))),
       child: Center(
           child: Column(
               mainAxisAlignment: MainAxisAlignment.center,

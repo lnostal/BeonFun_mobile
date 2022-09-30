@@ -46,6 +46,7 @@ class _PostExpandedPageState extends State<PostExpandedPage> {
       navigationBar: CupertinoNavigationBar(
           middle: Text(setPageTitle(postInfo)),
           backgroundColor: CupertinoColors.white,
+          border: const Border(bottom: BorderSide(color: Colors.transparent)),
           leading: CupertinoNavigationBarBackButton(
             onPressed: () => Navigator.of(context).pop(),
           )),
@@ -94,7 +95,12 @@ class _PostExpandedPageState extends State<PostExpandedPage> {
 
   Widget createTextField(Widget widget) {
     return Scaffold(
-      body: widget,
+      body: GestureDetector(
+        child: widget,
+        onTap: () {
+          FocusScope.of(context).requestFocus(FocusNode());
+        },
+      ),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(16.0),
         child: TextFormField(
@@ -134,7 +140,7 @@ class _PostExpandedPageState extends State<PostExpandedPage> {
         loadData();
       }
 
-      FocusScope.of(context).requestFocus();
+      FocusScope.of(context).requestFocus(FocusNode());
     });
   }
 

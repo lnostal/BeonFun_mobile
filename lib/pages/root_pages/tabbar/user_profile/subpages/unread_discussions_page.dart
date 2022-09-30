@@ -20,7 +20,10 @@ class _UnreadDiscussionsPageState extends State<UnreadDiscussionsPage> {
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
-      navigationBar: const CupertinoNavigationBar(middle: Text('Discussions')),
+      navigationBar: const CupertinoNavigationBar(
+          middle: Text('Discussions'),
+          backgroundColor: Colors.white,
+          border: Border(bottom: BorderSide(color: Colors.transparent))),
       child: ListView.builder(
           itemCount: widget.posts.length,
           itemBuilder: (context, index) {
