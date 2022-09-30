@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_beonfun/pages/common_pages/post_expanded_page.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../../models/post.dart';
 
@@ -47,6 +48,23 @@ class _PostFooterViewState extends State<PostFooterView> {
   }
 
   void _share() {
+    String urlToShare;
+
+    if (widget.post.type == PostType.forum) {
+      urlToShare = 'https://beon.fun/discussion/${widget.post.globalId}';
+    } else if (widget.post.type == PostType.diary) {
+      urlToShare =
+          'https://${widget.post.userInfo.blogStringId}.beon.fun/${widget.post.inPostId}';
+    } else {
+      urlToShare =
+          'https://${widget.post.blogInfo!.stringId}.beon.fun/${widget.post.inPostId}';
+    }
+
+    String fullShareText =
+        '"${widget.post.title}"\n$urlToShare\n\nОтправлено через прилогу с любовью и обожанием';
+
+    Share.share(fullShareText, subject: widget.post.title);
+
     debugPrint('let\'s think that we shared the post');
   }
 
