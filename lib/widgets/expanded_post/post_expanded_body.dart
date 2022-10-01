@@ -20,12 +20,12 @@ class _PostExpandedBodyState extends State<PostExpandedBody> {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         const SizedBox(height: 24),
-        Text(widget.post.title, style: const TextStyle(fontSize: 20)),
+        Text(widget.post.title, style: Theme.of(context).textTheme.titleLarge),
         const SizedBox(height: 16),
         BBCodeText(
           selectable: true,
           data: StringParser().toRenderedString(widget.post.text),
-          defaultStyle: const TextStyle(color: Colors.black, fontSize: 16),
+          defaultStyle: Theme.of(context).textTheme.bodyMedium,
         ),
       ],
     );

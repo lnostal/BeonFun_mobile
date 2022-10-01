@@ -22,11 +22,11 @@ class _PostExpandedHeaderState extends State<PostExpandedHeader> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(widget.post.userInfo.name,
-                    style: const TextStyle(color: Colors.black, fontSize: 18),
+                    style: Theme.of(context).textTheme.headlineMedium,
                     overflow: TextOverflow.visible),
                 const SizedBox(height: 8),
                 Text(widget.post.userInfo.sign ?? '',
-                    style: const TextStyle(color: Colors.grey, fontSize: 14),
+                    style: Theme.of(context).textTheme.headlineSmall,
                     overflow: TextOverflow.visible),
                 const SizedBox(height: 16),
                 PostExpandedActions(post: widget.post)

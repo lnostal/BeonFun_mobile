@@ -34,32 +34,27 @@ class _AboutAppPageState extends State<AboutAppPage> {
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
       navigationBar: const CupertinoNavigationBar(
-          backgroundColor: Colors.white,
           middle: Text('About App'),
           border: Border(bottom: BorderSide(color: Colors.transparent))),
-      child: Center(
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [aboutApp(), aboutCreator()])),
+      child: SafeArea(
+          child: Center(
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [aboutApp(), aboutCreator()]))),
     );
   }
 
   Widget aboutCreator() {
-    return const Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Center(
-          child: Text(
+    return Padding(
+      padding: EdgeInsets.all(16.0),
+      child: Center(
+        child: Text(
             'сказать спасибо • сказать о багах • скинуть на лечение\n\n⇩⇩⇩\n\nМарла',
             textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.normal,
-              color: Colors.black,
-              decoration: TextDecoration.none,
-            ),
-          ),
-        ));
+            style: Theme.of(context).textTheme.bodyMedium),
+      ),
+    );
   }
 
   Widget aboutApp() {
@@ -74,11 +69,7 @@ class _AboutAppPageState extends State<AboutAppPage> {
             child: Text(
           about,
           textAlign: TextAlign.center,
-          style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.normal,
-              color: Colors.black,
-              decoration: TextDecoration.none),
+          style: Theme.of(context).textTheme.bodyMedium,
         )));
   }
 }

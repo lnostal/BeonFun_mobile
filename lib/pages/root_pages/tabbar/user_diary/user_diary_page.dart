@@ -47,24 +47,17 @@ class _UserDiaryPageState extends State<UserDiaryPage>
   Widget page() {
     return Scaffold(
       appBar: const CupertinoNavigationBar(
-          backgroundColor: Colors.white,
           middle: Text('Дневник'),
           border: Border(bottom: BorderSide(color: Colors.transparent))),
       body: Scaffold(
         appBar: const TabBar(
           indicatorWeight: 1.0,
-          indicatorColor: Colors.brown,
-          indicatorSize: TabBarIndicatorSize.label,
-          labelStyle: TextStyle(fontSize: 17),
-          labelColor: Colors.brown, //, fontWeight: FontWeight.w600),
-          unselectedLabelColor: Colors.grey,
+          labelStyle: TextStyle(fontSize: 16),
           tabs: [Tab(text: 'Мои записи'), Tab(text: 'Записи друзей')],
         ),
         body: const TabBarView(children: [DiaryListView(), FriendListView()]),
         floatingActionButton: FloatingActionButton(
-            onPressed: newPostButtonPressed,
-            backgroundColor: Colors.brown,
-            child: const Icon(Icons.create)),
+            onPressed: newPostButtonPressed, child: const Icon(Icons.create)),
       ),
     );
   }

@@ -1,36 +1,103 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_beonfun/pages/root_page.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Beon.fun',
-      theme: ThemeData().copyWith(
-          brightness: Brightness.light,
-          scaffoldBackgroundColor: Colors.white,
-          colorScheme: ThemeData().colorScheme.copyWith(primary: Colors.brown),
-          dividerTheme: const DividerThemeData()
-              .copyWith(color: Colors.grey, indent: 16, endIndent: 16),
-          cardTheme:
-              const CardTheme().copyWith(shadowColor: Colors.transparent)),
-
-      // darkTheme: ThemeData().copyWith(
-      //   brightness: Brightness.dark,
-      //   scaffoldBackgroundColor: Colors.black45,
-      //   cardTheme: CardTheme(color: Colors.indigo),
-      //   textTheme: TextTheme(bodyText1: TextStyle(color: Colors.white)),
-      //   colorScheme: ThemeData().colorScheme.copyWith(primary: Colors.brown),
-      // ),
+      theme: createLightTheme(),
+      darkTheme: createDarkTheme(),
       themeMode: ThemeMode.system,
       home: const RootPage(),
     );
+  }
+
+  ThemeData createLightTheme() {
+    const backgroundColor = Color.fromRGBO(218, 215, 205, 1);
+    const textColor = Colors.black;
+    const textSubtitleColor = Colors.grey;
+    const accentColor = Colors.brown;
+
+    return ThemeData().copyWith(
+        brightness: Brightness.light,
+        scaffoldBackgroundColor: backgroundColor,
+        colorScheme: ThemeData().colorScheme.copyWith(primary: accentColor),
+        dividerTheme: const DividerThemeData()
+            .copyWith(color: textSubtitleColor, indent: 16, endIndent: 16),
+        cardTheme: const CardTheme().copyWith(
+            shadowColor: Colors.transparent, color: Colors.transparent),
+        floatingActionButtonTheme: FloatingActionButtonThemeData()
+            .copyWith(backgroundColor: accentColor),
+        iconTheme:
+            const IconThemeData().copyWith(size: 28, color: textSubtitleColor),
+        tabBarTheme: const TabBarTheme(
+            unselectedLabelColor: textSubtitleColor,
+            labelColor: accentColor,
+            indicatorSize: TabBarIndicatorSize.label),
+        indicatorColor: accentColor,
+        textTheme: const TextTheme(
+            titleLarge: TextStyle(fontSize: 20, color: textColor),
+            headlineSmall: TextStyle(fontSize: 14, color: textSubtitleColor),
+            bodyMedium: TextStyle(fontSize: 16, color: textColor),
+            headlineMedium: TextStyle(fontSize: 18, color: textColor)),
+        cupertinoOverrideTheme: const CupertinoThemeData(
+            brightness: Brightness.light,
+            barBackgroundColor: backgroundColor,
+            scaffoldBackgroundColor: backgroundColor,
+            textTheme: CupertinoTextThemeData(
+                navActionTextStyle: TextStyle(color: accentColor, fontSize: 17),
+                navTitleTextStyle: TextStyle(
+                    color: textColor,
+                    fontSize: 17,
+                    fontWeight: FontWeight.w500))));
+  }
+
+  ThemeData createDarkTheme() {
+    const backgroundColor = Color.fromRGBO(41, 49, 50, 1);
+    const textColor = Color.fromARGB(255, 144, 144, 144);
+    const textSubtitleColor = Color.fromARGB(255, 90, 90, 90);
+    const accentColor = Color.fromRGBO(163, 177, 138, 1);
+
+    return ThemeData().copyWith(
+        brightness: Brightness.light,
+        scaffoldBackgroundColor: backgroundColor,
+        colorScheme: ThemeData().colorScheme.copyWith(primary: accentColor),
+        dividerTheme: const DividerThemeData()
+            .copyWith(color: textSubtitleColor, indent: 16, endIndent: 16),
+        cardTheme: const CardTheme().copyWith(
+            shadowColor: Colors.transparent, color: Colors.transparent),
+        floatingActionButtonTheme: FloatingActionButtonThemeData()
+            .copyWith(backgroundColor: accentColor),
+        iconTheme:
+            const IconThemeData().copyWith(size: 28, color: textSubtitleColor),
+        tabBarTheme: const TabBarTheme(
+            unselectedLabelColor: textSubtitleColor,
+            labelColor: accentColor,
+            indicatorSize: TabBarIndicatorSize.label),
+        indicatorColor: accentColor,
+        textTheme: const TextTheme(
+            titleLarge: TextStyle(fontSize: 20, color: textColor),
+            headlineSmall: TextStyle(fontSize: 14, color: textSubtitleColor),
+            bodyMedium: TextStyle(fontSize: 16, color: textColor),
+            headlineMedium: TextStyle(fontSize: 18, color: textColor)),
+        cupertinoOverrideTheme: const CupertinoThemeData(
+            brightness: Brightness.light,
+            barBackgroundColor: backgroundColor,
+            scaffoldBackgroundColor: backgroundColor,
+            textTheme: CupertinoTextThemeData(
+                navActionTextStyle: TextStyle(color: accentColor, fontSize: 17),
+                navTitleTextStyle: TextStyle(
+                    color: textColor,
+                    fontSize: 17,
+                    fontWeight: FontWeight.w500))));
   }
 }

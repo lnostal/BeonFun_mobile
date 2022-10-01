@@ -23,7 +23,7 @@ class _PostHeaderViewState extends State<PostHeaderView> {
   Widget build(BuildContext context) {
     List<Widget> headers = [
       Text(widget.user.name,
-          style: const TextStyle(color: Colors.black, fontSize: 18),
+          style: Theme.of(context).textTheme.headlineMedium,
           overflow: TextOverflow.ellipsis)
     ];
 
@@ -61,7 +61,7 @@ class _PostHeaderViewState extends State<PostHeaderView> {
     return [
       const SizedBox(height: 6),
       Text(sign,
-          style: const TextStyle(color: Colors.grey, fontSize: 14),
+          style: Theme.of(context).textTheme.headlineSmall,
           overflow: TextOverflow.visible)
     ];
   }

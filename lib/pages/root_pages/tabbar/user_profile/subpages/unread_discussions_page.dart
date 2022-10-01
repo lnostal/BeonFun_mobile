@@ -22,7 +22,6 @@ class _UnreadDiscussionsPageState extends State<UnreadDiscussionsPage> {
     return CupertinoPageScaffold(
       navigationBar: const CupertinoNavigationBar(
           middle: Text('Discussions'),
-          backgroundColor: Colors.white,
           border: Border(bottom: BorderSide(color: Colors.transparent))),
       child: ListView.builder(
           itemCount: widget.posts.length,

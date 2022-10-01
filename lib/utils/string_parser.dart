@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_beonfun/utils/beon.dart';
 
 class StringParser {
   final String _urlRegExp =
@@ -80,6 +81,7 @@ class StringParser {
       });
     }
 
+    //str = beonTagsToHTML(str);
     str = parseBeonCringeSmiles(str);
 
     return str;

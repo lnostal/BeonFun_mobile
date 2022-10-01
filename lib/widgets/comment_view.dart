@@ -29,8 +29,7 @@ class _CommentViewState extends State<CommentView> {
                 child: BBCodeText(
                   selectable: true,
                   data: StringParser().toRenderedString(widget.comment.text),
-                  defaultStyle:
-                      const TextStyle(fontSize: 16, color: Colors.black),
+                  defaultStyle: Theme.of(context).textTheme.bodyMedium,
                 ))
           ]),
     );

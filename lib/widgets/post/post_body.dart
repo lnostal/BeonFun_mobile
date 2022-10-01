@@ -32,8 +32,7 @@ class _PostBodyState extends State<PostBody> {
           children: [
             BBCodeText(
                 data: StringParser().removeBBCodeFromString(widget.post.text),
-                defaultStyle:
-                    const TextStyle(fontSize: 16, color: Colors.black))
+                defaultStyle: Theme.of(context).textTheme.bodyMedium)
           ],
         ));
   }

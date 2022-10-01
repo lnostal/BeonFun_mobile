@@ -28,15 +28,15 @@ class _PostExpandedActionsState extends State<PostExpandedActions> {
       children: [
         const Spacer(),
         IconButton(onPressed: _like, icon: createFavoriteIcon()),
-        IconButton(
-            onPressed: _share,
-            icon: const Icon(Icons.share, size: 28, color: Colors.grey)),
+        IconButton(onPressed: _share, icon: const Icon(Icons.share)),
         const IconButton(
           onPressed: null,
-          icon: Icon(Icons.forum_outlined, size: 28, color: Colors.grey),
+          icon: Icon(Icons.forum_outlined),
         ),
         Text(widget.post.commentsCount.toString(),
-            style: const TextStyle(color: Colors.grey, fontSize: 18))
+            style: TextStyle(
+                color: Theme.of(context).textTheme.headlineSmall?.color,
+                fontSize: 18))
       ],
     );
   }
@@ -62,10 +62,12 @@ class _PostExpandedActionsState extends State<PostExpandedActions> {
 
   Icon createFavoriteIcon() {
     if (liked) {
-      return const Icon(Icons.favorite, size: 28, color: Colors.brown);
+      return Icon(Icons.favorite,
+          size: 28,
+          color: Theme.of(context).floatingActionButtonTheme.backgroundColor);
     }
 
-    return const Icon(Icons.favorite_border, size: 28, color: Colors.grey);
+    return const Icon(Icons.favorite_border);
   }
 
   void _like() {
