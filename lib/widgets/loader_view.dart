@@ -7,10 +7,7 @@ class Loader extends StatelessWidget {
   Widget build(BuildContext context) {
     return const SafeArea(
         child: Center(
-      child: CircularProgressIndicator(
-        color: Colors.grey,
-        backgroundColor: Colors.brown,
-      ),
+      child: CircularProgressIndicator(),
     ));
   }
 }

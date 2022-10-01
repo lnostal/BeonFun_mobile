@@ -13,7 +13,6 @@ class FeedPage extends StatelessWidget {
     return const CupertinoPageScaffold(
         navigationBar: CupertinoNavigationBar(
             middle: Text('✨ BeOn.Fun ✨'),
-            backgroundColor: CupertinoColors.white,
             border: Border(bottom: BorderSide(color: Colors.transparent))),
         child: SafeArea(child: FeedListView()));
   }

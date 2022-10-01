@@ -45,7 +45,6 @@ class _PostExpandedPageState extends State<PostExpandedPage> {
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
           middle: Text(setPageTitle(postInfo)),
-          backgroundColor: CupertinoColors.white,
           border: const Border(bottom: BorderSide(color: Colors.transparent)),
           leading: CupertinoNavigationBarBackButton(
             onPressed: () => Navigator.of(context).pop(),

@@ -10,8 +10,6 @@ class TabBarPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) => CupertinoTabScaffold(
         tabBar: CupertinoTabBar(
-            backgroundColor: Colors.white,
-            inactiveColor: Colors.grey,
             border: const Border(bottom: BorderSide(color: Colors.transparent)),
             height: 64,
             items: const [
@@ -23,22 +21,25 @@ class TabBarPage extends StatelessWidget {
         tabBuilder: (BuildContext context, int index) {
           switch (index) {
             case 0:
-              return FeedPage(
+              return SafeArea(
+                  child: FeedPage(
                 title: 'Feed $index',
-              );
+              ));
             case 1:
-              return UserDiaryPage(
+              return SafeArea(
+                  child: UserDiaryPage(
                 title: 'Diary $index',
-              );
+              ));
             case 2:
             // return TabMessagesView(
             //   title: 'Message $index',
             // );
             case 3:
             default:
-              return UserProfilePage(
+              return SafeArea(
+                  child: UserProfilePage(
                 title: 'Profile $index',
-              );
+              ));
           }
         },
       );

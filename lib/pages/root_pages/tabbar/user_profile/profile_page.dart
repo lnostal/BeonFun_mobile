@@ -51,10 +51,6 @@ class _UserProfilePageState extends State<UserProfilePage> {
     }
 
     return CupertinoPageScaffold(
-        // navigationBar: CupertinoNavigationBar(
-        //     //middle: Text(user!.blogStringId),
-        //     backgroundColor: CupertinoColors.white,
-        //     border: Border(bottom: BorderSide(color: Colors.transparent))),
         child: SafeArea(
       child: ListView.separated(
           separatorBuilder: (context, index) => const Divider(),

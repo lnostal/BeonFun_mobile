@@ -34,16 +34,15 @@ class _PostFooterViewState extends State<PostFooterView> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             IconButton(onPressed: _like, icon: createFavoriteIcon()),
-            IconButton(
-                onPressed: _share,
-                icon: const Icon(Icons.share, size: 28, color: Colors.grey)),
+            IconButton(onPressed: _share, icon: const Icon(Icons.share)),
             const Spacer(),
             IconButton(
                 onPressed: _openComments,
-                icon: const Icon(Icons.forum_outlined,
-                    size: 28, color: Colors.grey)),
+                icon: const Icon(Icons.forum_outlined)),
             Text(widget.post.commentsCount.toString(),
-                style: const TextStyle(color: Colors.grey, fontSize: 18)),
+                style: TextStyle(
+                    color: Theme.of(context).textTheme.headlineSmall?.color,
+                    fontSize: 18)),
           ],
         ));
   }
@@ -89,10 +88,11 @@ class _PostFooterViewState extends State<PostFooterView> {
 
   Icon createFavoriteIcon() {
     if (_isFavourite) {
-      return const Icon(Icons.favorite, size: 28, color: Colors.brown);
+      return Icon(Icons.favorite,
+          color: Theme.of(context).floatingActionButtonTheme.backgroundColor);
     }
 
-    return const Icon(Icons.favorite_border, size: 28, color: Colors.grey);
+    return const Icon(Icons.favorite_border);
   }
 
   void _like() {

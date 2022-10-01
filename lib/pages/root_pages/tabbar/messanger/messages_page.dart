@@ -11,8 +11,8 @@ class MessagesPage extends StatelessWidget {
     return CupertinoPageScaffold(
         navigationBar: CupertinoNavigationBar(
             middle: Text(title),
-            backgroundColor: CupertinoColors.white,
-            border: Border(bottom: BorderSide(color: Colors.transparent))),
+            border:
+                const Border(bottom: BorderSide(color: Colors.transparent))),
         child: const SafeArea(
           child: Center(
             child: Text('Messages'),

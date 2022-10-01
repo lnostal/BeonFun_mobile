@@ -20,7 +20,6 @@ class _WriteNewPostState extends State<WriteNewPost> {
     return CupertinoPageScaffold(
         navigationBar: const CupertinoNavigationBar(
             middle: Text('Новый пост'),
-            backgroundColor: CupertinoColors.white,
             border: Border(bottom: BorderSide(color: Colors.transparent))),
         child: Scaffold(
           body: Column(
