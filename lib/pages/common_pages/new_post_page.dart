@@ -32,6 +32,8 @@ class _WriteNewPostState extends State<WriteNewPost> {
                   padding:
                       EdgeInsets.only(left: 16, top: 10, right: 16, bottom: 10),
                   child: TextField(
+                    style: TextStyle(
+                        color: Theme.of(context).textTheme.bodyMedium!.color),
                     controller: _titleController,
                     textInputAction: TextInputAction.next,
                     decoration: InputDecoration(labelText: 'Title'),
@@ -40,6 +42,8 @@ class _WriteNewPostState extends State<WriteNewPost> {
                 padding: const EdgeInsets.only(
                     left: 16, top: 10, right: 16, bottom: 10),
                 child: TextField(
+                    style: TextStyle(
+                        color: Theme.of(context).textTheme.bodyMedium!.color),
                     controller: _messageController,
                     maxLines: null,
                     keyboardType: TextInputType.multiline,

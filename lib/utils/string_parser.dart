@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_beonfun/utils/beon.dart';
 
 class StringParser {
   final String _urlRegExp =

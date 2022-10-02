@@ -25,7 +25,6 @@ class PostExpandedPage extends StatefulWidget {
 
 class _PostExpandedPageState extends State<PostExpandedPage> {
   var _pushedNewComment = false;
-  var _isLoading = false;
 
   Map postInfo = {'comments': List};
   final textEditingController = TextEditingController();
@@ -111,24 +110,21 @@ class _PostExpandedPageState extends State<PostExpandedPage> {
           keyboardType: TextInputType.multiline,
           minLines: 1,
           maxLines: 10,
+          style:
+              TextStyle(color: Theme.of(context).textTheme.bodyMedium!.color),
           decoration: InputDecoration(
-              prefixIcon: IconButton(
-                icon: const Icon(Icons.attach_file),
-                onPressed: _attachImages,
-              ),
-              suffixIcon: IconButton(
-                  onPressed: _sendComment,
-                  icon: const Icon(
-                    Icons.send,
-                  )),
-              contentPadding: const EdgeInsets.fromLTRB(16.0, 10.0, 16.0, 10.0),
-              hintText: "enter comment...",
-              border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                  borderSide: const BorderSide(color: Colors.grey, width: 0.0)),
-              focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                  borderSide: const BorderSide(width: 1.5))),
+            prefixIcon: IconButton(
+              icon: const Icon(Icons.attach_file),
+              onPressed: _attachImages,
+            ),
+            suffixIcon: IconButton(
+                onPressed: _sendComment,
+                icon: const Icon(
+                  Icons.send,
+                )),
+            contentPadding: const EdgeInsets.fromLTRB(16.0, 10.0, 16.0, 10.0),
+            hintText: "enter comment...",
+          ),
         ),
       ),
     );
@@ -170,6 +166,7 @@ class _PostExpandedPageState extends State<PostExpandedPage> {
   Future<void> _attachImages() async {
     List<XFile>? pickedFiles =
         await ImagePicker().pickMultiImage(imageQuality: 100);
+    // ignore: use_build_context_synchronously
     Utils().loadImages(pickedFiles, textEditingController, context);
   }
 }

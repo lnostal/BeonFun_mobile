@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_beonfun/pages/root_page.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  MyApp({super.key});
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
             .copyWith(color: textSubtitleColor, indent: 16, endIndent: 16),
         cardTheme: const CardTheme().copyWith(
             shadowColor: Colors.transparent, color: Colors.transparent),
-        floatingActionButtonTheme: FloatingActionButtonThemeData()
+        floatingActionButtonTheme: const FloatingActionButtonThemeData()
             .copyWith(backgroundColor: accentColor),
         iconTheme:
             const IconThemeData().copyWith(size: 28, color: textSubtitleColor),
@@ -58,7 +58,16 @@ class MyApp extends StatelessWidget {
                 navTitleTextStyle: TextStyle(
                     color: textColor,
                     fontSize: 17,
-                    fontWeight: FontWeight.w500))));
+                    fontWeight: FontWeight.w500))),
+        inputDecorationTheme: const InputDecorationTheme().copyWith(
+            labelStyle: const TextStyle(fontSize: 16, color: textColor),
+            hintStyle: const TextStyle(fontSize: 16, color: textColor),
+            enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+                borderSide: const BorderSide(color: textColor, width: 0.5)),
+            focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+                borderSide: const BorderSide(width: 1.5, color: accentColor))));
   }
 
   ThemeData createDarkTheme() {
@@ -75,7 +84,7 @@ class MyApp extends StatelessWidget {
             .copyWith(color: textSubtitleColor, indent: 16, endIndent: 16),
         cardTheme: const CardTheme().copyWith(
             shadowColor: Colors.transparent, color: Colors.transparent),
-        floatingActionButtonTheme: FloatingActionButtonThemeData()
+        floatingActionButtonTheme: const FloatingActionButtonThemeData()
             .copyWith(backgroundColor: accentColor),
         iconTheme:
             const IconThemeData().copyWith(size: 28, color: textSubtitleColor),
@@ -98,6 +107,16 @@ class MyApp extends StatelessWidget {
                 navTitleTextStyle: TextStyle(
                     color: textColor,
                     fontSize: 17,
-                    fontWeight: FontWeight.w500))));
+                    fontWeight: FontWeight.w500))),
+        inputDecorationTheme: const InputDecorationTheme().copyWith(
+            labelStyle: const TextStyle(fontSize: 16, color: textSubtitleColor),
+            hintStyle: const TextStyle(fontSize: 16, color: textSubtitleColor),
+            enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+                borderSide:
+                    const BorderSide(color: textSubtitleColor, width: 0.5)),
+            focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+                borderSide: const BorderSide(width: 1.5, color: accentColor))));
   }
 }

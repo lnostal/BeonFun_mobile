@@ -30,11 +30,11 @@ class _AuthPageState extends State<AuthPage> {
             padding:
                 const EdgeInsets.only(left: 32, top: 10, right: 32, bottom: 10),
             child: TextField(
+              style: TextStyle(
+                  color: Theme.of(context).textTheme.bodyMedium!.color),
               controller: _loginTextController,
               textInputAction: TextInputAction.next,
               decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10)),
                   labelText: 'Login',
                   errorText: error ? 'Неверно введены логин или пароль' : null),
             ),
@@ -43,13 +43,12 @@ class _AuthPageState extends State<AuthPage> {
             padding:
                 const EdgeInsets.only(left: 32, top: 10, right: 32, bottom: 10),
             child: TextField(
+              style: TextStyle(
+                  color: Theme.of(context).textTheme.bodyMedium!.color),
               controller: _passwordTextController,
               obscureText: true,
               decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  labelText: 'Password',
-                  errorText: error ? '' : null),
+                  labelText: 'Password', errorText: error ? '' : null),
             ),
           ),
           TextButton(
