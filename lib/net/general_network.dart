@@ -1,6 +1,8 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/blog.dart';
@@ -304,6 +306,34 @@ class Request {
       return true;
     }
     return false;
+  }
+
+  /// Upload images
+  /// ...
+  Future<void> uploadImages(
+      List<XFile> images, Function(List str) onComplite) async {
+    String rout = '$_endpoint/upload/images';
+
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('token') ?? 0;
+
+    var request = http.MultipartRequest('POST', Uri.parse(rout));
+    request.headers.addAll({'Authorization': 'Bearer $token'});
+
+    images.forEach((element) async {
+      request.files
+          .add(await http.MultipartFile.fromPath('image[]', element.path));
+    });
+
+    var response = await request.send();
+
+    http.Response.fromStream(response).then((response) {
+      var data = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
+
+      if (response.statusCode == 200 && data['status'] == 'ok') {
+        onComplite(data['fileurls'] as List);
+      }
+    });
   }
 
   /// ---------------------------------------------------

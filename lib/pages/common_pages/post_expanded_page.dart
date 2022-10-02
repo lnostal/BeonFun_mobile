@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_beonfun/net/general_network.dart';
 import 'package:flutter_beonfun/widgets/comment_view.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../models/blog.dart';
 import '../../models/post.dart';
@@ -23,6 +24,7 @@ class PostExpandedPage extends StatefulWidget {
 
 class _PostExpandedPageState extends State<PostExpandedPage> {
   var _pushedNewComment = false;
+  var _isLoading = false;
 
   Map postInfo = {'comments': List};
   final textEditingController = TextEditingController();
@@ -109,8 +111,12 @@ class _PostExpandedPageState extends State<PostExpandedPage> {
           minLines: 1,
           maxLines: 10,
           decoration: InputDecoration(
+              prefixIcon: IconButton(
+                icon: const Icon(Icons.attach_file),
+                onPressed: _attachImages,
+              ),
               suffixIcon: IconButton(
-                  onPressed: sendComment,
+                  onPressed: _sendComment,
                   icon: const Icon(
                     Icons.send,
                   )),
@@ -129,7 +135,7 @@ class _PostExpandedPageState extends State<PostExpandedPage> {
 
   /// - Mark: additional methods
 
-  void sendComment() {
+  void _sendComment() {
     Request()
         .sendComment(
             widget.blname, widget.id, widget.type, textEditingController.text)
@@ -158,5 +164,54 @@ class _PostExpandedPageState extends State<PostExpandedPage> {
       postInfo = {'post': null, 'comments': List};
     });
     loadData();
+  }
+
+  Future<void> _attachImages() async {
+    List<XFile>? pickedFiles =
+        await ImagePicker().pickMultiImage(imageQuality: 100);
+    loadImages(pickedFiles);
+  }
+
+  void showLoader() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        BuildContext dialogContext = context;
+        return Dialog(
+          backgroundColor: Colors.transparent,
+          child: Container(
+            width: 100,
+            height: 100,
+            color: Colors.transparent,
+            child: const Loader(),
+          ),
+        );
+      },
+    );
+  }
+
+  void loadImages(List<XFile>? images) {
+    if (images != null) {
+      showLoader();
+      Request().uploadImages(images, (value) {
+        if (value.isNotEmpty) {
+          value.forEach((element) {
+            textEditingController.text += '[img-small-none-$element]';
+            textEditingController.selection = TextSelection.collapsed(
+                offset: textEditingController.text.length);
+          });
+
+          Navigator.of(context).pop();
+        } else {
+          Navigator.of(context).pop();
+          debugPrint('чет пошло не так');
+        }
+      }).onError((error, stackTrace) {
+        setState(() {
+          Navigator.of(context).pop();
+        });
+      });
+    } else {}
   }
 }
