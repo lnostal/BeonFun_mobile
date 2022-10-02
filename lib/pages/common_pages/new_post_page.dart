@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../net/general_network.dart';
+import '../../utils/utils.dart';
 
 class WriteNewPost extends StatefulWidget {
   const WriteNewPost({super.key});
@@ -47,12 +49,27 @@ class _WriteNewPostState extends State<WriteNewPost> {
                       labelText: 'Post',
                     )),
               ),
-              TextButton(
-                  onPressed: createPost,
-                  child: const Text(
-                    'Post it',
-                    style: TextStyle(fontSize: 16),
-                  ))
+              Row(
+                children: [
+                  IconButton(
+                      onPressed: _attachImages,
+                      icon: Icon(Icons.attach_file,
+                          color: Theme.of(context).colorScheme.primary)),
+                  IconButton(
+                      onPressed: _createPhoto,
+                      icon: Icon(Icons.add_a_photo,
+                          color: Theme.of(context).colorScheme.primary)),
+                  Spacer(),
+                  Padding(
+                      padding: EdgeInsets.only(right: 16),
+                      child: TextButton(
+                          onPressed: createPost,
+                          child: const Text(
+                            'Post it',
+                            style: TextStyle(fontSize: 16),
+                          )))
+                ],
+              )
             ],
           ),
         ));
@@ -71,5 +88,20 @@ class _WriteNewPostState extends State<WriteNewPost> {
 
       FocusScope.of(context).requestFocus();
     });
+  }
+
+  Future<void> _attachImages() async {
+    List<XFile>? pickedFiles =
+        await ImagePicker().pickMultiImage(imageQuality: 100);
+    Utils().loadImages(pickedFiles, _messageController, context);
+  }
+
+  Future<void> _createPhoto() async {
+    XFile? pickedFile =
+        await ImagePicker().pickImage(source: ImageSource.camera);
+
+    if (pickedFile != null) {
+      Utils().loadImages([pickedFile], _messageController, context);
+    }
   }
 }

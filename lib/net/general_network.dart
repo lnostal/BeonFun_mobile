@@ -320,10 +320,10 @@ class Request {
     var request = http.MultipartRequest('POST', Uri.parse(rout));
     request.headers.addAll({'Authorization': 'Bearer $token'});
 
-    images.forEach((element) async {
+    for (var element in images) {
       request.files
           .add(await http.MultipartFile.fromPath('image[]', element.path));
-    });
+    }
 
     var response = await request.send();
 

@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../models/blog.dart';
 import '../../models/post.dart';
+import '../../utils/utils.dart';
 import '../../widgets/expanded_post/post_expanded.dart';
 import '../../widgets/loader_view.dart';
 
@@ -169,49 +170,6 @@ class _PostExpandedPageState extends State<PostExpandedPage> {
   Future<void> _attachImages() async {
     List<XFile>? pickedFiles =
         await ImagePicker().pickMultiImage(imageQuality: 100);
-    loadImages(pickedFiles);
-  }
-
-  void showLoader() {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        BuildContext dialogContext = context;
-        return Dialog(
-          backgroundColor: Colors.transparent,
-          child: Container(
-            width: 100,
-            height: 100,
-            color: Colors.transparent,
-            child: const Loader(),
-          ),
-        );
-      },
-    );
-  }
-
-  void loadImages(List<XFile>? images) {
-    if (images != null) {
-      showLoader();
-      Request().uploadImages(images, (value) {
-        if (value.isNotEmpty) {
-          value.forEach((element) {
-            textEditingController.text += '[img-small-none-$element]';
-            textEditingController.selection = TextSelection.collapsed(
-                offset: textEditingController.text.length);
-          });
-
-          Navigator.of(context).pop();
-        } else {
-          Navigator.of(context).pop();
-          debugPrint('чет пошло не так');
-        }
-      }).onError((error, stackTrace) {
-        setState(() {
-          Navigator.of(context).pop();
-        });
-      });
-    } else {}
+    Utils().loadImages(pickedFiles, textEditingController, context);
   }
 }
