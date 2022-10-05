@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter_beonfun/pages/root_pages/tabbar_page.dart';
 import 'package:flutter_beonfun/net/general_network.dart';

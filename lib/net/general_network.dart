@@ -1,12 +1,12 @@
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/blog.dart';
 import '../models/comment.dart';
+import '../models/message.dart';
 import '../models/post.dart';
 import '../models/user.dart';
 
@@ -58,7 +58,7 @@ class Request {
     return posts;
   }
 
-  // Load friend's posts
+  /// Load friend's posts
   ///
   Future<List<Post>> getFriendsPosts() async {
     var response = await http.get(Uri.parse('$_endpoint/friends/posts'),
@@ -245,7 +245,7 @@ class Request {
     return false;
   }
 
-  /// Sing in
+  /// Sign in
   ///
   Future<String> login(String login, String pass) async {
     String rout = '$_endpoint/token';
@@ -334,6 +334,103 @@ class Request {
         onComplite(data['fileurls'] as List);
       }
     });
+  }
+
+  /// Get chats
+  ///
+  Future<List<Message>> getChats() async {
+    var response =
+        await http.get(Uri.parse('$_endpoint/im'), headers: await getHeaders());
+
+    if (response.statusCode != 200) {
+      var code = response.statusCode;
+      throw Exception('Faild request with code $code');
+    }
+
+    var data = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
+    var chats = data['messages'] as List;
+
+    List<Message> dialogs = [];
+
+    for (var chat in chats) {
+      Message dialog = Message.fromMap(chat);
+      dialogs.add(dialog);
+    }
+
+    return dialogs;
+  }
+
+  /// Get chat history
+  ///
+  Future<List<Message>> getChatHistory(String blname) async {
+    var response = await http.get(Uri.parse('$_endpoint/im/$blname'),
+        headers: await getHeaders());
+
+    if (response.statusCode != 200) {
+      var code = response.statusCode;
+      throw Exception('Faild request with code $code');
+    }
+
+    var data = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
+    var messages = data['messages'] as List;
+
+    List<Message> dialogs = [];
+
+    for (var message in messages) {
+      Message dialog = Message.fromMap(message);
+      dialogs.add(dialog);
+    }
+
+    return dialogs;
+  }
+
+  /// Send message to chat
+  ///
+  Future<bool> sendMessage(String blname, String text) async {
+    var response = await http.post(Uri.parse('$_endpoint/im/$blname'),
+        headers: await getHeaders(),
+        body: jsonEncode(<String, String>{'message': text}));
+
+    if (response.statusCode != 200) {
+      var code = response.statusCode;
+      throw Exception('Faild request with code $code');
+    }
+
+    var data = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
+    if (data['status'] as String == 'ok') {
+      return true;
+    }
+
+    return false;
+  }
+
+  Future<bool> getNotifications(String str) async {
+    var response = await http.get(Uri.parse('$_endpoint/notifications'),
+        headers: await getHeaders());
+
+    if (response.statusCode != 200) {
+      var code = response.statusCode;
+      throw Exception('Faild request with code $code');
+    }
+
+    var data = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
+    var messages = data['messages'] as int;
+    var discussions = data['discussions'] as int;
+    var chats = data['chats'] as int;
+
+    if (str == 'msg') {
+      return messages == 1;
+    }
+
+    if (str == 'dsc') {
+      return discussions == 1;
+    }
+
+    if (str == 'cht') {
+      return chats == 1;
+    }
+
+    return false;
   }
 
   /// ---------------------------------------------------

@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -21,27 +23,34 @@ class _UnreadDiscussionsPageState extends State<UnreadDiscussionsPage> {
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
       navigationBar: const CupertinoNavigationBar(
-          middle: Text('Discussions'),
+          middle: Text('Новые сообщения в'),
           border: Border(bottom: BorderSide(color: Colors.transparent))),
-      child: ListView.builder(
-          itemCount: widget.posts.length,
-          itemBuilder: (context, index) {
-            return getDiscussionCell(index);
-          }),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: ListView.builder(
+            itemCount: widget.posts.length,
+            itemBuilder: (context, index) {
+              return getDiscussionCell(index);
+            }),
+      ),
     );
   }
 
   Widget getDiscussionCell(index) {
-    return TextButton(
-        onPressed: () {
-          Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => openExpandedPostPage(widget.posts[index])));
-        },
-        child: Text(
-          widget.posts[index].title,
-          textAlign: TextAlign.left,
-          style: const TextStyle(fontSize: 16),
-        ));
+    return Container(
+      alignment: Alignment.centerLeft,
+      child: TextButton(
+          onPressed: () {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) =>
+                    openExpandedPostPage(widget.posts[index])));
+          },
+          child: Text(
+            widget.posts[index].title,
+            textAlign: TextAlign.left,
+            style: const TextStyle(fontSize: 16),
+          )),
+    );
   }
 
   PostExpandedPage openExpandedPostPage(Post post) {

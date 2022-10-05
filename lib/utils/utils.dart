@@ -10,7 +10,6 @@ class Utils {
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
-        BuildContext dialogContext = context;
         return Dialog(
           backgroundColor: Colors.transparent,
           child: Container(

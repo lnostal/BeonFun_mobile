@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter_beonfun/models/comment.dart';
 import 'package:flutter_beonfun/net/general_network.dart';
 import 'package:flutter_beonfun/widgets/comment_view.dart';
+import 'package:flutter_beonfun/widgets/send_message_view.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../models/blog.dart';
@@ -45,16 +47,19 @@ class _PostExpandedPageState extends State<PostExpandedPage> {
     });
 
     return CupertinoPageScaffold(
-      navigationBar: CupertinoNavigationBar(
-          middle: Text(setPageTitle(postInfo)),
-          border: const Border(bottom: BorderSide(color: Colors.transparent)),
-          leading: CupertinoNavigationBarBackButton(
-            onPressed: () => Navigator.of(context).pop(),
-          )),
-      child: SafeArea(
-          child:
-              createTextField(createView(postInfo)) /*createView(postInfo)*/),
-    );
+        navigationBar: CupertinoNavigationBar(
+            middle: Text(setPageTitle(postInfo)),
+            border: const Border(bottom: BorderSide(color: Colors.transparent)),
+            leading: CupertinoNavigationBarBackButton(
+              onPressed: () => Navigator.of(context).pop(),
+            )),
+        child: SafeArea(
+            child: SendMessageBottomView(
+          childWidget: createView(postInfo),
+          controller: textEditingController,
+          onSend: _sendComment,
+          onAttach: _attachImages,
+        )));
   }
 
   String setPageTitle(Map postInfo) {
@@ -91,43 +96,13 @@ class _PostExpandedPageState extends State<PostExpandedPage> {
                 return PostExpanded(post: postInfo['post']);
               }
 
-              return CommentView(comment: postInfo['comments'][index - 1]);
-            }));
-  }
+              Comment comm = postInfo['comments'][index - 1] as Comment;
 
-  Widget createTextField(Widget widget) {
-    return Scaffold(
-      body: GestureDetector(
-        child: widget,
-        onTap: () {
-          FocusScope.of(context).requestFocus(FocusNode());
-        },
-      ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: TextFormField(
-          controller: textEditingController,
-          keyboardType: TextInputType.multiline,
-          minLines: 1,
-          maxLines: 10,
-          style:
-              TextStyle(color: Theme.of(context).textTheme.bodyMedium!.color),
-          decoration: InputDecoration(
-            prefixIcon: IconButton(
-              icon: const Icon(Icons.attach_file),
-              onPressed: _attachImages,
-            ),
-            suffixIcon: IconButton(
-                onPressed: _sendComment,
-                icon: const Icon(
-                  Icons.send,
-                )),
-            contentPadding: const EdgeInsets.fromLTRB(16.0, 10.0, 16.0, 10.0),
-            hintText: "enter comment...",
-          ),
-        ),
-      ),
-    );
+              return CommentView(
+                user: comm.userInfo,
+                text: comm.text,
+              );
+            }));
   }
 
   /// - Mark: additional methods
