@@ -24,57 +24,59 @@ class _WriteNewPostState extends State<WriteNewPost> {
             middle: Text('Новый пост'),
             border: Border(bottom: BorderSide(color: Colors.transparent))),
         child: Scaffold(
-          body: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Padding(
-                  padding:
-                      EdgeInsets.only(left: 16, top: 10, right: 16, bottom: 10),
-                  child: TextField(
-                    style: TextStyle(
-                        color: Theme.of(context).textTheme.bodyMedium!.color),
-                    controller: _titleController,
-                    textInputAction: TextInputAction.next,
-                    decoration: InputDecoration(labelText: 'Title'),
-                  )),
-              Padding(
-                padding: const EdgeInsets.only(
-                    left: 16, top: 10, right: 16, bottom: 10),
-                child: TextField(
-                    style: TextStyle(
-                        color: Theme.of(context).textTheme.bodyMedium!.color),
-                    controller: _messageController,
-                    maxLines: null,
-                    keyboardType: TextInputType.multiline,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10)),
-                      labelText: 'Post',
+          body: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Padding(
+                    padding: const EdgeInsets.only(
+                        left: 16, top: 10, right: 16, bottom: 10),
+                    child: TextField(
+                      style: TextStyle(
+                          color: Theme.of(context).textTheme.bodyMedium!.color),
+                      controller: _titleController,
+                      textInputAction: TextInputAction.next,
+                      decoration: const InputDecoration(labelText: 'Title'),
                     )),
-              ),
-              Row(
-                children: [
-                  IconButton(
-                      onPressed: _attachImages,
-                      icon: Icon(Icons.attach_file,
-                          color: Theme.of(context).colorScheme.primary)),
-                  IconButton(
-                      onPressed: _createPhoto,
-                      icon: Icon(Icons.add_a_photo,
-                          color: Theme.of(context).colorScheme.primary)),
-                  Spacer(),
-                  Padding(
-                      padding: EdgeInsets.only(right: 16),
-                      child: TextButton(
-                          onPressed: createPost,
-                          child: const Text(
-                            'Post it',
-                            style: TextStyle(fontSize: 16),
-                          )))
-                ],
-              )
-            ],
+                Padding(
+                  padding: const EdgeInsets.only(
+                      left: 16, top: 10, right: 16, bottom: 10),
+                  child: TextField(
+                      style: TextStyle(
+                          color: Theme.of(context).textTheme.bodyMedium!.color),
+                      controller: _messageController,
+                      maxLines: null,
+                      keyboardType: TextInputType.multiline,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                        labelText: 'Post',
+                      )),
+                ),
+                Row(
+                  children: [
+                    IconButton(
+                        onPressed: _attachImages,
+                        icon: Icon(Icons.attach_file,
+                            color: Theme.of(context).colorScheme.primary)),
+                    IconButton(
+                        onPressed: _createPhoto,
+                        icon: Icon(Icons.add_a_photo,
+                            color: Theme.of(context).colorScheme.primary)),
+                    const Spacer(),
+                    Padding(
+                        padding: const EdgeInsets.only(right: 16),
+                        child: TextButton(
+                            onPressed: createPost,
+                            child: const Text(
+                              'Post it',
+                              style: TextStyle(fontSize: 16),
+                            )))
+                  ],
+                )
+              ],
+            ),
           ),
         ));
   }
