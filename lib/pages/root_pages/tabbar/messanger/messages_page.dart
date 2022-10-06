@@ -88,7 +88,6 @@ class _MessagesPageState extends State<MessagesPage> {
                           maxLines: 3,
                           overflow: TextOverflow.ellipsis)
                     ])),
-                //Spacer(),
               ]))),
     );
   }
