@@ -1,6 +1,10 @@
+import 'dart:async';
+
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_beonfun/models/comment.dart';
 import 'package:flutter_beonfun/net/general_network.dart';
 import 'package:flutter_beonfun/widgets/comment_view.dart';
@@ -27,6 +31,7 @@ class PostExpandedPage extends StatefulWidget {
 
 class _PostExpandedPageState extends State<PostExpandedPage> {
   var _pushedNewComment = false;
+  late Timer timer;
 
   Map postInfo = {'comments': List};
   final textEditingController = TextEditingController();
@@ -36,6 +41,17 @@ class _PostExpandedPageState extends State<PostExpandedPage> {
   void initState() {
     super.initState();
     loadData();
+
+    timer = Timer.periodic(Duration(seconds: 2), (timer) {
+      checkUpdates();
+    });
+  }
+
+  @override
+  void dispose() {
+    print("Back To old Screen");
+    timer.cancel();
+    super.dispose();
   }
 
   @override
@@ -108,18 +124,19 @@ class _PostExpandedPageState extends State<PostExpandedPage> {
   /// - Mark: additional methods
 
   void _sendComment() {
-    Request()
-        .sendComment(
-            widget.blname, widget.id, widget.type, textEditingController.text)
-        .then((value) {
-      if (value) {
-        _pushedNewComment = true;
-        textEditingController.clear();
-        loadData();
-      }
+    AudioPlayer().play(AssetSource('assets/audio/sound.mp3'));
+    // Request()
+    //     .sendComment(
+    //         widget.blname, widget.id, widget.type, textEditingController.text)
+    //     .then((value) {
+    //   if (value) {
+    //     _pushedNewComment = true;
+    //     textEditingController.clear();
+    //     loadData();
+    //   }
 
-      FocusScope.of(context).requestFocus(FocusNode());
-    });
+    //   FocusScope.of(context).requestFocus(FocusNode());
+    // });
   }
 
   void loadData() {
@@ -127,6 +144,36 @@ class _PostExpandedPageState extends State<PostExpandedPage> {
       setState(() {
         postInfo = value;
       });
+    });
+  }
+
+  void updateData() {
+    var comm = postInfo['comments'] as List;
+    var index = comm.length;
+    Request()
+        .getNewComments(widget.blname, widget.id, index.toString())
+        .then((value) {
+      if (value.isNotEmpty) {
+        setState(() {
+          comm.addAll(value);
+        });
+      }
+    });
+  }
+
+  void checkUpdates() {
+    var comm = postInfo['comments'] as List;
+    var index = comm.length;
+
+    Request()
+        .checkNewComments(widget.blname, widget.id, index.toString())
+        .then((value) {
+      if (value) {
+        debugPrint('есть новые коммы');
+        _pushedNewComment = false;
+        HapticFeedback.vibrate();
+        loadData();
+      }
     });
   }
 

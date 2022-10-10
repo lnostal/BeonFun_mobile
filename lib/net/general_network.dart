@@ -433,6 +433,47 @@ class Request {
     return false;
   }
 
+  Future<bool> checkNewComments(String blname, String id, String index) async {
+    var rout = '$_endpoint/blog/$blname/post/$id/check?last=$index';
+
+    var response = await http.get(Uri.parse(rout), headers: await getHeaders());
+
+    if (response.statusCode != 200) {
+      var code = response.statusCode;
+      throw Exception('Faild request with code $code');
+    }
+
+    var data = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
+
+    if (data['new'] as int == 1) {
+      return true;
+    }
+
+    return false;
+  }
+
+  Future<List<Comment>> getNewComments(
+      String blname, String id, String index) async {
+    var rout = '$_endpoint/blog/$blname/post/$id/get?last=$index';
+
+    var response = await http.get(Uri.parse(rout), headers: await getHeaders());
+
+    if (response.statusCode != 200) {
+      var code = response.statusCode;
+      throw Exception('Faild request with code $code');
+    }
+
+    var data = jsonDecode(utf8.decode(response.bodyBytes)) as List;
+
+    List<Comment> comments = [];
+
+    for (var comm in data) {
+      comments.add(Comment.fromMap(comm));
+    }
+
+    return comments;
+  }
+
   /// ---------------------------------------------------
   /// Get headers based on token
   ///
