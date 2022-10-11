@@ -1,5 +1,9 @@
+import 'dart:async';
+
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../../models/message.dart';
@@ -26,11 +30,23 @@ class _MessageDialogExpandedPageState extends State<MessageDialogExpandedPage> {
   var textEditingController = TextEditingController();
   var scrollController = ScrollController();
   List<Message>? messages;
+  late Timer timer;
+  AudioPlayer player = AudioPlayer();
 
   @override
   void initState() {
     super.initState();
     loadData();
+    timer = Timer.periodic(Duration(seconds: 2), (timer) {
+      checkUpdates();
+    });
+  }
+
+  @override
+  void dispose() {
+    print("Back To old Screen");
+    timer.cancel();
+    super.dispose();
   }
 
   @override
@@ -104,5 +120,19 @@ class _MessageDialogExpandedPageState extends State<MessageDialogExpandedPage> {
         await ImagePicker().pickMultiImage(imageQuality: 100);
     // ignore: use_build_context_synchronously
     Utils().loadImages(pickedFiles, textEditingController, context);
+  }
+
+  void checkUpdates() {
+    Request()
+        .checkNewMessages(
+            widget.user.blogStringId, messages!.first.globalId.toString())
+        .then((value) async {
+      if (value) {
+        debugPrint('есть новые сообщения');
+        HapticFeedback.vibrate();
+        player.play(AssetSource('audio/sound.mp3'), volume: 1.0);
+        loadData();
+      }
+    });
   }
 }

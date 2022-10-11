@@ -404,6 +404,46 @@ class Request {
     return false;
   }
 
+  Future<bool> checkNewMessages(String blname, String index) async {
+    var rout = '$_endpoint/im/$blname/check?last=$index';
+
+    var response = await http.get(Uri.parse(rout), headers: await getHeaders());
+
+    if (response.statusCode != 200) {
+      var code = response.statusCode;
+      throw Exception('Faild request with code $code');
+    }
+
+    var data = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
+
+    if (data['new'] as String == '1') {
+      return true;
+    }
+
+    return false;
+  }
+
+  Future<List<Message>> getNewMessages(String blname, String index) async {
+    var rout = '$_endpoint/im/$blname/get?last=$index';
+
+    var response = await http.get(Uri.parse(rout), headers: await getHeaders());
+
+    if (response.statusCode != 200) {
+      var code = response.statusCode;
+      throw Exception('Faild request with code $code');
+    }
+
+    var data = jsonDecode(utf8.decode(response.bodyBytes)) as List;
+
+    List<Message> messages = [];
+
+    for (var msg in data) {
+      messages.add(Message.fromMap(msg));
+    }
+
+    return messages;
+  }
+
   Future<bool> getNotifications(String str) async {
     var response = await http.get(Uri.parse('$_endpoint/notifications'),
         headers: await getHeaders());
@@ -433,8 +473,11 @@ class Request {
     return false;
   }
 
-  Future<bool> checkNewComments(String blname, String id, String index) async {
-    var rout = '$_endpoint/blog/$blname/post/$id/check?last=$index';
+  Future<bool> checkNewComments(
+      String blname, String id, String index, PostType type) async {
+    var rout = type == PostType.forum
+        ? '$_endpoint/topic/$id/check?last=$index'
+        : '$_endpoint/blog/$blname/post/$id/check?last=$index';
 
     var response = await http.get(Uri.parse(rout), headers: await getHeaders());
 
@@ -453,8 +496,10 @@ class Request {
   }
 
   Future<List<Comment>> getNewComments(
-      String blname, String id, String index) async {
-    var rout = '$_endpoint/blog/$blname/post/$id/get?last=$index';
+      String blname, String id, String index, PostType type) async {
+    var rout = type == PostType.forum
+        ? '$_endpoint/topic/$id/get?last=$index'
+        : '$_endpoint/blog/$blname/post/$id/get?last=$index';
 
     var response = await http.get(Uri.parse(rout), headers: await getHeaders());
 

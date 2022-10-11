@@ -32,6 +32,7 @@ class PostExpandedPage extends StatefulWidget {
 class _PostExpandedPageState extends State<PostExpandedPage> {
   var _pushedNewComment = false;
   late Timer timer;
+  AudioPlayer player = AudioPlayer();
 
   Map postInfo = {'comments': List};
   final textEditingController = TextEditingController();
@@ -124,19 +125,18 @@ class _PostExpandedPageState extends State<PostExpandedPage> {
   /// - Mark: additional methods
 
   void _sendComment() {
-    AudioPlayer().play(AssetSource('assets/audio/sound.mp3'));
-    // Request()
-    //     .sendComment(
-    //         widget.blname, widget.id, widget.type, textEditingController.text)
-    //     .then((value) {
-    //   if (value) {
-    //     _pushedNewComment = true;
-    //     textEditingController.clear();
-    //     loadData();
-    //   }
+    Request()
+        .sendComment(
+            widget.blname, widget.id, widget.type, textEditingController.text)
+        .then((value) {
+      if (value) {
+        _pushedNewComment = true;
+        textEditingController.clear();
+        loadData();
+      }
 
-    //   FocusScope.of(context).requestFocus(FocusNode());
-    // });
+      FocusScope.of(context).requestFocus(FocusNode());
+    });
   }
 
   void loadData() {
@@ -151,7 +151,7 @@ class _PostExpandedPageState extends State<PostExpandedPage> {
     var comm = postInfo['comments'] as List;
     var index = comm.length;
     Request()
-        .getNewComments(widget.blname, widget.id, index.toString())
+        .getNewComments(widget.blname, widget.id, index.toString(), widget.type)
         .then((value) {
       if (value.isNotEmpty) {
         setState(() {
@@ -166,12 +166,14 @@ class _PostExpandedPageState extends State<PostExpandedPage> {
     var index = comm.length;
 
     Request()
-        .checkNewComments(widget.blname, widget.id, index.toString())
+        .checkNewComments(
+            widget.blname, widget.id, index.toString(), widget.type)
         .then((value) {
       if (value) {
         debugPrint('есть новые коммы');
         _pushedNewComment = false;
         HapticFeedback.vibrate();
+        player.play(AssetSource('audio/sound.mp3'), volume: 1.0);
         loadData();
       }
     });
