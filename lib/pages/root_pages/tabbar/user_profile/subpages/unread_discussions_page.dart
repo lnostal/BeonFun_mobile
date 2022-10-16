@@ -2,16 +2,18 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_beonfun/widgets/loader_view.dart';
 
 import '../../../../../models/post.dart';
+import '../../../../../net/general_network.dart';
 import '../../../../common_pages/post_expanded_page.dart';
 
 class UnreadDiscussionsPage extends StatefulWidget {
-  List<Post> posts;
+  // List<Post> posts;
 
   UnreadDiscussionsPage({
     Key? key,
-    required this.posts,
+    //required this.posts,
   }) : super(key: key);
 
   @override
@@ -19,21 +21,55 @@ class UnreadDiscussionsPage extends StatefulWidget {
 }
 
 class _UnreadDiscussionsPageState extends State<UnreadDiscussionsPage> {
+  List<Post>? posts;
+
+  @override
+  void initState() {
+    super.initState();
+    loadData();
+  }
+
+  void loadData() {
+    Request().getDiscussions().then((value) {
+      setState(() {
+        posts = value.where((element) => element.unread == true).toList();
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
-      navigationBar: const CupertinoNavigationBar(
-          middle: Text('Новые сообщения в'),
+      navigationBar: CupertinoNavigationBar(
+          middle: Text('Уведомления'),
           border: Border(bottom: BorderSide(color: Colors.transparent))),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: ListView.builder(
-            itemCount: widget.posts.length,
-            itemBuilder: (context, index) {
-              return getDiscussionCell(index);
-            }),
+        child: createBody(),
       ),
     );
+  }
+
+  Widget createBody() {
+    if (posts == null) {
+      return Loader();
+    }
+
+    if (posts!.isEmpty) {
+      return Center(
+          child: Padding(
+              padding: EdgeInsets.all(16),
+              child: Text(
+                'Нет новых уведомлений',
+                style: Theme.of(context).textTheme.bodyMedium,
+              )));
+    }
+
+    return ListView.builder(
+        itemCount: posts!.length,
+        itemBuilder: (context, index) {
+          return getDiscussionCell(index);
+        });
   }
 
   Widget getDiscussionCell(index) {
@@ -42,11 +78,10 @@ class _UnreadDiscussionsPageState extends State<UnreadDiscussionsPage> {
       child: TextButton(
           onPressed: () {
             Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) =>
-                    openExpandedPostPage(widget.posts[index])));
+                builder: (context) => openExpandedPostPage(posts![index])));
           },
           child: Text(
-            widget.posts[index].title,
+            posts![index].title,
             textAlign: TextAlign.left,
             style: const TextStyle(fontSize: 16),
           )),

@@ -1,4 +1,3 @@
-import 'package:blinking_text/blinking_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_beonfun/pages/root_pages/auth_page.dart';
@@ -7,7 +6,6 @@ import 'package:flutter_beonfun/pages/root_pages/tabbar/user_profile/subpages/un
 import 'package:flutter_beonfun/widgets/avatar_view.dart';
 import 'package:flutter_beonfun/widgets/loader_view.dart';
 
-import '../../../../models/post.dart';
 import '../../../../models/user.dart';
 import '../../../../net/general_network.dart';
 
@@ -22,18 +20,11 @@ class UserProfilePage extends StatefulWidget {
 
 class _UserProfilePageState extends State<UserProfilePage> {
   User? user;
-  List<Post> _posts = [];
 
   void loadData() {
     Request().getUserInfo().then((User newVal) {
       setState(() {
         user = newVal;
-      });
-    });
-
-    Request().getDiscussions().then((value) {
-      setState(() {
-        _posts = value.where((element) => element.unread == true).toList();
       });
     });
   }
@@ -111,25 +102,13 @@ class _UserProfilePageState extends State<UserProfilePage> {
       TextButton(
           onPressed: () {
             Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => UnreadDiscussionsPage(posts: _posts)));
+                builder: (context) => UnreadDiscussionsPage()));
           },
           child: const Text(
             'Discussions',
             style: TextStyle(fontSize: 16),
           ))
     ];
-
-    if (_posts.isNotEmpty) {
-      button.addAll([
-        const Spacer(),
-        const Padding(
-            padding: EdgeInsets.only(right: 16.0),
-            child: BlinkText(
-              'New',
-              style: TextStyle(color: Colors.red),
-            ))
-      ]);
-    }
 
     return Card(
       child: Row(
