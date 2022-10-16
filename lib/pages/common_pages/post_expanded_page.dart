@@ -172,8 +172,8 @@ class _PostExpandedPageState extends State<PostExpandedPage> {
       if (value) {
         debugPrint('есть новые коммы');
         _pushedNewComment = false;
-        HapticFeedback.vibrate();
-        player.play(AssetSource('audio/sound.mp3'), volume: 1.0);
+        //HapticFeedback.vibrate();
+        //player.play(AssetSource('audio/sound.mp3'), volume: 1.0);
         loadData();
       }
     });

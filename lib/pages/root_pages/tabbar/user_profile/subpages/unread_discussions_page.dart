@@ -3,6 +3,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_beonfun/widgets/loader_view.dart';
+import 'package:focus_detector/focus_detector.dart';
 
 import '../../../../../models/post.dart';
 import '../../../../../net/general_network.dart';
@@ -37,15 +38,25 @@ class _UnreadDiscussionsPageState extends State<UnreadDiscussionsPage> {
     });
   }
 
+  void viewWillAppear() {
+    setState(() {
+      posts = null;
+    });
+    loadData();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return CupertinoPageScaffold(
-      navigationBar: CupertinoNavigationBar(
-          middle: Text('Уведомления'),
-          border: Border(bottom: BorderSide(color: Colors.transparent))),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: createBody(),
+    return FocusDetector(
+      onFocusGained: viewWillAppear,
+      child: CupertinoPageScaffold(
+        navigationBar: CupertinoNavigationBar(
+            middle: Text('Уведомления'),
+            border: Border(bottom: BorderSide(color: Colors.transparent))),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: createBody(),
+        ),
       ),
     );
   }

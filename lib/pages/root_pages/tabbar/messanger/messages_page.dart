@@ -2,6 +2,7 @@ import 'package:badges/badges.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_beonfun/widgets/avatar_view.dart';
+import 'package:focus_detector/focus_detector.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../models/message.dart';
@@ -40,8 +41,8 @@ class _MessagesPageState extends State<MessagesPage> {
             middle: Text('Сообщения'),
             border: Border(bottom: BorderSide(color: Colors.transparent))),
         child: SafeArea(
-            child: RefreshIndicator(
-          onRefresh: _pullRefresh,
+            child: FocusDetector(
+          onFocusGained: _pullRefresh,
           child: ListView.separated(
               separatorBuilder: (context, index) => const Divider(),
               itemCount: chats!.length,

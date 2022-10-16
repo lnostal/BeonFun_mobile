@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:focus_detector/focus_detector.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../models/post.dart';
@@ -16,10 +17,6 @@ class _DiaryListViewState extends State<DiaryListView> {
   List<Post>? _posts;
 
   void loadData() async {
-    setState(() {
-      _posts = null;
-    });
-
     var prefs = await SharedPreferences.getInstance();
     String? blog = prefs.getString('blogStringId');
 
@@ -37,15 +34,20 @@ class _DiaryListViewState extends State<DiaryListView> {
   }
 
   Future<void> _pullRefresh() async {
+    setState(() {
+      _posts = null;
+    });
     loadData();
   }
 
   @override
   Widget build(BuildContext context) {
-    return PostsListView(
-      onPullRefresh: _pullRefresh,
-      showUserInfo: false,
-      posts: _posts,
-    );
+    return FocusDetector(
+        onFocusGained: loadData,
+        child: PostsListView(
+          onPullRefresh: _pullRefresh,
+          showUserInfo: false,
+          posts: _posts,
+        ));
   }
 }
