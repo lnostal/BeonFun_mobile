@@ -444,7 +444,7 @@ class Request {
     return messages;
   }
 
-  Future<bool> getNotifications(String str) async {
+  Future<Map> getNotifications() async {
     var response = await http.get(Uri.parse('$_endpoint/notifications'),
         headers: await getHeaders());
 
@@ -458,19 +458,7 @@ class Request {
     var discussions = data['discussions'] as int;
     var chats = data['chats'] as int;
 
-    if (str == 'msg') {
-      return messages == 1;
-    }
-
-    if (str == 'dsc') {
-      return discussions == 1;
-    }
-
-    if (str == 'cht') {
-      return chats == 1;
-    }
-
-    return false;
+    return {'messages': messages, 'discussions': discussions, 'chats': chats};
   }
 
   Future<bool> checkNewComments(

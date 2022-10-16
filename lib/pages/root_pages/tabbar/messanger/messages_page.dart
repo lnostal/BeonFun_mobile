@@ -1,3 +1,4 @@
+import 'package:badges/badges.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_beonfun/widgets/avatar_view.dart';
@@ -67,14 +68,16 @@ class _MessagesPageState extends State<MessagesPage> {
           child: Padding(
               padding: const EdgeInsets.only(right: 16),
               child: Row(children: [
-                Stack(children: [
-                  AvatarView(user: withWhom),
-                  Positioned(
-                    child: createUnreadLabel(message, context),
-                    bottom: 15,
-                    right: 15,
-                  )
-                ]),
+                Badge(
+                  child: AvatarView(user: withWhom),
+                  badgeContent: Text(
+                    '.',
+                    style: TextStyle(color: Colors.transparent),
+                  ),
+                  position: BadgePosition(bottom: 10, end: 12),
+                  showBadge:
+                      message.isRead && message.to!.id.toString() == userId,
+                ),
                 Flexible(
                     child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -89,28 +92,6 @@ class _MessagesPageState extends State<MessagesPage> {
                           overflow: TextOverflow.ellipsis)
                     ])),
               ]))),
-    );
-  }
-
-  SizedBox createUnreadLabel(Message message, BuildContext context) {
-    Color? unreadLabelColor = Colors.transparent;
-
-    if (message.isRead && message.to!.id.toString() == userId) {
-      unreadLabelColor =
-          Theme.of(context).floatingActionButtonTheme.backgroundColor;
-    }
-
-    return SizedBox(
-      height: 15,
-      width: 15,
-      child: Container(
-        decoration: BoxDecoration(
-            color: unreadLabelColor,
-            borderRadius: BorderRadius.all(Radius.circular(7.5))),
-        child: ClipRRect(
-          borderRadius: BorderRadius.all(Radius.circular(7.5)),
-        ),
-      ),
     );
   }
 
