@@ -70,13 +70,14 @@ class _UserProfilePageState extends State<UserProfilePage> {
         child: Column(children: [
           AvatarView(user: user, type: AvatarType.profile, avatarSize: 140),
           Text(user.name,
-              style:
-                  const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center),
           const SizedBox(height: 10),
           Text(
             user.sign ?? '',
             style: const TextStyle(
                 fontSize: 16, color: Colors.grey, fontStyle: FontStyle.italic),
+            textAlign: TextAlign.center,
           ),
           const SizedBox(height: 48),
           Row(

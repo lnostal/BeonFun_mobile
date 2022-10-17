@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_beonfun/net/general_network.dart';
 import 'package:flutter_beonfun/pages/root_pages/tabbar/messanger/messages_page.dart';
-import 'package:flutter_beonfun/pages/root_pages/tabbar/user_diary/user_diary_page.dart';
+import 'package:flutter_beonfun/pages/root_pages/tabbar/user_diary/diary_page.dart';
 import 'package:flutter_beonfun/pages/root_pages/tabbar/feed/feed_page.dart';
 import 'package:flutter_beonfun/pages/root_pages/tabbar/user_profile/profile_page.dart';
 
@@ -63,7 +63,7 @@ class _TabBarPageState extends State<TabBarPage> {
               ));
             case 1:
               return SafeArea(
-                  child: UserDiaryPage(
+                  child: DiaryPage(
                 title: 'Diary $index',
               ));
             case 2:

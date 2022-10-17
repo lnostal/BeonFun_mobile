@@ -5,16 +5,16 @@ import 'package:flutter_beonfun/widgets/tabbar_lists/friend_list_view.dart';
 
 import '../../../../widgets/tabbar_lists/diary_list_view.dart';
 
-class UserDiaryPage extends StatefulWidget {
+class DiaryPage extends StatefulWidget {
   final String title;
 
-  const UserDiaryPage({Key? key, required this.title}) : super(key: key);
+  const DiaryPage({Key? key, required this.title}) : super(key: key);
 
   @override
-  State<UserDiaryPage> createState() => _UserDiaryPageState();
+  State<DiaryPage> createState() => _DiaryPageState();
 }
 
-class _UserDiaryPageState extends State<UserDiaryPage>
+class _DiaryPageState extends State<DiaryPage>
     with SingleTickerProviderStateMixin {
   @override
   void initState() {

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_beonfun/pages/common_pages/about_user_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/post.dart';
 import 'post/post_body.dart';
@@ -26,9 +28,12 @@ class _PostListCellViewState extends State<PostListCellView> {
     if (widget.showUserInfo) {
       Widget temp = Padding(
         padding: const EdgeInsets.only(right: 16.0),
-        child: PostHeaderView(
-          user: widget.post.userInfo,
-          post: widget.post,
+        child: GestureDetector(
+          onTap: openUserProfile,
+          child: PostHeaderView(
+            user: widget.post.userInfo,
+            post: widget.post,
+          ),
         ),
       );
 
@@ -42,5 +47,17 @@ class _PostListCellViewState extends State<PostListCellView> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: postParts,
     ));
+  }
+
+  void openUserProfile() async {
+    var prefs = await SharedPreferences.getInstance();
+    String? blog = prefs.getString('blogStringId');
+
+    if (widget.post.userInfo.blogStringId == blog) {
+      return;
+    }
+
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => AboutUserPage(user: widget.post.userInfo)));
   }
 }
