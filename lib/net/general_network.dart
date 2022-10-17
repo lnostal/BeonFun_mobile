@@ -15,9 +15,9 @@ class Request {
 
   /// Load info about user
   ///
-  Future<User> getUserInfo() async {
-    var response =
-        await http.get(Uri.parse('$_endpoint/im'), headers: await getHeaders());
+  Future<User?> getCurrentUserInfo() async {
+    var response = await http.get(Uri.parse('$_endpoint/test'),
+        headers: await getHeaders());
 
     if (response.statusCode != 200) {
       var code = response.statusCode;
@@ -26,11 +26,27 @@ class Request {
 
     var data = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
 
-    User user = User.fromMap(data['self']);
+    User user = User.fromMap(data);
 
     var prefs = await SharedPreferences.getInstance();
-    prefs.setString('userId', user.id.toString());
-    prefs.setString('blogStringId', user.blogStringId);
+    await prefs.setString('userId', user.id.toString());
+    await prefs.setString('blogStringId', user.blogStringId);
+
+    return user;
+  }
+
+  Future<User> getUserInfo(String id) async {
+    var response = await http.get(Uri.parse('$_endpoint/users/$id'),
+        headers: await getHeaders());
+
+    if (response.statusCode != 200) {
+      var code = response.statusCode;
+      throw Exception('Faild request with code $code');
+    }
+
+    var data = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
+
+    User user = User.fromMap(data);
 
     return user;
   }
@@ -229,18 +245,10 @@ class Request {
       return true;
     }
 
-    var response = await http.get(Uri.parse('$_endpoint/test'),
-        headers: await getHeaders());
-
-    if (response.statusCode != 200) {
+    var user = await Request().getCurrentUserInfo();
+    if (user == null) {
       return true;
     }
-
-    var data = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
-    User user = User.fromMap(data);
-
-    await prefs.setString('userId', user.id.toString());
-    await prefs.setString('blogStringId', user.blogStringId);
 
     return false;
   }

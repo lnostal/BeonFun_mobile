@@ -1,6 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_beonfun/net/general_network.dart';
 import 'package:package_info/package_info.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../../../common_pages/about_user_page.dart';
 
 class AboutAppPage extends StatefulWidget {
   const AboutAppPage({super.key});
@@ -49,11 +53,27 @@ class _AboutAppPageState extends State<AboutAppPage> {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Center(
-        child: Text(
-            'сказать спасибо • сказать о багах • скинуть на лечение\n\n⇩⇩⇩\n\nМарла',
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.bodyMedium),
-      ),
+          child: Column(
+        children: [
+          Text(
+              'сказать спасибо • сказать о багах • скинуть на лечение\n\n⇩⇩⇩\n',
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.bodyMedium),
+          TextButton.icon(
+              onPressed: () {
+                openUserProfile('30');
+              },
+              icon: Icon(Icons.app_shortcut),
+              label: Text('Марла')),
+          TextButton.icon(
+              onPressed: () {
+                openUserProfile('1');
+              },
+              icon: Icon(Icons.web),
+              label: Text('ghostrider')),
+          //TextButton(onPressed: (){}, child: child)
+        ],
+      )),
     );
   }
 
@@ -71,5 +91,19 @@ class _AboutAppPageState extends State<AboutAppPage> {
           textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.bodyMedium,
         )));
+  }
+
+  void openUserProfile(String id) async {
+    // var prefs = await SharedPreferences.getInstance();
+    // String? blog = prefs.getString('blogStringId');
+
+    // if (blogname == blog) {
+    //   return;
+    // }
+
+    var user = await Request().getUserInfo(id);
+
+    Navigator.of(context).push(
+        MaterialPageRoute(builder: (context) => AboutUserPage(user: user)));
   }
 }

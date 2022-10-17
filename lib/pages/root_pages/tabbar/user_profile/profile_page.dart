@@ -22,9 +22,9 @@ class _UserProfilePageState extends State<UserProfilePage> {
   User? user;
 
   void loadData() {
-    Request().getUserInfo().then((User newVal) {
+    Request().getCurrentUserInfo().then((User? newVal) {
       setState(() {
-        user = newVal;
+        user = newVal!;
       });
     });
   }

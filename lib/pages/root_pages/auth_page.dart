@@ -71,7 +71,7 @@ class _AuthPageState extends State<AuthPage> {
       (value) async {
         var prefs = await SharedPreferences.getInstance();
         await prefs.setString('token', value);
-        Request().getUserInfo();
+        Request().getCurrentUserInfo();
         Navigator.of(context).pushReplacement(MaterialPageRoute(
             builder: (BuildContext context) => const TabBarPage()));
       },
