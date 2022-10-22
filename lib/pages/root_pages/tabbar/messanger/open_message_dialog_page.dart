@@ -64,6 +64,7 @@ class _MessageDialogExpandedPageState extends State<MessageDialogExpandedPage> {
           controller: textEditingController,
           onSend: _sendComment,
           onAttach: _attachImages,
+          enabled: true,
         )));
   }
 

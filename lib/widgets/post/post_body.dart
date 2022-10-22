@@ -27,13 +27,12 @@ class _PostBodyState extends State<PostBody> {
     return Padding(
         padding: const EdgeInsets.only(left: 16, right: 16),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            BBCodeText(
-                data: StringParser().removeBBCodeFromString(widget.post.text),
-                defaultStyle: Theme.of(context).textTheme.bodyMedium)
-          ],
-        ));
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              BBCodeText(
+                  data: StringParser().removeBBCodeFromString(widget.post.text),
+                  defaultStyle: Theme.of(context).textTheme.bodyMedium),
+            ]));
   }
 }

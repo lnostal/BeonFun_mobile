@@ -7,13 +7,15 @@ class SendMessageBottomView extends StatefulWidget {
   final void Function() onAttach;
   Widget childWidget;
   final controller;
+  final bool enabled;
 
   SendMessageBottomView(
       {super.key,
       required this.childWidget,
       required this.controller,
       required this.onSend,
-      required this.onAttach});
+      required this.onAttach,
+      required this.enabled});
 
   @override
   State<SendMessageBottomView> createState() => _SendMessageBottomViewState();
@@ -36,6 +38,7 @@ class _SendMessageBottomViewState extends State<SendMessageBottomView> {
           keyboardType: TextInputType.multiline,
           minLines: 1,
           maxLines: 10,
+          enabled: widget.enabled,
           style:
               TextStyle(color: Theme.of(context).textTheme.bodyMedium!.color),
           decoration: InputDecoration(

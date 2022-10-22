@@ -31,6 +31,7 @@ class PostExpandedPage extends StatefulWidget {
 
 class _PostExpandedPageState extends State<PostExpandedPage> {
   var _pushedNewComment = false;
+  var _canComment = false;
   late Timer timer;
   AudioPlayer player = AudioPlayer();
 
@@ -76,6 +77,7 @@ class _PostExpandedPageState extends State<PostExpandedPage> {
           controller: textEditingController,
           onSend: _sendComment,
           onAttach: _attachImages,
+          enabled: _canComment,
         )));
   }
 
@@ -143,6 +145,7 @@ class _PostExpandedPageState extends State<PostExpandedPage> {
     Request().getPost(widget.type, widget.blname, widget.id).then((value) {
       setState(() {
         postInfo = value;
+        _canComment = canComment();
       });
     });
   }
@@ -177,6 +180,13 @@ class _PostExpandedPageState extends State<PostExpandedPage> {
         loadData();
       }
     });
+  }
+
+  bool canComment() {
+    if (widget.type != PostType.forum) {
+      return (postInfo['post'] as Post).canComment!;
+    }
+    return true;
   }
 
   Future<void> _pullRefresh() async {

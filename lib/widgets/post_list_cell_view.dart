@@ -43,10 +43,29 @@ class _PostListCellViewState extends State<PostListCellView> {
     }
 
     return Card(
-        child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: postParts,
-    ));
+        child: Stack(children: [
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: postParts,
+      ),
+      Positioned(
+          right: 14,
+          top: 8,
+          child: Icon(
+            Icons.lock,
+            size: 15,
+            color: setLockColor(context),
+          ))
+    ]));
+  }
+
+  Color setLockColor(context) {
+    if (widget.post.type != PostType.forum) {
+      if (widget.post.postAccess == PostPrivateSettings.me) {
+        return Theme.of(context).iconTheme.color!;
+      }
+    }
+    return Colors.transparent;
   }
 
   void openUserProfile() async {

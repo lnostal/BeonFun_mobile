@@ -1,5 +1,6 @@
 // ignore_for_file: overridden_fields
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_beonfun/models/forum.dart';
 import 'package:flutter_beonfun/models/user.dart';
 
@@ -21,6 +22,8 @@ class Post {
   Blog? blogInfo;
   bool liked;
   bool? unread;
+  PostPrivateSettings? postAccess;
+  bool? canComment;
 
   Post(
       {required this.type,
@@ -37,7 +40,9 @@ class Post {
       required this.userInfo,
       this.blogInfo,
       required this.liked,
-      this.unread});
+      this.unread,
+      this.postAccess,
+      this.canComment});
 
   factory Post.fromMap(Map<String, dynamic> map) {
     PostType type = PostType.diary;
@@ -82,7 +87,12 @@ class Post {
         userInfo: userInfo,
         blogInfo: (map['blog'] != null) ? Blog.fromMap(map['blog']) : null,
         liked: liked,
-        unread: statusNew);
+        unread: statusNew,
+        postAccess: map['access'] != null
+            ? setAccessType(map['access'] as String)
+            : null,
+        canComment:
+            map['can_comment'] != null ? map['can_comment'] as bool : null);
   }
 }
 
@@ -90,4 +100,13 @@ enum PostType {
   diary,
   forum,
   community,
+}
+
+enum PostPrivateSettings { all, friends, users, me }
+
+PostPrivateSettings setAccessType(String str) {
+  PostPrivateSettings type = PostPrivateSettings.values
+      .firstWhere((value) => describeEnum(value) == str);
+
+  return type;
 }
