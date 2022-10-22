@@ -24,7 +24,7 @@ class _TabBarPageState extends State<TabBarPage> {
   @override
   void initState() {
     super.initState();
-    timer = Timer.periodic(Duration(seconds: 2), (timer) {
+    timer = Timer.periodic(Duration(seconds: 10), (timer) {
       checkUpdates();
     });
   }
