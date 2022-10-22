@@ -46,9 +46,8 @@ class _DiaryPageState extends State<DiaryPage>
   }
 
   Widget page() {
-    var primaryColor =
-        Theme.of(context).floatingActionButtonTheme.backgroundColor;
-    var backgroudColor = Theme.of(context).scaffoldBackgroundColor;
+    var primaryColor = Theme.of(context).primaryColor;
+    var backgroudColor = Theme.of(context).backgroundColor;
 
     return Scaffold(
       appBar: const CupertinoNavigationBar(

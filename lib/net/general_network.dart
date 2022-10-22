@@ -211,7 +211,8 @@ class Request {
 
   /// Create new post in diary
   ///
-  Future<bool> createPost(String blname, String title, String message) async {
+  Future<bool> createPost(String blname, String title, String message,
+      String access, String comaccess) async {
     String rout = '$_endpoint/blog/$blname/new';
 
     var response = await http.post(Uri.parse(rout),
@@ -219,7 +220,8 @@ class Request {
         body: jsonEncode(<String, String>{
           'text': message,
           'title': title,
-          'access': 'users'
+          'access': access,
+          'commaccess': comaccess
         }));
 
     if (response.statusCode != 200) {

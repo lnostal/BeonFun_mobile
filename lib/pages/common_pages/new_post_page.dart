@@ -1,9 +1,12 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'package:flutter_beonfun/models/post.dart';
 
 import '../../net/general_network.dart';
 import '../../utils/utils.dart';
@@ -18,6 +21,9 @@ class WriteNewPost extends StatefulWidget {
 class _WriteNewPostState extends State<WriteNewPost> {
   final _titleController = TextEditingController();
   final _messageController = TextEditingController();
+
+  var defaultPostAccess = PostPrivateSettings.users;
+  var defaultCommAccess = PostPrivateSettings.users;
 
   @override
   Widget build(BuildContext context) {
@@ -76,11 +82,66 @@ class _WriteNewPostState extends State<WriteNewPost> {
                               style: TextStyle(fontSize: 16),
                             )))
                   ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      createAccessView('Доступ', defaultPostAccess, (value) {
+                        setState(() {
+                          defaultPostAccess = value;
+                        });
+                      }),
+                      createAccessView('Комментирование', defaultCommAccess,
+                          (value) {
+                        setState(() {
+                          defaultCommAccess = value;
+                        });
+                      })
+                    ],
+                  ),
                 )
               ],
             ),
           ),
         ));
+  }
+
+  Widget createAccessView(String type, PostPrivateSettings access,
+      Function(PostPrivateSettings value) onChanged) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(type),
+        DropdownButton(
+          value: access,
+          dropdownColor: Theme.of(context).backgroundColor,
+          hint: Text(type, style: Theme.of(context).textTheme.bodyMedium),
+          items: [
+            DropdownMenuItem<PostPrivateSettings>(
+                child:
+                    Text('Все', style: Theme.of(context).textTheme.bodyMedium),
+                value: PostPrivateSettings.all),
+            DropdownMenuItem<PostPrivateSettings>(
+                child: Text('Пользователи',
+                    style: Theme.of(context).textTheme.bodyMedium),
+                value: PostPrivateSettings.users),
+            DropdownMenuItem<PostPrivateSettings>(
+                child: Text('Друзья',
+                    style: Theme.of(context).textTheme.bodyMedium),
+                value: PostPrivateSettings.friends),
+            DropdownMenuItem<PostPrivateSettings>(
+                child: Text('Только я',
+                    style: Theme.of(context).textTheme.bodyMedium),
+                value: PostPrivateSettings.me)
+          ],
+          onChanged: (value) {
+            onChanged(value!);
+          },
+        ),
+      ],
+    );
   }
 
   Future<void> createPost() async {
@@ -89,7 +150,12 @@ class _WriteNewPostState extends State<WriteNewPost> {
     var prefs = await SharedPreferences.getInstance();
     String? blog = prefs.getString('blogStringId');
 
-    Request().createPost(blog!, title, message).then((value) {
+    var access = describeEnum(defaultPostAccess);
+    var comaccess = describeEnum(defaultCommAccess);
+
+    Request()
+        .createPost(blog!, title, message, access, comaccess)
+        .then((value) {
       if (value) {
         Navigator.of(context).pop();
       }

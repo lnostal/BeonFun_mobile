@@ -88,8 +88,7 @@ class _PostFooterViewState extends State<PostFooterView> {
 
   Icon createFavoriteIcon() {
     if (_isFavourite) {
-      return Icon(Icons.favorite,
-          color: Theme.of(context).floatingActionButtonTheme.backgroundColor);
+      return Icon(Icons.favorite, color: Theme.of(context).primaryColor);
     }
 
     return const Icon(Icons.favorite_border);

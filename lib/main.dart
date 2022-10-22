@@ -28,6 +28,8 @@ class MyApp extends StatelessWidget {
     const accentColor = Colors.brown;
 
     return ThemeData().copyWith(
+        backgroundColor: backgroundColor,
+        primaryColor: accentColor,
         brightness: Brightness.light,
         scaffoldBackgroundColor: backgroundColor,
         colorScheme: ThemeData().colorScheme.copyWith(primary: accentColor),
@@ -77,6 +79,8 @@ class MyApp extends StatelessWidget {
     const accentColor = Color.fromRGBO(163, 177, 138, 1);
 
     return ThemeData().copyWith(
+        backgroundColor: backgroundColor,
+        primaryColor: accentColor,
         brightness: Brightness.light,
         scaffoldBackgroundColor: backgroundColor,
         colorScheme: ThemeData().colorScheme.copyWith(primary: accentColor),

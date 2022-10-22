@@ -63,8 +63,7 @@ class _PostExpandedActionsState extends State<PostExpandedActions> {
   Icon createFavoriteIcon() {
     if (liked) {
       return Icon(Icons.favorite,
-          size: 28,
-          color: Theme.of(context).floatingActionButtonTheme.backgroundColor);
+          size: 28, color: Theme.of(context).primaryColor);
     }
 
     return const Icon(Icons.favorite_border);
