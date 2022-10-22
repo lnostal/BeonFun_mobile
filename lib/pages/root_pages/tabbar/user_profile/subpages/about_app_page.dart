@@ -38,7 +38,7 @@ class _AboutAppPageState extends State<AboutAppPage> {
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
       navigationBar: const CupertinoNavigationBar(
-          middle: Text('About App'),
+          middle: Text('О приложении'),
           border: Border(bottom: BorderSide(color: Colors.transparent))),
       child: SafeArea(
           child: Center(
@@ -94,13 +94,6 @@ class _AboutAppPageState extends State<AboutAppPage> {
   }
 
   void openUserProfile(String id) async {
-    // var prefs = await SharedPreferences.getInstance();
-    // String? blog = prefs.getString('blogStringId');
-
-    // if (blogname == blog) {
-    //   return;
-    // }
-
     var user = await Request().getUserInfo(id);
 
     Navigator.of(context).push(

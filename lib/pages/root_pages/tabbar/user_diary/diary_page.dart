@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_beonfun/pages/common_pages/new_post_page.dart';
 import 'package:flutter_beonfun/widgets/tabbar_lists/friend_list_view.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 import '../../../../widgets/tabbar_lists/diary_list_view.dart';
 
@@ -45,20 +46,48 @@ class _DiaryPageState extends State<DiaryPage>
   }
 
   Widget page() {
+    var primaryColor =
+        Theme.of(context).floatingActionButtonTheme.backgroundColor;
+    var backgroudColor = Theme.of(context).scaffoldBackgroundColor;
+
     return Scaffold(
       appBar: const CupertinoNavigationBar(
           middle: Text('Дневник'),
           border: Border(bottom: BorderSide(color: Colors.transparent))),
       body: Scaffold(
-        appBar: const TabBar(
-          indicatorWeight: 1.0,
-          labelStyle: TextStyle(fontSize: 16),
-          tabs: [Tab(text: 'Мои записи'), Tab(text: 'Записи друзей')],
-        ),
-        body: const TabBarView(children: [DiaryListView(), FriendListView()]),
-        floatingActionButton: FloatingActionButton(
-            onPressed: newPostButtonPressed, child: const Icon(Icons.create)),
-      ),
+          appBar: const TabBar(
+            indicatorWeight: 1.0,
+            labelStyle: TextStyle(fontSize: 16),
+            tabs: [Tab(text: 'Мои записи'), Tab(text: 'Записи друзей')],
+          ),
+          body: const TabBarView(children: [DiaryListView(), FriendListView()]),
+          floatingActionButton: SpeedDial(
+            icon: Icons.create,
+            activeIcon: Icons.close,
+            spacing: 8,
+            overlayColor: backgroudColor,
+            overlayOpacity: 0.5,
+            children: [
+              SpeedDialChild(
+                backgroundColor: primaryColor,
+                foregroundColor: Colors.white,
+                labelBackgroundColor: backgroudColor,
+                onTap: newPostButtonPressed,
+                label: 'В дневник',
+                child: const Icon(Icons.book_sharp),
+              ),
+              SpeedDialChild(
+                label: 'На форум',
+                backgroundColor: primaryColor,
+                foregroundColor: Colors.white,
+                labelBackgroundColor: backgroudColor,
+                child: const Icon(Icons.people),
+              )
+            ],
+          )
+          // FloatingActionButton(
+          //     onPressed: newPostButtonPressed, child: const Icon(Icons.create)),
+          ),
     );
   }
 }

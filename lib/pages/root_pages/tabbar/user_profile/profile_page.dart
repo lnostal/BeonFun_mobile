@@ -43,8 +43,8 @@ class _UserProfilePageState extends State<UserProfilePage> {
 
     return CupertinoPageScaffold(
         child: SafeArea(
-      child: ListView.separated(
-          separatorBuilder: (context, index) => const Divider(),
+      child: ListView.builder(
+          //separatorBuilder: (context, index) => const Divider(),
           itemCount: 4,
           itemBuilder: (context, index) {
             switch (index) {
@@ -95,80 +95,63 @@ class _UserProfilePageState extends State<UserProfilePage> {
   }
 
   Widget discussionsCell() {
-    List<Widget> button = [
-      const Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Icon(Icons.chat_bubble_outline_sharp),
-      ),
-      TextButton(
+    return cell(
+      TextButton.icon(
           onPressed: () {
             Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => UnreadDiscussionsPage()));
           },
-          child: const Text(
-            'Discussions',
+          label: const Text(
+            'Новые комментарии',
             style: TextStyle(fontSize: 16),
-          ))
-    ];
-
-    return Card(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: button,
-      ),
+            textAlign: TextAlign.end,
+          ),
+          icon: Icon(Icons.chat_bubble_outline_sharp)),
     );
   }
 
   Widget aboutAppCell() {
-    return Card(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          const Padding(
-            padding: EdgeInsets.all(16.0),
-            child: Icon(Icons.app_shortcut),
-          ),
-          TextButton(
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const AboutAppPage()));
-              },
-              child: const Text(
-                'About App',
-                style: TextStyle(fontSize: 16),
-              )),
-        ],
+    return cell(
+      TextButton.icon(
+        onPressed: () {
+          Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => const AboutAppPage()));
+        },
+        label: const Text(
+          'О приложении',
+          style: TextStyle(fontSize: 16),
+        ),
+        icon: Icon(Icons.app_shortcut),
       ),
     );
   }
 
   Widget exitCell() {
-    return Card(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          const Padding(
-            padding: EdgeInsets.all(16.0),
-            child: Icon(
-              Icons.exit_to_app,
-              color: Colors.red,
-            ),
+    return cell(
+      TextButton.icon(
+          onPressed: () {
+            Request().logout().then((value) {
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (BuildContext context) => const AuthPage()));
+            });
+          },
+          label: Text(
+            'Выход',
+            style: TextStyle(fontSize: 16),
           ),
-          TextButton(
-              onPressed: () {
-                Request().logout().then((value) {
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      builder: (BuildContext context) => const AuthPage()));
-                });
-              },
-              child: const Text(
-                'Logout',
-                style: TextStyle(fontSize: 16),
-              )),
-        ],
+          icon: Icon(
+            Icons.exit_to_app,
+            color: Colors.red,
+          )),
+    );
+  }
+
+  Widget cell(Widget child) {
+    return Container(
+      alignment: Alignment.centerLeft,
+      child: Padding(
+        padding: EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0),
+        child: child,
       ),
     );
   }
