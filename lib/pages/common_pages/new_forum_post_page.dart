@@ -4,34 +4,30 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_beonfun/models/forum.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-import 'package:flutter_beonfun/models/post.dart';
 
 import '../../net/general_network.dart';
 import '../../utils/utils.dart';
 
-class WriteNewPost extends StatefulWidget {
-  const WriteNewPost({super.key});
+class WriteForumNewPost extends StatefulWidget {
+  const WriteForumNewPost({super.key});
 
   @override
-  State<WriteNewPost> createState() => _WriteNewPostState();
+  State<WriteForumNewPost> createState() => _WriteForumNewPostState();
 }
 
-class _WriteNewPostState extends State<WriteNewPost> {
+class _WriteForumNewPostState extends State<WriteForumNewPost> {
   final _titleController = TextEditingController();
   final _messageController = TextEditingController();
-  ScrollController _scrollController = ScrollController();
 
-  var defaultPostAccess = PostPrivateSettings.users;
-  var defaultCommAccess = PostPrivateSettings.users;
+  String defaultForum = describeEnum(ForumType.discussion);
 
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
         navigationBar: const CupertinoNavigationBar(
-            middle: Text('Новый пост'),
+            middle: Text('Написать на форум'),
             border: Border(bottom: BorderSide(color: Colors.transparent))),
         child: Scaffold(
           body: SingleChildScrollView(
@@ -39,6 +35,9 @@ class _WriteNewPostState extends State<WriteNewPost> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
+                createAccessView(defaultForum, (value) {
+                  defaultForum = value;
+                }),
                 Padding(
                     padding: const EdgeInsets.only(
                         left: 16, top: 10, right: 16, bottom: 10),
@@ -55,13 +54,12 @@ class _WriteNewPostState extends State<WriteNewPost> {
                   child: Scrollbar(
                     trackVisibility: true,
                     child: TextField(
-                        minLines: 1,
-                        maxLines: 10,
                         style: TextStyle(
                             color:
                                 Theme.of(context).textTheme.bodyMedium!.color),
                         controller: _messageController,
-                        scrollController: _scrollController,
+                        minLines: 1,
+                        maxLines: 6,
                         keyboardType: TextInputType.multiline,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
@@ -91,24 +89,24 @@ class _WriteNewPostState extends State<WriteNewPost> {
                             )))
                   ],
                 ),
-                createAccessView('Доступ', defaultPostAccess, (value) {
-                  setState(() {
-                    defaultPostAccess = value;
-                  });
-                }),
-                createAccessView('Комментирование', defaultCommAccess, (value) {
-                  setState(() {
-                    defaultCommAccess = value;
-                  });
-                }),
               ],
             ),
           ),
         ));
   }
 
-  Widget createAccessView(String type, PostPrivateSettings access,
-      Function(PostPrivateSettings value) onChanged) {
+  Widget createAccessView(String forum, Function(String value) onChanged) {
+    var list = Forum.getTypeData(ForumType.discussion).forumsList();
+
+    List<DropdownMenuItem<String>> widgets = [];
+
+    for (Forum forum in list) {
+      widgets.add(DropdownMenuItem<String>(
+          child:
+              Text(forum.title, style: Theme.of(context).textTheme.bodyMedium),
+          value: forum.name));
+    }
+
     return Padding(
       padding: const EdgeInsets.only(left: 16, top: 16, right: 16, bottom: 10),
       child: DropdownButtonFormField2(
@@ -118,21 +116,21 @@ class _WriteNewPostState extends State<WriteNewPost> {
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
             ),
-            label: Text(type)),
+            label: Text('Форум')),
         dropdownDecoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15),
             color: Theme.of(context).backgroundColor,
             boxShadow: [
               BoxShadow(
-                  color: Colors.black12,
+                  color: Colors.black12, //  Theme.of(context).disabledColor,
                   spreadRadius: 1,
                   blurRadius: 8,
                   offset: Offset(0, 1))
             ]),
-        items: accessList(),
-        hint: Text(type),
+        items: widgets,
+        hint: Text('Форум'),
         icon: Icon(Icons.keyboard_arrow_down),
-        value: access,
+        value: forum,
         onChanged: (value) {
           onChanged(value!);
         },
@@ -140,37 +138,13 @@ class _WriteNewPostState extends State<WriteNewPost> {
     );
   }
 
-  List<DropdownMenuItem<PostPrivateSettings>> accessList() {
-    return [
-      DropdownMenuItem<PostPrivateSettings>(
-          child: Text('Все', style: Theme.of(context).textTheme.bodyMedium),
-          value: PostPrivateSettings.all),
-      DropdownMenuItem<PostPrivateSettings>(
-          child: Text('Пользователи',
-              style: Theme.of(context).textTheme.bodyMedium),
-          value: PostPrivateSettings.users),
-      DropdownMenuItem<PostPrivateSettings>(
-          child: Text('Друзья', style: Theme.of(context).textTheme.bodyMedium),
-          value: PostPrivateSettings.friends),
-      DropdownMenuItem<PostPrivateSettings>(
-          child:
-              Text('Только я', style: Theme.of(context).textTheme.bodyMedium),
-          value: PostPrivateSettings.me)
-    ];
-  }
-
   Future<void> createPost() async {
     var title = _titleController.text;
     var message = _messageController.text;
-    var prefs = await SharedPreferences.getInstance();
-    String? blog = prefs.getString('blogStringId');
 
-    var access = describeEnum(defaultPostAccess);
-    var comaccess = describeEnum(defaultCommAccess);
+    debugPrint('title: $title\nmessage: $message\ntype: $defaultForum');
 
-    Request()
-        .createPost(blog!, title, message, access, comaccess)
-        .then((value) {
+    Request().createForumPost(defaultForum, title, message).then((value) {
       if (value) {
         Navigator.of(context).pop();
       }

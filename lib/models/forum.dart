@@ -17,24 +17,24 @@ class Forum {
 
   factory Forum.getTypeData(ForumType type) {
     switch (type) {
-      case ForumType.discussions:
-        return Forum(id: 1, name: 'discussions', title: 'ПО');
+      case ForumType.discussion:
+        return Forum(id: 1, name: 'discussion', title: 'Просто общение');
       case ForumType.lady:
-        return Forum(id: 1, name: 'lady', title: 'ЖФ');
+        return Forum(id: 2, name: 'lady', title: 'Женский форум');
       case ForumType.rpforum:
-        return Forum(id: 1, name: 'rpforum', title: 'Ролевые');
+        return Forum(id: 6, name: 'rpforum', title: 'Ролевые');
       case ForumType.dating:
-        return Forum(id: 1, name: 'dating', title: 'Знакомства');
+        return Forum(id: 4, name: 'dating', title: 'Знакомства');
       case ForumType.flood:
-        return Forum(id: 1, name: 'flood', title: 'Флуд');
+        return Forum(id: 3, name: 'flood', title: 'Флуд');
       case ForumType.computers:
-        return Forum(id: 1, name: 'computers', title: 'Компьютеры');
+        return Forum(id: 5, name: 'computers', title: 'Компьютеры');
     }
   }
 
   List<Forum> forumsList() {
     return [
-      Forum.getTypeData(ForumType.discussions),
+      Forum.getTypeData(ForumType.discussion),
       Forum.getTypeData(ForumType.lady),
       Forum.getTypeData(ForumType.dating),
       Forum.getTypeData(ForumType.flood),
@@ -46,7 +46,7 @@ class Forum {
 
 enum ForumType {
   lady, // жф
-  discussions, // по
+  discussion, // по
   dating, // здл
   flood, // флуд
   computers, //компы

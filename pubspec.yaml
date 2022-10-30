@@ -49,6 +49,7 @@ dependencies:
   audioplayers: ^1.1.1
   badges: ^2.0.3
   flutter_speed_dial: ^6.2.0
+  dropdown_button2: ^1.8.9
 
   
 

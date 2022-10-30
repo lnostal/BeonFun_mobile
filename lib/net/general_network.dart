@@ -237,6 +237,31 @@ class Request {
     return false;
   }
 
+  Future<bool> createForumPost(
+      String forumName, String title, String message) async {
+    String rout = '$_endpoint/topic';
+
+    var response = await http.post(Uri.parse(rout),
+        headers: await getHeaders(),
+        body: jsonEncode(<String, String>{
+          'text': message,
+          'title': title,
+          'forum': forumName
+        }));
+
+    if (response.statusCode != 200) {
+      var code = response.statusCode;
+      throw Exception('Faild request with code $code');
+    }
+
+    var data = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
+    if (data['status'] as String == 'ok') {
+      return true;
+    }
+
+    return false;
+  }
+
   /// Check if token expired
   ///
   Future<bool> tokenExpired() async {

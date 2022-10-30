@@ -5,6 +5,7 @@ import 'package:flutter_beonfun/widgets/tabbar_lists/friend_list_view.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 import '../../../../widgets/tabbar_lists/diary_list_view.dart';
+import '../../../common_pages/new_forum_post_page.dart';
 
 class DiaryPage extends StatefulWidget {
   final String title;
@@ -45,6 +46,11 @@ class _DiaryPageState extends State<DiaryPage>
         .push(MaterialPageRoute(builder: (context) => const WriteNewPost()));
   }
 
+  void newPostForumButtonPressed() {
+    Navigator.of(context).push(
+        MaterialPageRoute(builder: (context) => const WriteForumNewPost()));
+  }
+
   Widget page() {
     var primaryColor = Theme.of(context).primaryColor;
     var backgroudColor = Theme.of(context).backgroundColor;
@@ -77,16 +83,14 @@ class _DiaryPageState extends State<DiaryPage>
               ),
               SpeedDialChild(
                 label: 'На форум',
+                onTap: newPostForumButtonPressed,
                 backgroundColor: primaryColor,
                 foregroundColor: Colors.white,
                 labelBackgroundColor: backgroudColor,
                 child: const Icon(Icons.people),
               )
             ],
-          )
-          // FloatingActionButton(
-          //     onPressed: newPostButtonPressed, child: const Icon(Icons.create)),
-          ),
+          )),
     );
   }
 }
